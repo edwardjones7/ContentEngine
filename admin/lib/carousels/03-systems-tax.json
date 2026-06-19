@@ -1,0 +1,88 @@
+{
+  "slug": "systems-tax",
+  "title": "Five tabs that don't talk are a tax",
+  "theme": "amber",
+  "bg": "grid",
+  "slides": [
+    {
+      "type": "cover",
+      "index": 1,
+      "total": 5,
+      "label": "SYSTEMS",
+      "headline": [
+        { "t": "Five tabs open. None of them talk. That’s not a stack — it’s a " },
+        { "t": "tax.", "em": true }
+      ],
+      "illustration": "nodes"
+    },
+    {
+      "type": "body",
+      "index": 2,
+      "total": 5,
+      "label": "THE LEAK",
+      "headline": [
+        { "t": "The copy-paste is where the " },
+        { "t": "money leaks", "em": true },
+        { "t": "." }
+      ],
+      "blocks": [
+        { "body": [
+          { "t": "The CRM doesn’t know what the inbox knows. The calendar doesn’t know what the invoice knows. " },
+          { "t": "So someone retypes it.", "em": true }
+        ] },
+        { "body": [
+          { "t": "Every day. And somewhere in the retyping, " },
+          { "t": "a job falls through.", "em": true }
+        ] }
+      ],
+      "illustration": "card"
+    },
+    {
+      "type": "compare",
+      "index": 3,
+      "total": 5,
+      "label": "THE HANDOFF",
+      "headline": [
+        { "t": "Same work. " },
+        { "t": "One seam removed.", "em": true }
+      ],
+      "left": {
+        "tag": "Today",
+        "body": [ { "t": "Four tools. Four logins. One human retyping between them — and dropping one in ten." } ]
+      },
+      "right": {
+        "tag": "Wired",
+        "body": [
+          { "t": "One system. The data moves itself. " },
+          { "t": "The handoff disappears.", "em": true }
+        ]
+      }
+    },
+    {
+      "type": "quote",
+      "index": 4,
+      "total": 5,
+      "label": "THE THESIS",
+      "quote": [
+        { "t": "Capital doesn’t leave in a lump. It " },
+        { "t": "leaks", "em": true },
+        { "t": " — one manual handoff at a time." }
+      ],
+      "cite": "Elenos / Software Studio"
+    },
+    {
+      "type": "cta",
+      "index": 5,
+      "total": 5,
+      "label": "NEXT",
+      "headline": [ { "t": "Where does yours leak?" } ],
+      "arrow": true,
+      "sub": "Free systems audit · elenos.ai",
+      "ctaBody": [
+        { "t": "We’ll map every tool, every handoff, every silent leak — and tell you what to wire first." }
+      ],
+      "footer": "Elenos / Software Studio · New Jersey · USA",
+      "illustration": "hex"
+    }
+  ]
+}

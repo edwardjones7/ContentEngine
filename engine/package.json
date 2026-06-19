@@ -1,0 +1,12 @@
+{
+  "name": "elenos-content-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone offline content engine — idea -> brief -> blog + slides -> review -> publish/download. Reuses ../slide-prototype for rendering. No npm dependencies (Node built-ins only); Playwright resolves through slide-prototype.",
+  "scripts": {
+    "start": "node server.mjs",
+    "seed": "node seed.mjs",
+    "dev": "node --watch server.mjs"
+  }
+}

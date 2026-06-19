@@ -1,0 +1,83 @@
+{
+  "slug": "five-second-test",
+  "title": "The five-second test for a contractor homepage",
+  "theme": "magenta",
+  "bg": "solid-grain",
+  "slides": [
+    {
+      "type": "cover",
+      "index": 1,
+      "total": 5,
+      "label": "THE TEST",
+      "headline": [
+        { "t": "A visitor decides in five seconds. Most contractor sites waste " },
+        { "t": "all five.", "em": true }
+      ],
+      "illustration": "clock"
+    },
+    {
+      "type": "list",
+      "index": 2,
+      "total": 5,
+      "label": "FIVE QUESTIONS",
+      "headline": [
+        { "t": "Five seconds. " },
+        { "t": "Five questions.", "em": true }
+      ],
+      "items": [
+        { "text": [ { "t": "What do you do — and where?" } ] },
+        { "text": [ { "t": "Can I trust you — proof, fast?" } ] },
+        { "text": [ { "t": "Roughly what does this cost?" } ] },
+        { "text": [ { "t": "How do I reach a human right now?" } ] },
+        { "text": [ { "t": "Why you — not the next tab?" } ] }
+      ]
+    },
+    {
+      "type": "stat",
+      "index": 3,
+      "total": 5,
+      "label": "FIRST IMPRESSION",
+      "stat": "75%",
+      "caption": [
+        { "t": "judge a business’s credibility on " },
+        { "t": "website design alone.", "em": true }
+      ]
+    },
+    {
+      "type": "body",
+      "index": 4,
+      "total": 5,
+      "label": "THE FIX",
+      "headline": [
+        { "t": "Answer the five " },
+        { "t": "above the fold", "em": true },
+        { "t": "." }
+      ],
+      "blocks": [
+        { "body": [
+          { "t": "Name the service, the area, and the number — before anyone scrolls. " },
+          { "t": "Everything else is detail.", "em": true }
+        ] },
+        { "body": [
+          { "t": "If a stranger can’t pass the test in five seconds, " },
+          { "t": "the site is the leak.", "em": true }
+        ] }
+      ],
+      "illustration": "magnifier"
+    },
+    {
+      "type": "cta",
+      "index": 5,
+      "total": 5,
+      "label": "NEXT",
+      "headline": [ { "t": "Want the five-second test run on yours?" } ],
+      "arrow": true,
+      "sub": "Free teardown · elenos.ai",
+      "ctaBody": [
+        { "t": "We’ll screen-record the first five seconds — and tell you exactly which question your homepage fails." }
+      ],
+      "footer": "Elenos / Software Studio · New Jersey · USA",
+      "illustration": "hex"
+    }
+  ]
+}

@@ -1,0 +1,796 @@
+{
+  "ideas": [
+    {
+      "id": "idea-contractor-site",
+      "title": "Three things on every contractor site that cost jobs",
+      "angle": "A diagnostic teardown of the website mistakes that quietly cost contractors booked work.",
+      "hook": "Most contractor sites leak booked work in three predictable places.",
+      "source": "brand",
+      "carouselFile": "01-contractor-field-notes.json"
+    },
+    {
+      "id": "idea-speed-to-lead",
+      "title": "The job goes to whoever calls back first",
+      "angle": "Speed-to-lead beats price — and an AI operator wins it while you are on the job.",
+      "hook": "The job didn’t go to the best contractor. It went to the one who called back first.",
+      "source": "brand",
+      "carouselFile": "02-speed-to-lead.json"
+    },
+    {
+      "id": "idea-systems-tax",
+      "title": "Five tabs that don’t talk are a tax",
+      "angle": "Disconnected tools leak capital one manual handoff at a time.",
+      "hook": "Five tabs open. None of them talk. That’s not a stack — it’s a tax.",
+      "source": "brand",
+      "carouselFile": "03-systems-tax.json"
+    },
+    {
+      "id": "idea-five-second-test",
+      "title": "The five-second test for a contractor homepage",
+      "angle": "A visitor decides in five seconds; most contractor homepages waste all five.",
+      "hook": "A visitor decides in five seconds. Most contractor sites waste all five.",
+      "source": "web",
+      "carouselFile": "04-five-second-test.json"
+    },
+    {
+      "id": "idea-operators",
+      "title": "Operators, not chatbots",
+      "angle": "A chatbot answers questions; an operator finishes the job.",
+      "hook": "A chatbot answers questions. An operator finishes the job.",
+      "source": "brand",
+      "carouselFile": "05-operators-not-chatbots.json"
+    },
+    {
+      "id": "idea-followup",
+      "title": "The follow-up nobody sends",
+      "angle": "Most service businesses lose deals in the silence after the quote.",
+      "hook": "You didn’t lose the job. You lost the *follow-up*.",
+      "source": "web",
+      "theme": "magenta",
+      "bg": "aurora",
+      "illustration": "bubble",
+      "leakHeadline": "The silence after the *quote*.",
+      "leakIllustration": "phone",
+      "blocks": [
+        {
+          "body": "A quote goes out. Then nothing. No nudge, no reminder, *no second touch*."
+        },
+        {
+          "body": "The customer didn’t say no. They went quiet — *and you let them*."
+        }
+      ],
+      "breaker": {
+        "type": "stat",
+        "label": "THE MATH",
+        "stat": "80%",
+        "caption": "of sales need five follow-ups. *Most businesses stop after one*."
+      },
+      "fix": {
+        "headline": "Let an operator do the *chasing*.",
+        "blocks": [
+          {
+            "body": "Five touches, spaced and personal — *sent without you lifting a finger*."
+          },
+          {
+            "body": "It never forgets, never gets busy, *never lets a quote go cold*."
+          }
+        ],
+        "illustration": "clock"
+      },
+      "cta": {
+        "headline": "Where are your follow-ups leaking?",
+        "sub": "Free follow-up audit · elenos.ai",
+        "body": "We’ll map the touches you’re missing — and the operator that sends them for you."
+      }
+    }
+  ],
+  "pieces": [
+    {
+      "id": "pc_mqlh5khc3",
+      "ideaId": "idea-followup",
+      "title": "The follow-up nobody sends",
+      "slug": "followup",
+      "status": "draft",
+      "seed": 0,
+      "spec": {
+        "slug": "followup",
+        "title": "The follow-up nobody sends",
+        "theme": "magenta",
+        "bg": "aurora",
+        "slides": [
+          {
+            "type": "cover",
+            "index": 1,
+            "label": "FIELD NOTES",
+            "headline": [
+              {
+                "t": "You didn’t lose the job. You lost the "
+              },
+              {
+                "t": "follow-up",
+                "em": true
+              },
+              {
+                "t": "."
+              }
+            ],
+            "illustration": "bubble",
+            "total": 5
+          },
+          {
+            "type": "body",
+            "index": 2,
+            "label": "THE LEAK",
+            "headline": [
+              {
+                "t": "The silence after the "
+              },
+              {
+                "t": "quote",
+                "em": true
+              },
+              {
+                "t": "."
+              }
+            ],
+            "blocks": [
+              {
+                "body": [
+                  {
+                    "t": "A quote goes out. Then nothing. No nudge, no reminder, "
+                  },
+                  {
+                    "t": "no second touch",
+                    "em": true
+                  },
+                  {
+                    "t": "."
+                  }
+                ]
+              },
+              {
+                "body": [
+                  {
+                    "t": "The customer didn’t say no. They went quiet — "
+                  },
+                  {
+                    "t": "and you let them",
+                    "em": true
+                  },
+                  {
+                    "t": "."
+                  }
+                ]
+              }
+            ],
+            "illustration": "phone",
+            "total": 5
+          },
+          {
+            "type": "stat",
+            "index": 3,
+            "label": "THE MATH",
+            "stat": "80%",
+            "caption": [
+              {
+                "t": "of sales need five follow-ups. "
+              },
+              {
+                "t": "Most businesses stop after one",
+                "em": true
+              },
+              {
+                "t": "."
+              }
+            ],
+            "total": 5
+          },
+          {
+            "type": "body",
+            "index": 4,
+            "label": "THE FIX",
+            "headline": [
+              {
+                "t": "Let an operator do the "
+              },
+              {
+                "t": "chasing",
+                "em": true
+              },
+              {
+                "t": "."
+              }
+            ],
+            "blocks": [
+              {
+                "body": [
+                  {
+                    "t": "Five touches, spaced and personal — "
+                  },
+                  {
+                    "t": "sent without you lifting a finger",
+                    "em": true
+                  },
+                  {
+                    "t": "."
+                  }
+                ]
+              },
+              {
+                "body": [
+                  {
+                    "t": "It never forgets, never gets busy, "
+                  },
+                  {
+                    "t": "never lets a quote go cold",
+                    "em": true
+                  },
+                  {
+                    "t": "."
+                  }
+                ]
+              }
+            ],
+            "illustration": "clock",
+            "total": 5
+          },
+          {
+            "type": "cta",
+            "index": 5,
+            "label": "NEXT",
+            "headline": [
+              {
+                "t": "Where are your follow-ups leaking?"
+              }
+            ],
+            "arrow": true,
+            "sub": "Free follow-up audit · elenos.ai",
+            "ctaBody": [
+              {
+                "t": "We’ll map the touches you’re missing — and the operator that sends them for you."
+              }
+            ],
+            "footer": "Elenos / Software Studio · New Jersey · USA",
+            "illustration": "hex",
+            "total": 5
+          }
+        ]
+      },
+      "blog": {
+        "title": "The follow-up nobody sends",
+        "slug": "followup",
+        "dek": "Most service businesses lose deals in the silence after the quote.",
+        "markdown": "# The follow-up nobody sends\n\n*Most service businesses lose deals in the silence after the quote.*\n\nYou didn’t lose the job. You lost the follow-up. It shows up the same way across almost every shop we look at — quietly, in places nobody's watching.\n\n## The silence after the quote.\n\nA quote goes out. Then nothing. No nudge, no reminder, no second touch.\n\nThe customer didn’t say no. They went quiet — and you let them.\n\n> **80%** of sales need five follow-ups. Most businesses stop after one.\n\n## Let an operator do the chasing.\n\nFive touches, spaced and personal — sent without you lifting a finger.\n\nIt never forgets, never gets busy, never lets a quote go cold.\n\n---\n\n**Where are your follow-ups leaking?** We’ll map the touches you’re missing — and the operator that sends them for you. [Free follow-up audit · elenos.ai](https://elenos.ai)",
+        "meta": {
+          "description": "Most service businesses lose deals in the silence after the quote.",
+          "source": "web",
+          "words": 145
+        }
+      },
+      "createdAt": "2026-06-19T22:02:33.840Z",
+      "render": {
+        "theme": "magenta",
+        "bg": "aurora",
+        "slides": [
+          {
+            "index": 1,
+            "label": "FIELD NOTES",
+            "type": "cover",
+            "layout": "fullbleed",
+            "file": "01-field-notes.png",
+            "url": "/renders/pc_mqlh5khc3/01-field-notes.png"
+          },
+          {
+            "index": 2,
+            "label": "THE LEAK",
+            "type": "body",
+            "layout": "art-watermark",
+            "file": "02-the-leak.png",
+            "url": "/renders/pc_mqlh5khc3/02-the-leak.png"
+          },
+          {
+            "index": 3,
+            "label": "THE MATH",
+            "type": "stat",
+            "layout": "stat-center",
+            "file": "03-the-math.png",
+            "url": "/renders/pc_mqlh5khc3/03-the-math.png"
+          },
+          {
+            "index": 4,
+            "label": "THE FIX",
+            "type": "body",
+            "layout": "right-text-left-art",
+            "file": "04-the-fix.png",
+            "url": "/renders/pc_mqlh5khc3/04-the-fix.png"
+          },
+          {
+            "index": 5,
+            "label": "NEXT",
+            "type": "cta",
+            "layout": "cta-centered",
+            "file": "05-next.png",
+            "url": "/renders/pc_mqlh5khc3/05-next.png"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pc_mqlh5hqs2",
+      "ideaId": "idea-speed-to-lead",
+      "title": "The job goes to whoever calls back first",
+      "slug": "speed-to-lead",
+      "status": "draft",
+      "seed": 0,
+      "spec": {
+        "slug": "speed-to-lead",
+        "title": "The job goes to whoever calls back first",
+        "theme": "blue",
+        "bg": "aurora",
+        "slides": [
+          {
+            "type": "cover",
+            "index": 1,
+            "total": 5,
+            "label": "SPEED",
+            "headline": [
+              {
+                "t": "The job didn’t go to the best contractor. It went to the one who "
+              },
+              {
+                "t": "called back first.",
+                "em": true
+              }
+            ],
+            "illustration": "clock"
+          },
+          {
+            "type": "body",
+            "index": 2,
+            "total": 5,
+            "label": "THE LEAK",
+            "headline": [
+              {
+                "t": "Every missed call is a quote you’ll "
+              },
+              {
+                "t": "never send",
+                "em": true
+              },
+              {
+                "t": "."
+              }
+            ],
+            "blocks": [
+              {
+                "body": [
+                  {
+                    "t": "A lead calls at 2pm. You’re under a sink. You call back at six. "
+                  },
+                  {
+                    "t": "By six, they’ve booked someone else.",
+                    "em": true
+                  }
+                ]
+              },
+              {
+                "body": [
+                  {
+                    "t": "It never felt like a lost job. "
+                  },
+                  {
+                    "t": "It felt like a voicemail.",
+                    "em": true
+                  }
+                ]
+              }
+            ],
+            "illustration": "phone",
+            "illustrationOverlay": "Missed call"
+          },
+          {
+            "type": "stat",
+            "index": 3,
+            "total": 5,
+            "label": "THE MATH",
+            "stat": "100×",
+            "caption": [
+              {
+                "t": "more likely to reach a lead when you call back in "
+              },
+              {
+                "t": "five minutes — not thirty.",
+                "em": true
+              }
+            ]
+          },
+          {
+            "type": "body",
+            "index": 4,
+            "total": 5,
+            "label": "THE FIX",
+            "headline": [
+              {
+                "t": "An operator that answers in "
+              },
+              {
+                "t": "nine seconds",
+                "em": true
+              },
+              {
+                "t": "."
+              }
+            ],
+            "blocks": [
+              {
+                "body": [
+                  {
+                    "t": "While you’re on the ladder, it picks up, qualifies the job, and "
+                  },
+                  {
+                    "t": "books the slot.",
+                    "em": true
+                  }
+                ]
+              },
+              {
+                "body": [
+                  {
+                    "t": "Not a chatbot. "
+                  },
+                  {
+                    "t": "An operator — it retires the task, not the human.",
+                    "em": true
+                  }
+                ]
+              }
+            ],
+            "illustration": "bubble"
+          },
+          {
+            "type": "cta",
+            "index": 5,
+            "total": 5,
+            "label": "NEXT",
+            "headline": [
+              {
+                "t": "Where do your leads leak?"
+              }
+            ],
+            "arrow": true,
+            "sub": "Free 20-minute teardown · elenos.ai",
+            "ctaBody": [
+              {
+                "t": "We’ll trace every call, form, and follow-up — and show you what’s quietly costing you booked work."
+              }
+            ],
+            "footer": "Elenos / Software Studio · New Jersey · USA",
+            "illustration": "hex"
+          }
+        ]
+      },
+      "blog": {
+        "title": "The job goes to whoever calls back first",
+        "slug": "speed-to-lead",
+        "dek": "Speed-to-lead beats price — and an AI operator wins it while you are on the job.",
+        "markdown": "# The job goes to whoever calls back first\n\n*Speed-to-lead beats price — and an AI operator wins it while you are on the job.*\n\nThe job didn’t go to the best contractor. It went to the one who called back first. It shows up the same way across almost every shop we look at — quietly, in places nobody's watching.\n\n## Every missed call is a quote you’ll never send.\n\nA lead calls at 2pm. You’re under a sink. You call back at six. By six, they’ve booked someone else.\n\nIt never felt like a lost job. It felt like a voicemail.\n\n> **100×** more likely to reach a lead when you call back in five minutes — not thirty.\n\n## An operator that answers in nine seconds.\n\nWhile you’re on the ladder, it picks up, qualifies the job, and books the slot.\n\nNot a chatbot. An operator — it retires the task, not the human.\n\n---\n\n**Where do your leads leak?** We’ll trace every call, form, and follow-up — and show you what’s quietly costing you booked work. [Free 20-minute teardown · elenos.ai](https://elenos.ai)",
+        "meta": {
+          "description": "Speed-to-lead beats price — and an AI operator wins it while you are on the job.",
+          "source": "brand",
+          "words": 185
+        }
+      },
+      "createdAt": "2026-06-19T22:02:30.292Z",
+      "render": {
+        "theme": "blue",
+        "bg": "aurora",
+        "slides": [
+          {
+            "index": 1,
+            "label": "SPEED",
+            "type": "cover",
+            "layout": "fullbleed",
+            "file": "01-speed.png",
+            "url": "/renders/pc_mqlh5hqs2/01-speed.png"
+          },
+          {
+            "index": 2,
+            "label": "THE LEAK",
+            "type": "body",
+            "layout": "left-text-right-art",
+            "file": "02-the-leak.png",
+            "url": "/renders/pc_mqlh5hqs2/02-the-leak.png"
+          },
+          {
+            "index": 3,
+            "label": "THE MATH",
+            "type": "stat",
+            "layout": "stat-center",
+            "file": "03-the-math.png",
+            "url": "/renders/pc_mqlh5hqs2/03-the-math.png"
+          },
+          {
+            "index": 4,
+            "label": "THE FIX",
+            "type": "body",
+            "layout": "stacked",
+            "file": "04-the-fix.png",
+            "url": "/renders/pc_mqlh5hqs2/04-the-fix.png"
+          },
+          {
+            "index": 5,
+            "label": "NEXT",
+            "type": "cta",
+            "layout": "cta-centered",
+            "file": "05-next.png",
+            "url": "/renders/pc_mqlh5hqs2/05-next.png"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pc_mqlh5eys1",
+      "ideaId": "idea-contractor-site",
+      "title": "Three things on every contractor site that cost jobs",
+      "slug": "contractor-site",
+      "status": "published",
+      "seed": 0,
+      "spec": {
+        "slug": "contractor-field-notes",
+        "title": "Three things we see on almost every contractor site",
+        "theme": "violet",
+        "bg": "starfield",
+        "slides": [
+          {
+            "type": "cover",
+            "index": 1,
+            "total": 5,
+            "label": "FIELD NOTES",
+            "headline": [
+              {
+                "t": "Three things we see on almost every "
+              },
+              {
+                "t": "contractor",
+                "em": true
+              },
+              {
+                "t": " site — and each one costs booked work."
+              }
+            ],
+            "illustration": "magnifier"
+          },
+          {
+            "type": "body",
+            "index": 2,
+            "total": 5,
+            "label": "MOBILE",
+            "headline": [
+              {
+                "t": "Make the number a "
+              },
+              {
+                "t": "button",
+                "em": true
+              },
+              {
+                "t": "."
+              }
+            ],
+            "blocks": [
+              {
+                "body": [
+                  {
+                    "t": "No click-to-call on mobile. 60–70% of your visitors are "
+                  },
+                  {
+                    "t": "on a phone.",
+                    "em": true
+                  }
+                ]
+              },
+              {
+                "body": [
+                  {
+                    "t": "Every extra tap is friction. Friction kills momentum. And lost momentum is "
+                  },
+                  {
+                    "t": "lost revenue.",
+                    "em": true
+                  }
+                ]
+              },
+              {
+                "body": [
+                  {
+                    "t": "The number should be one tap. Front and center. "
+                  },
+                  {
+                    "t": "Right where the decision happens.",
+                    "em": true
+                  }
+                ]
+              }
+            ],
+            "illustration": "phone",
+            "illustrationOverlay": "(856) 555-0198"
+          },
+          {
+            "type": "body",
+            "index": 3,
+            "total": 5,
+            "label": "MESSAGE",
+            "headline": [
+              {
+                "t": "Write the hero for "
+              },
+              {
+                "t": "them",
+                "em": true
+              },
+              {
+                "t": " — not you."
+              }
+            ],
+            "blocks": [
+              {
+                "body": [
+                  {
+                    "t": "“Family owned since 1998” is nice. But it’s about "
+                  },
+                  {
+                    "t": "you.",
+                    "em": true
+                  }
+                ]
+              },
+              {
+                "body": [
+                  {
+                    "t": "“24/7 emergency AC repair in Gloucester County — here tonight.” "
+                  },
+                  {
+                    "t": "That’s what gets the call.",
+                    "em": true
+                  }
+                ]
+              }
+            ],
+            "illustration": "bubble"
+          },
+          {
+            "type": "body",
+            "index": 4,
+            "total": 5,
+            "label": "PROOF",
+            "headline": [
+              {
+                "t": "Put the proof where the "
+              },
+              {
+                "t": "decision",
+                "em": true
+              },
+              {
+                "t": " happens."
+              }
+            ],
+            "blocks": [
+              {
+                "body": [
+                  {
+                    "t": "200 five-star reviews — and zero of them on your homepage."
+                  }
+                ]
+              },
+              {
+                "body": [
+                  {
+                    "t": "They live on Google. Move them to where people "
+                  },
+                  {
+                    "t": "decide.",
+                    "em": true
+                  }
+                ]
+              }
+            ],
+            "illustration": "card"
+          },
+          {
+            "type": "cta",
+            "index": 5,
+            "total": 5,
+            "label": "NEXT",
+            "headline": [
+              {
+                "t": "Want me to look at yours?"
+              }
+            ],
+            "arrow": true,
+            "sub": "Free 20-minute teardown · elenos.ai",
+            "ctaBody": [
+              {
+                "t": "We’ll show you exactly where visitors are dropping off — and what to fix first."
+              }
+            ],
+            "footer": "Elenos / Software Studio · New Jersey · USA",
+            "illustration": "hex"
+          }
+        ]
+      },
+      "blog": {
+        "title": "Three things on every contractor site that cost jobs",
+        "slug": "contractor-site",
+        "dek": "A diagnostic teardown of the website mistakes that quietly cost contractors booked work.",
+        "markdown": "# Three things on every contractor site that cost jobs\n\n*A diagnostic teardown of the website mistakes that quietly cost contractors booked work.*\n\nThree things we see on almost every contractor site — and each one costs booked work. It shows up the same way across almost every shop we look at — quietly, in places nobody's watching.\n\n## Make the number a button.\n\nNo click-to-call on mobile. 60–70% of your visitors are on a phone.\n\nEvery extra tap is friction. Friction kills momentum. And lost momentum is lost revenue.\n\nThe number should be one tap. Front and center. Right where the decision happens.\n\n## Write the hero for them — not you.\n\n“Family owned since 1998” is nice. But it’s about you.\n\n“24/7 emergency AC repair in Gloucester County — here tonight.” That’s what gets the call.\n\n## Put the proof where the decision happens.\n\n200 five-star reviews — and zero of them on your homepage.\n\nThey live on Google. Move them to where people decide.\n\n---\n\n**Want me to look at yours?** We’ll show you exactly where visitors are dropping off — and what to fix first. [Free 20-minute teardown · elenos.ai](https://elenos.ai)",
+        "meta": {
+          "description": "A diagnostic teardown of the website mistakes that quietly cost contractors booked work.",
+          "source": "brand",
+          "words": 194
+        }
+      },
+      "createdAt": "2026-06-19T22:02:26.692Z",
+      "render": {
+        "theme": "violet",
+        "bg": "starfield",
+        "slides": [
+          {
+            "index": 1,
+            "label": "FIELD NOTES",
+            "type": "cover",
+            "layout": "art-headline",
+            "file": "01-field-notes.png",
+            "url": "/renders/pc_mqlh5eys1/01-field-notes.png"
+          },
+          {
+            "index": 2,
+            "label": "MOBILE",
+            "type": "body",
+            "layout": "right-text-left-art",
+            "file": "02-mobile.png",
+            "url": "/renders/pc_mqlh5eys1/02-mobile.png"
+          },
+          {
+            "index": 3,
+            "label": "MESSAGE",
+            "type": "body",
+            "layout": "stacked",
+            "file": "03-message.png",
+            "url": "/renders/pc_mqlh5eys1/03-message.png"
+          },
+          {
+            "index": 4,
+            "label": "PROOF",
+            "type": "body",
+            "layout": "left-text-right-art",
+            "file": "04-proof.png",
+            "url": "/renders/pc_mqlh5eys1/04-proof.png"
+          },
+          {
+            "index": 5,
+            "label": "NEXT",
+            "type": "cta",
+            "layout": "cta-left",
+            "file": "05-next.png",
+            "url": "/renders/pc_mqlh5eys1/05-next.png"
+          }
+        ]
+      },
+      "publishedAt": "2026-06-19T22:02:30.291Z"
+    }
+  ],
+  "published": [
+    {
+      "title": "Three things on every contractor site that cost jobs",
+      "slug": "contractor-site",
+      "dek": "A diagnostic teardown of the website mistakes that quietly cost contractors booked work.",
+      "markdown": "# Three things on every contractor site that cost jobs\n\n*A diagnostic teardown of the website mistakes that quietly cost contractors booked work.*\n\nThree things we see on almost every contractor site — and each one costs booked work. It shows up the same way across almost every shop we look at — quietly, in places nobody's watching.\n\n## Make the number a button.\n\nNo click-to-call on mobile. 60–70% of your visitors are on a phone.\n\nEvery extra tap is friction. Friction kills momentum. And lost momentum is lost revenue.\n\nThe number should be one tap. Front and center. Right where the decision happens.\n\n## Write the hero for them — not you.\n\n“Family owned since 1998” is nice. But it’s about you.\n\n“24/7 emergency AC repair in Gloucester County — here tonight.” That’s what gets the call.\n\n## Put the proof where the decision happens.\n\n200 five-star reviews — and zero of them on your homepage.\n\nThey live on Google. Move them to where people decide.\n\n---\n\n**Want me to look at yours?** We’ll show you exactly where visitors are dropping off — and what to fix first. [Free 20-minute teardown · elenos.ai](https://elenos.ai)",
+      "meta": {
+        "description": "A diagnostic teardown of the website mistakes that quietly cost contractors booked work.",
+        "source": "brand",
+        "words": 194
+      }
+    }
+  ]
+}

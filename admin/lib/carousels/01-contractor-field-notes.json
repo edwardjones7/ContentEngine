@@ -1,0 +1,104 @@
+{
+  "slug": "contractor-field-notes",
+  "title": "Three things we see on almost every contractor site",
+  "theme": "violet",
+  "bg": "starfield",
+  "slides": [
+    {
+      "type": "cover",
+      "index": 1,
+      "total": 5,
+      "label": "FIELD NOTES",
+      "headline": [
+        { "t": "Three things we see on almost every " },
+        { "t": "contractor", "em": true },
+        { "t": " site — and each one costs booked work." }
+      ],
+      "illustration": "magnifier"
+    },
+    {
+      "type": "body",
+      "index": 2,
+      "total": 5,
+      "label": "MOBILE",
+      "headline": [
+        { "t": "Make the number a " },
+        { "t": "button", "em": true },
+        { "t": "." }
+      ],
+      "blocks": [
+        { "body": [
+          { "t": "No click-to-call on mobile. 60–70% of your visitors are " },
+          { "t": "on a phone.", "em": true }
+        ] },
+        { "body": [
+          { "t": "Every extra tap is friction. Friction kills momentum. And lost momentum is " },
+          { "t": "lost revenue.", "em": true }
+        ] },
+        { "body": [
+          { "t": "The number should be one tap. Front and center. " },
+          { "t": "Right where the decision happens.", "em": true }
+        ] }
+      ],
+      "illustration": "phone",
+      "illustrationOverlay": "(856) 555-0198"
+    },
+    {
+      "type": "body",
+      "index": 3,
+      "total": 5,
+      "label": "MESSAGE",
+      "headline": [
+        { "t": "Write the hero for " },
+        { "t": "them", "em": true },
+        { "t": " — not you." }
+      ],
+      "blocks": [
+        { "body": [
+          { "t": "“Family owned since 1998” is nice. But it’s about " },
+          { "t": "you.", "em": true }
+        ] },
+        { "body": [
+          { "t": "“24/7 emergency AC repair in Gloucester County — here tonight.” " },
+          { "t": "That’s what gets the call.", "em": true }
+        ] }
+      ],
+      "illustration": "bubble"
+    },
+    {
+      "type": "body",
+      "index": 4,
+      "total": 5,
+      "label": "PROOF",
+      "headline": [
+        { "t": "Put the proof where the " },
+        { "t": "decision", "em": true },
+        { "t": " happens." }
+      ],
+      "blocks": [
+        { "body": [
+          { "t": "200 five-star reviews — and zero of them on your homepage." }
+        ] },
+        { "body": [
+          { "t": "They live on Google. Move them to where people " },
+          { "t": "decide.", "em": true }
+        ] }
+      ],
+      "illustration": "card"
+    },
+    {
+      "type": "cta",
+      "index": 5,
+      "total": 5,
+      "label": "NEXT",
+      "headline": [ { "t": "Want me to look at yours?" } ],
+      "arrow": true,
+      "sub": "Free 20-minute teardown · elenos.ai",
+      "ctaBody": [
+        { "t": "We’ll show you exactly where visitors are dropping off — and what to fix first." }
+      ],
+      "footer": "Elenos / Software Studio · New Jersey · USA",
+      "illustration": "hex"
+    }
+  ]
+}

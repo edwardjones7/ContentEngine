@@ -1,0 +1,74 @@
+// Server-rendered UI. Dark, Elenos-flavored admin. This thin layer is the only
+// part that gets rewritten as Next routes in the monorepo — the logic modules
+// (pipeline, brief, blog, slide-system, store) port as-is.
+export const esc = (s) =>
+  String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+const CSS = `
+  :root{ --bg:#0a0712; --panel:#120c20; --panel2:#170f29; --line:#241838; --ink:#ece8f7; --dim:#9990b5; --accent:#8b5cf6; --accent2:#a06bf5; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:radial-gradient(120% 80% at 80% -10%, rgba(109,40,217,.18), transparent 60%), var(--bg);
+    color:var(--ink); font:15px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px 80px; }
+  nav{ display:flex; align-items:center; gap:26px; padding:20px 24px; border-bottom:1px solid var(--line); margin-bottom:34px;
+    position:sticky; top:0; backdrop-filter:blur(8px); background:rgba(10,7,18,.7); z-index:10; }
+  nav .brand{ font-weight:700; letter-spacing:.02em; }
+  nav .brand span{ color:var(--accent2); }
+  nav .sp{ flex:1; }
+  nav a.tab{ color:var(--dim); font-size:14px; }
+  nav a.tab.active, nav a.tab:hover{ color:var(--ink); }
+  nav .mode{ font:12px/1 ui-monospace,monospace; color:var(--dim); border:1px solid var(--line); padding:6px 10px; border-radius:20px; }
+  h1{ font-size:26px; margin:0 0 4px; letter-spacing:-.01em; }
+  h2.sec{ font-size:13px; text-transform:uppercase; letter-spacing:.14em; color:var(--dim); margin:34px 0 14px; font-weight:600; }
+  .lead{ color:var(--dim); margin:0 0 8px; }
+  .grid{ display:grid; gap:14px; }
+  .cols2{ grid-template-columns:1fr 1fr; }
+  .card{ background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:14px; padding:18px 20px; }
+  .card h3{ margin:0 0 6px; font-size:17px; }
+  .card .meta{ color:var(--dim); font-size:13px; margin-bottom:14px; }
+  .label{ font:11px/1 ui-monospace,monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--accent2); }
+  .row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .sp{ flex:1; }
+  button, .btn{ font:14px/1 inherit; border:1px solid var(--line); background:#1b1230; color:var(--ink);
+    padding:10px 16px; border-radius:10px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
+  button:hover,.btn:hover{ border-color:var(--accent); }
+  .btn.primary, button.primary{ background:linear-gradient(180deg,var(--accent2),#6d28d9); border-color:transparent; font-weight:600; }
+  .btn.ghost{ background:transparent; }
+  .badge{ font:11px/1 ui-monospace,monospace; padding:5px 9px; border-radius:20px; border:1px solid var(--line); color:var(--dim); }
+  .badge.published{ color:#34e0a8; border-color:#16623f; }
+  .badge.draft{ color:#ffc24d; border-color:#5c4413; }
+  .src{ font:11px/1 ui-monospace,monospace; color:var(--dim); }
+  .slides{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .slides figure{ margin:0; }
+  .slides img{ width:100%; border-radius:10px; border:1px solid var(--line); display:block; }
+  .slides figcaption{ font:11px/1.3 ui-monospace,monospace; color:var(--dim); margin-top:6px; }
+  textarea{ width:100%; min-height:340px; background:#0d0918; color:var(--ink); border:1px solid var(--line);
+    border-radius:12px; padding:16px; font:13px/1.6 ui-monospace,monospace; resize:vertical; }
+  input.title{ width:100%; background:#0d0918; color:var(--ink); border:1px solid var(--line); border-radius:10px; padding:12px 14px; font-size:18px; margin-bottom:12px; }
+  .split{ display:grid; grid-template-columns:1fr 1fr; gap:26px; align-items:start; }
+  .article{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:30px 34px; }
+  .article h1{ font-size:30px; } .article h2{ font-size:20px; margin-top:26px; }
+  .article blockquote{ border-left:3px solid var(--accent); margin:20px 0; padding:6px 0 6px 18px; color:#cfc7e6; font-style:italic; }
+  .article hr{ border:none; border-top:1px solid var(--line); margin:26px 0; }
+  .article a{ color:var(--accent2); }
+  .empty{ color:var(--dim); padding:30px; text-align:center; border:1px dashed var(--line); border-radius:14px; }
+  form.inline{ display:inline; }
+`;
+
+export function layout({ title, body, active = '', mode = 'offline' }) {
+  const tab = (href, label, key) => `<a class="tab ${active === key ? 'active' : ''}" href="${href}">${label}</a>`;
+  return `<!doctype html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>${esc(title)} · Elenos Studio</title><style>${CSS}</style></head>
+<body>
+<nav>
+  <a class="brand" href="/">Elenos <span>/ Content</span></a>
+  ${tab('/', 'Ideas', 'ideas')}
+  ${tab('/queue', 'Queue', 'queue')}
+  ${tab('/blog', 'Published', 'blog')}
+  <span class="sp"></span>
+  <span class="mode">${mode === 'live' ? '● live (claude)' : '○ offline'}</span>
+</nav>
+<div class="wrap">${body}</div>
+</body></html>`;
+}

@@ -16,6 +16,7 @@ the PicsArt re-export step disappears.
 ```bash
 npm install
 npx playwright install chromium   # one-time, downloads the headless browser
+node validate.mjs                  # check every carousel conforms to SPEC.md
 node render.mjs                    # renders every carousel @ 1080x1350 -> out/<slug>/
 node render.mjs speed-to-lead      # render a single carousel by slug
 node verify-metadata.mjs           # proves every PNG is clean
@@ -55,6 +56,8 @@ deterministically, so renders are reproducible.
 - `template.mjs` — `renderSlideHTML(slide, {width,height})` assembles base + theme + bg +
   grain + label + layout. Becomes the `/internal/slide/[piece]/[index]` route in the monorepo.
 - `util.mjs` — esc / runs / seeded PRNG / hashing.
+- `SPEC.md` — the **LLM↔renderer contract**: the exact carousel/slide JSON shape Claude must emit. The keystone for the engine's brief→slides step.
+- `validate.mjs` — enforces `SPEC.md` (exports `validateCarousel`); the guard against malformed LLM output. Run before rendering.
 - `render.mjs` — runs each carousel through `artDirect`, then screenshots each slide to PNG.
 - `verify-metadata.mjs` — the clean-output gate.
 - `out/<slug>/NN-label.png` — generated PNGs.
