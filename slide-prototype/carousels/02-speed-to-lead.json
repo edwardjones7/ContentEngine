@@ -1,0 +1,89 @@
+{
+  "slug": "speed-to-lead",
+  "title": "The job goes to whoever calls back first",
+  "theme": "blue",
+  "bg": "aurora",
+  "slides": [
+    {
+      "type": "cover",
+      "index": 1,
+      "total": 5,
+      "label": "SPEED",
+      "headline": [
+        { "t": "The job didn’t go to the best contractor. It went to the one who " },
+        { "t": "called back first.", "em": true }
+      ],
+      "illustration": "clock"
+    },
+    {
+      "type": "body",
+      "index": 2,
+      "total": 5,
+      "label": "THE LEAK",
+      "headline": [
+        { "t": "Every missed call is a quote you’ll " },
+        { "t": "never send", "em": true },
+        { "t": "." }
+      ],
+      "blocks": [
+        { "body": [
+          { "t": "A lead calls at 2pm. You’re under a sink. You call back at six. " },
+          { "t": "By six, they’ve booked someone else.", "em": true }
+        ] },
+        { "body": [
+          { "t": "It never felt like a lost job. " },
+          { "t": "It felt like a voicemail.", "em": true }
+        ] }
+      ],
+      "illustration": "phone",
+      "illustrationOverlay": "Missed call"
+    },
+    {
+      "type": "stat",
+      "index": 3,
+      "total": 5,
+      "label": "THE MATH",
+      "stat": "100×",
+      "caption": [
+        { "t": "more likely to reach a lead when you call back in " },
+        { "t": "five minutes — not thirty.", "em": true }
+      ]
+    },
+    {
+      "type": "body",
+      "index": 4,
+      "total": 5,
+      "label": "THE FIX",
+      "headline": [
+        { "t": "An operator that answers in " },
+        { "t": "nine seconds", "em": true },
+        { "t": "." }
+      ],
+      "blocks": [
+        { "body": [
+          { "t": "While you’re on the ladder, it picks up, qualifies the job, and " },
+          { "t": "books the slot.", "em": true }
+        ] },
+        { "body": [
+          { "t": "Not a chatbot. " },
+          { "t": "An operator — it retires the task, not the human.", "em": true }
+        ] }
+      ],
+      "illustration": "bubble"
+    },
+    {
+      "type": "cta",
+      "index": 5,
+      "total": 5,
+      "label": "NEXT",
+      "headline": [ { "t": "Where do your leads leak?" } ],
+      "arrow": true,
+      "sub": "Free 20-minute teardown · elenos.ai",
+      "ctaBody": [
+        { "t": "We’ll trace every call, form, and follow-up — and show you what’s quietly costing you booked work." }
+      ],
+      "footer": "Elenos / Software Studio · New Jersey · USA",
+      "illustration": "hex"
+    }
+  ]
+}

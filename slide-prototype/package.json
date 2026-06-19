@@ -1,0 +1,14 @@
+{
+  "name": "elenos-slide-prototype",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Phase 0 — repo-independent proof that we can template Elenos carousel slides and render clean, metadata-free PNGs.",
+  "scripts": {
+    "render": "node render.mjs",
+    "verify": "node verify-metadata.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.49.0"
+  }
+}

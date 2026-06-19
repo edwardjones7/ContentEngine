@@ -1,0 +1,83 @@
+{
+  "slug": "operators-not-chatbots",
+  "title": "Operators, not chatbots",
+  "theme": "emerald",
+  "bg": "starfield",
+  "slides": [
+    {
+      "type": "cover",
+      "index": 1,
+      "total": 5,
+      "label": "OPERATORS",
+      "headline": [
+        { "t": "A chatbot answers questions. An operator " },
+        { "t": "finishes the job.", "em": true }
+      ],
+      "illustration": "bubble"
+    },
+    {
+      "type": "compare",
+      "index": 2,
+      "total": 5,
+      "label": "THE DIFFERENCE",
+      "headline": [
+        { "t": "Same chat box. " },
+        { "t": "Different outcome.", "em": true }
+      ],
+      "left": {
+        "tag": "Chatbot",
+        "body": [ { "t": "Answers FAQs. Hands off to a human. Forgets the moment the tab closes." } ]
+      },
+      "right": {
+        "tag": "Operator",
+        "body": [
+          { "t": "Qualifies the lead, books the slot, updates the CRM — " },
+          { "t": "done.", "em": true }
+        ]
+      }
+    },
+    {
+      "type": "body",
+      "index": 3,
+      "total": 5,
+      "label": "WHERE IT WORKS",
+      "headline": [
+        { "t": "The recurring task, " },
+        { "t": "retired", "em": true },
+        { "t": "." }
+      ],
+      "blocks": [
+        { "body": [ { "t": "After-hours reception — the call that used to go to voicemail." } ] },
+        { "body": [ { "t": "Lead qualification — sorted before you ever pick up." } ] },
+        { "body": [ { "t": "Follow-up that " }, { "t": "never forgets.", "em": true } ] }
+      ],
+      "illustration": "nodes"
+    },
+    {
+      "type": "quote",
+      "index": 4,
+      "total": 5,
+      "label": "THE LINE",
+      "quote": [
+        { "t": "We build operators that retire the " },
+        { "t": "task", "em": true },
+        { "t": " — not the person doing it." }
+      ],
+      "cite": "Elenos / Software Studio"
+    },
+    {
+      "type": "cta",
+      "index": 5,
+      "total": 5,
+      "label": "NEXT",
+      "headline": [ { "t": "Want one answering your phone?" } ],
+      "arrow": true,
+      "sub": "Free 20-minute teardown · elenos.ai",
+      "ctaBody": [
+        { "t": "We’ll find the one task eating your week — and show you the operator that retires it." }
+      ],
+      "footer": "Elenos / Software Studio · New Jersey · USA",
+      "illustration": "hex"
+    }
+  ]
+}

@@ -1,0 +1,786 @@
+{
+  "meta": {
+    "schema_name": "elenos-context",
+    "schema_version": "2.1.0",
+    "last_updated": "2026-06-09",
+    "previous_version": "2.0.0 (2026-04-22)",
+    "source_scope": [
+      "elenos.ai live site",
+      "founder interview and mindset profile",
+      "service_business_owner_icp.json (companion doc)",
+      "elenos_icp_profile.json (June 2026 expanded ICP)",
+      "Elenos-Lead-Engine v1.0 GitHub repo and operational data",
+      "founder coaching transcripts April-June 2026"
+    ],
+    "purpose": "Single source of truth for any LLM working on Elenos. Covers brand, voice, offers, ICP summary, operating principles, founder context, and current reality. Drop this file at the top of any prompt to get on-brand, stage-appropriate output without additional steering.",
+    "how_to_use": "Read top-to-bottom before generating. Voice and offers first (used in almost every task), ICP and founder mid (outreach and content), roadmap and anti-patterns last (strategic questions).",
+    "companion_docs": [
+      "elenos_icp_profile.json — full ICP profile v1.0 June 2026. Use for outreach, copy, landing pages, lead engine scoring.",
+      "Elenos-Lead-Engine — operational lead generation software, GitHub edwardjones7/Elenos-Lead-Engine"
+    ],
+    "version_2_1_changes": [
+      "Studio thesis updated to platform-first positioning",
+      "Capabilities re-ordered around portal as central product",
+      "Offers updated to reflect actual pricing in use ($997-$5000 tiers)",
+      "Founder section updated to full-time founder status (quit job June 4, 2026)",
+      "Current reality updated to Q2/Q3 2026 with actual pipeline",
+      "Added lead engine and content systems as operational assets",
+      "Added platform/portal thesis as core strategic frame",
+      "Refined operating principles based on observed founder patterns",
+      "Added flinch pattern as known risk and discipline framework"
+    ]
+  },
+
+  "studio": {
+    "name": "Elenos",
+    "legal_entity": "Elenos Systems Co.",
+    "domain": "elenos.ai",
+    "founded": "2025",
+    "location": "Remote / USA (NJ-based founder)",
+    "status": "Accepting 3 projects · Q2/Q3 2026",
+
+    "one_line_description": "A software studio building the systems that compound revenue for service businesses — websites, custom software, AI operators, and the platform that ties them together.",
+
+    "thesis_primary": "Most service businesses don't have a revenue problem. They have a systems problem. Manual handoffs. Buried data. Tools that don't talk. Capital leaks quietly — day after day. Elenos builds the software that closes the leaks.",
+
+    "thesis_platform": "Elenos is the outsourced tech department for service businesses. The website is the entry SKU. The portal is the actual product. Every client gets ongoing access to a platform where their digital infrastructure lives — site updates, AI operators, custom tools, support tickets, ongoing partnership. The compounding layer isn't features. It's the relationship.",
+
+    "core_thesis": "Services generate cash flow. Systems capture the process. Operators automate execution. Products turn leverage into recurring revenue. The portal turns one-off engagements into multi-year partnerships.",
+
+    "comparable_business_models": [
+      "Geek Squad for consumers → Elenos for service businesses",
+      "HubSpot's free-CMS-to-platform wedge applied at service-studio scale",
+      "Salesforce's land-and-expand motion on a per-client basis"
+    ],
+
+    "capabilities": [
+      {
+        "label": "Primary",
+        "discipline": "Websites & web apps",
+        "description": "Cinematic marketing sites and production web apps. Brand system to deployment — engineered end-to-end, from first paint to final conversion. The entry SKU for the platform relationship.",
+        "keywords": ["marketing sites", "web apps", "interactive", "SEO & performance", "lead capture"]
+      },
+      {
+        "label": "Platform",
+        "discipline": "Client portal & ongoing partnership",
+        "description": "Every client gets a login to the Elenos portal. Submit tickets, request changes, chat directly, see project status, access analytics. The portal is the surface where the partnership compounds.",
+        "keywords": ["client portal", "ticketing", "ongoing partnership", "platform access", "retainer value"]
+      },
+      {
+        "label": "Intelligence",
+        "discipline": "AI operators & automation",
+        "description": "AI operators and agentic workflows that retire the recurring manual task — not the human. Deployed inside a living business with the right guardrails. After-hours receptionists, lead qualification, follow-up automation.",
+        "keywords": ["AI operators", "agents", "workflow automation", "after-hours capture", "lead routing"]
+      },
+      {
+        "label": "Scale",
+        "discipline": "Custom software & internal tools",
+        "description": "CRMs, dashboards, booking and billing, internal admin. The operational software that replaces the spreadsheet stack and scales with the business. Sold after the relationship is established.",
+        "keywords": ["CRMs", "dashboards", "admin & tooling", "data pipelines", "internal SaaS"]
+      },
+      {
+        "label": "Foundation",
+        "discipline": "Systems audits & consulting",
+        "description": "Before we build, we diagnose. Manual handoffs, data silos, processes that don't scale — mapped, quantified, and prioritized into a build plan.",
+        "keywords": ["revenue audits", "process mapping", "build roadmap", "fractional CTO"]
+      }
+    ],
+
+    "principles": [
+      {
+        "name": "Craft",
+        "statement": "Pixels and servers and copy and conversion. Every surface gets treated like it's the first thing a customer sees — because somewhere, it is."
+      },
+      {
+        "name": "Compound",
+        "statement": "We don't ship one-offs. Each engagement is designed to feed the next — a workflow becomes a feature becomes a reusable operator. The portal is where the compounding lives."
+      },
+      {
+        "name": "Ship",
+        "statement": "Beautiful work that doesn't ship isn't work. We default to production, measure in revenue impact, and build for what lasts."
+      },
+      {
+        "name": "Partner",
+        "statement": "Elenos isn't a vendor. It's the tech department service business owners can't afford to hire in-house. The retainer isn't maintenance — it's access to the partnership."
+      }
+    ]
+  },
+
+  "voice": {
+    "archetype": "The Architect — precise, unhurried, quietly confident. Senior engineer who cares deeply about typography. Peer-to-peer, never vendor-to-client.",
+
+    "primary_tone": "Quietly confident. The voice of someone who has already done the work and is describing it, not selling it.",
+
+    "secondary_tones": [
+      "Editorial / curatorial — speaks like a design publication",
+      "Engineering-precise — claims are operational, not aspirational",
+      "Faintly cinematic — 'transmission,' 'signal,' 'surface' evoke mood without overplaying it"
+    ],
+
+    "personality_traits": [
+      "Confident but not loud",
+      "Minimal but not cold",
+      "Technical but not dry",
+      "Aesthetic but not performative",
+      "Certain but not arrogant"
+    ],
+
+    "sentence_structure": {
+      "default_length": "8-14 words. Most sentences under 15.",
+      "fragments": "Heavy and deliberate. Fragments are a core stylistic device, not an accident. 'Manual handoffs.' 'Buried data.' 'Pixels and servers and copy and conversion.'",
+      "preferred_patterns": [
+        "Stacked fragments separated by periods: 'Manual handoffs. Buried data. Tools that don't talk.'",
+        "Subject + strong verb + object: 'Elenos builds the software that closes the leaks.'",
+        "Em-dashed asides that sharpen, not soften: 'engineered end-to-end — from first paint to final conversion.'",
+        "Thesis/antithesis contrast: 'AI that replaces the recurring manual task — not the human.'",
+        "Imperative openers: 'Build once. Compound forever.' 'Diagnose before you build.'"
+      ],
+      "paragraph_length": "Rarely more than 2-3 sentences. Single-sentence paragraphs are common and deliberate.",
+      "rhythm": "Reads like it was written to be read out loud. Strong cadence. Deliberate pauses via periods. Music-like phrasing."
+    },
+
+    "vocabulary": {
+      "register": "Technical and literary. Engineering vocabulary framed in cinematic/editorial language. Never colloquial, never corporate.",
+
+      "signature_words": [
+        "compound", "compounding",
+        "system", "systems",
+        "leak", "leaks", "closes the leaks",
+        "operator", "operators",
+        "ship", "shipped", "shipping",
+        "transmission", "transmissions",
+        "surface", "surfaces",
+        "stack",
+        "handoff", "handoffs",
+        "workflow",
+        "trajectory",
+        "guardrails",
+        "agentic",
+        "portal",
+        "partnership",
+        "film (internal use — earned evidence)", "receipts (internal use — earned evidence)"
+      ],
+
+      "signature_phrases": [
+        "systems that compound",
+        "get out of their own way",
+        "into their next trajectory",
+        "closes the leaks",
+        "replaces the spreadsheet stack",
+        "operators, not chatbots",
+        "not the human",
+        "first paint to final conversion",
+        "diagnose before you build",
+        "build once, compound forever",
+        "the tech department they can't afford to hire",
+        "the portal is where the partnership lives"
+      ],
+
+      "noun_discipline": "Prefer concrete operational nouns (handoffs, silos, pipelines, dashboards) over abstract business nouns (synergy, growth, excellence).",
+
+      "verb_discipline": "Strong, monosyllabic, active: build, ship, close, replace, retire, diagnose, map, quantify, scale. Avoid soft verbs like 'help,' 'empower,' 'enable.'",
+
+      "adjective_discipline": "Sparse. When used, adjectives are precise and often unexpected: 'cinematic website,' 'living business,' 'quiet leaks,' 'recurring manual task.'"
+    },
+
+    "punctuation_style": {
+      "periods": "Heavy. Primary rhythmic tool.",
+      "em_dashes": "Signature device. Used for sharp reframes and counter-statements. Rendered with spaces ( — ). Roughly one per 60-80 words.",
+      "commas": "Cumulative lists (cinematic technique). Oxford comma consistent.",
+      "colons": "Rare. Introduces precise expansion.",
+      "semicolons": "Essentially absent. Two periods beat one semicolon.",
+      "parentheses": "Absent in body copy. The voice doesn't whisper.",
+      "exclamation_points": "Never. Zero tolerance.",
+      "question_marks": "Almost never. The voice declares, doesn't ask.",
+      "ellipses": "Never. The voice does not trail off.",
+      "slashes": "Used typographically ('Elenos / Software Studio,' 'Remote / USA'). Design element, not punctuation filler.",
+      "italics": "Deliberate on key words in headlines: 'systems that compound,' 'web apps.' Never for decoration.",
+      "capitalization": "Sentence case for headlines ('Four disciplines. One studio.'). ELENOS all caps in logo/footer contexts. Section numbers use leading zeros with slash separators (01 / Thesis)."
+    },
+
+    "forbidden_words": [
+      "synergy", "holistic", "best-in-class", "world-class",
+      "innovative", "cutting-edge", "next-gen", "disruption",
+      "solutions (used generically)", "leverage (as loose verb)",
+      "passionate", "delighted", "excited to announce",
+      "game-changer", "revolutionary", "seamless",
+      "unleash", "supercharge", "10x", "unlock",
+      "AI-powered (without specifics)", "powered by AI",
+      "transform your business (generic)",
+      "the future is here",
+      "pivot", "ideate", "circle back", "at the end of the day"
+    ],
+
+    "forbidden_patterns": [
+      "Starting with a greeting or pleasantry ('Hey there!' 'We're so glad you're here!')",
+      "Flattering the reader ('You're smart, you already know...')",
+      "Manufactured urgency ('Only 3 spots left!' 'Don't miss out!')",
+      "Consumer AI hype stacks ('Harness the power of AI to...')",
+      "Over-explaining or teaching the reader what they already know",
+      "Promising what cannot be proven",
+      "Using emoji in any professional context"
+    ],
+
+    "on_brand_examples": [
+      "Most service businesses don't have a revenue problem. They have a systems problem.",
+      "AI that replaces the recurring manual task — not the human.",
+      "Beautiful work that doesn't ship isn't work.",
+      "Diagnose before you build.",
+      "We'll tell you what we'd build and whether we're the studio to build it.",
+      "The portal is where the partnership lives.",
+      "Most studios sell deliverables. We sell the relationship."
+    ]
+  },
+
+  "offers": {
+    "positioning_principle": "Elenos does not sell websites. Elenos sells access to the platform — the ongoing relationship where systems compound. The website is the wedge. The portal is the product. Every engagement starts with a build and continues as a partnership.",
+
+    "tier_1_basic": {
+      "name": "Basic Landing Page Tier",
+      "price_one_time_usd": 997,
+      "price_retainer_monthly_usd": 199,
+      "retainer_minimum_months": 6,
+      "typical_timeline": "2 weeks",
+      "what_it_includes": [
+        "Single-page custom site (not template)",
+        "5 core sections: hero, services, social proof, gallery, contact + CTA",
+        "Mobile-responsive, fast load, basic SEO",
+        "1 design round + 1 revision round",
+        "Portal access — submit tickets, chat, see status",
+        "Retainer covers hosting, domain management, 2 small updates/mo, monthly check-in"
+      ],
+      "target_buyer": "Limited-budget prospects, simpler businesses, nonprofits, or strategic case-study clients",
+      "case_study_use": "Used for veterans org / nonprofit pricing; not the standard tier"
+    },
+
+    "tier_2_standard": {
+      "name": "Custom Website System",
+      "price_one_time_usd_min": 2500,
+      "price_one_time_usd_max": 4000,
+      "price_retainer_monthly_usd": 500,
+      "retainer_minimum_months": 6,
+      "typical_timeline": "3-4 weeks",
+      "what_it_includes": [
+        "Multi-page custom site (home + services + about + contact + service-area pages)",
+        "Custom design — no template, built around their specific business",
+        "Conversion-focused architecture (above-fold CTA, click-to-call mobile, lead-capture forms, social proof integration)",
+        "On-page SEO, schema markup, Google Business Profile optimization",
+        "Mobile-first, fast load (sub-2-second target)",
+        "1 design round + 2 revision rounds",
+        "Portal access — submit tickets, chat, project status, monthly performance reports",
+        "Retainer covers hosting, full maintenance, monthly updates, support ticket access"
+      ],
+      "target_buyer": "Standard Lyons-profile prospect — established service business, owner-operated, $500K-$5M revenue"
+    },
+
+    "tier_3_full": {
+      "name": "Website + AI Operator System",
+      "price_one_time_usd_min": 4000,
+      "price_one_time_usd_max": 5000,
+      "price_retainer_monthly_usd": 750,
+      "retainer_minimum_months": 6,
+      "typical_timeline": "4-6 weeks",
+      "what_it_includes": [
+        "Everything in Tier 2",
+        "AI receptionist / chat agent for after-hours lead capture",
+        "Automated lead-routing (form submissions → SMS to owner, email follow-up sequence)",
+        "Integration with existing CRM or scheduling tool if relevant",
+        "Portal access with deeper analytics and AI operator monitoring",
+        "Retainer covers everything in Tier 2 plus AI agent maintenance and tuning"
+      ],
+      "target_buyer": "Owner-operators ready to invest in real infrastructure. The Lyons profile.",
+      "reference_case": "Lyons Electrical Contractors"
+    },
+
+    "tier_4_custom": {
+      "name": "Custom Software / Fractional CTO",
+      "price_one_time_usd_min": 7500,
+      "price_retainer_monthly_usd_min": 1500,
+      "what_it_includes": [
+        "Bespoke software solutions (custom dashboards, scheduling systems, internal tools)",
+        "Ongoing technical partnership",
+        "Fractional CTO availability"
+      ],
+      "target_buyer": "Established clients ready to scale operations. Usually 12+ months into the Elenos relationship."
+    },
+
+    "retainer_attach_target": "100% — retainer is part of every engagement at all tiers. No exceptions. The retainer IS the platform access, not optional add-on.",
+
+    "audit_entry_offer": {
+      "name": "Free 30-minute Discovery Call",
+      "price": "$0",
+      "positioning": "Not a sales call. A diagnostic. Elenos tells the prospect what's leaking, what it would take to fix, and whether Elenos is the right studio to do it.",
+      "fit_signals_to_qualify_for": [
+        "They describe a specific pain (lost leads, bad site, manual process)",
+        "They have budget room for $2,500+ in the next 60 days",
+        "They are the decision-maker or close to one",
+        "They respond with specifics, not platitudes, when asked what's not working"
+      ]
+    },
+
+    "anti_patterns": [
+      "Never quote below $997 — that's the floor, even for nonprofits",
+      "Never volunteer discounts before the prospect asks",
+      "Never stack multiple discounts in a single message",
+      "Never quote price on the first call — always 'let me put together a proper proposal'",
+      "Never offer unlimited revisions",
+      "Never sell an AI operator to a business without a workflow to compress",
+      "Never promise a timeline shorter than 2 weeks for a full build",
+      "Never enter a sales call without studying the prospect's current site and ad spend"
+    ]
+  },
+
+  "target_market_current_quarter": {
+    "note": "For the full, detailed ICP, see elenos_icp_profile.json v1.0. This is the executive summary.",
+
+    "primary_icp": "Owner-operator of established US service business — $500K-$5M revenue, 5-25 employees, 5+ years in business, 30+ Google reviews at 4.5 stars or higher, Eastern/Central US timezones.",
+
+    "tier_1_verticals": [
+      "Electrical contractors",
+      "HVAC contractors",
+      "Plumbers",
+      "Roofers",
+      "Auto repair / auto body / auto detailing"
+    ],
+
+    "tier_2_verticals": [
+      "General contractors",
+      "Landscapers",
+      "Pest control",
+      "Tree services",
+      "Locksmiths",
+      "Water damage restoration",
+      "Garage door services",
+      "Residential and commercial cleaning",
+      "Pool services",
+      "Fence installation",
+      "Concrete, masonry, paving",
+      "Pressure washing",
+      "Septic and well services"
+    ],
+
+    "tier_3_verticals": [
+      "Chimney sweeps",
+      "Generator installers",
+      "Solar installers",
+      "EV charger installers",
+      "Water filtration",
+      "Real estate brokerages",
+      "Insurance agencies",
+      "Med spas",
+      "Chiropractic offices",
+      "Bookkeeping firms"
+    ],
+
+    "geography_priority": {
+      "tier_1": ["New Jersey", "Pennsylvania", "Delaware", "New York", "Connecticut", "Massachusetts", "Maryland"],
+      "tier_2": ["Virginia", "North Carolina", "South Carolina", "Georgia", "Florida (Eastern)", "Ohio"],
+      "tier_3": "Acceptable across any Eastern or Central US market",
+      "avoid": "West Coast and Mountain West for now"
+    },
+
+    "where_to_find_them": [
+      "Facebook Ad Library — businesses actively running ads with bad landing pages (validated highest-conversion channel)",
+      "Google Maps + Google Business Profile — high-review businesses with broken or missing websites",
+      "Lead engine v1.0 (Apollo + Apify + Claude scoring + Serper enrichment)",
+      "Instagram / TikTok local hashtag search — active social, dead website",
+      "LinkedIn and Facebook — recent hiring or expansion posts signal growth mode",
+      "Chamber of commerce listings"
+    ],
+
+    "buying_trigger_checklist": [
+      "Active Facebook/Instagram ads running 30+ days with poor landing page",
+      "100+ Google reviews paired with no website or outdated site",
+      "Currently using WordPress template (Customify, Divi, Astra), GoDaddy Airo, Wix, or Squarespace",
+      "Recently expanded or rebranded — new location, new logo, fleet wrap, hiring posts",
+      "Strong social media presence with weak or no website",
+      "Family member or freelancer who was 'handling the website' just had a life event",
+      "Big lead came through and lost interest after visiting the site"
+    ],
+
+    "core_wound_to_press": "The last agency took their money and delivered a template instead of customers. They are not cautious buyers — they are burned buyers. Every Elenos message either explicitly or implicitly acknowledges that wound before asking for anything.",
+
+    "language_to_use": "Their jargon. Their software (ServiceTitan, Jobber, Housecall Pro, QuickBooks). Their specific revenue plateau ($1M wall, $3M drowning point). 'Techs,' 'the crew,' 'the truck,' 'the book of business,' 'booked solid,' 'slow season,' 'my guy.'",
+
+    "language_to_avoid": "Corporate jargon. Consumer AI hype. Manufactured urgency. Validation-heavy copy. Generic adjectives. 'Conversion optimization,' 'funnel,' 'synergy,' 'leverage.'",
+
+    "cold_outreach_openers": {
+      "fb_ad_library_prospects": "Hey, looking for the owner — calling because I noticed you guys are running Facebook ads. I checked the landing page they go to and there are a few things probably costing you conversions. Got 2 minutes?",
+      "bad_site_prospects": "Hey, this is Ed from Elenos. Quick reason for the call — I came across your site and noticed [specific observation]. Wanted to ask the owner about it."
+    },
+
+    "messaging_pillars_for_this_icp": [
+      "Recognition over promises — make them say 'that's me' in the first 10 seconds",
+      "Sell the identity shift, not the tactic — they're buying the version of themselves who doesn't worry about leads",
+      "Prove industry literacy in the first 60 seconds — use their specifics",
+      "Acknowledge the last agency's failure — do it before they have to raise it",
+      "Respect the spouse in the room — offers over $3K need kitchen-table language",
+      "Follow up like a friend, not a rep",
+      "Lead with the partnership, not the deliverable"
+    ]
+  },
+
+  "operating_principles": {
+    "note": "These are the decision rules. When in doubt about how to respond, what to prioritize, or how to frame something — default to these.",
+
+    "rules": [
+      {
+        "rule": "Choose productizable over bespoke.",
+        "detail": "If a project can become a repeatable system, operator, or template — that project is worth more than a higher-priced one-off. Compounding assets beat single paychecks."
+      },
+      {
+        "rule": "Services fund the system, but the system is the business.",
+        "detail": "Every client engagement should either become a reusable workflow, a product feature, an AI operator, or a case study. A service that doesn't feed the system was underpriced."
+      },
+      {
+        "rule": "Price for the Elenos two years from now — not today.",
+        "detail": "Undercharging to land early clients is how studios trap themselves in low-ticket hell. Hold the line on Tier 2-3 pricing even when it costs a sale."
+      },
+      {
+        "rule": "Always attach a retainer at close. No exceptions.",
+        "detail": "Every delivered site leaves with portal access. The retainer is the platform. One-off cash without retainer is leaving the actual business on the table."
+      },
+      {
+        "rule": "Diagnose before you build.",
+        "detail": "Every engagement starts with a system, not a deliverable. A 30-minute discovery call that ends in 'we're not the right studio' is a success, not a failure."
+      },
+      {
+        "rule": "Make it easy to say no.",
+        "detail": "Offer the reader a graceful exit in every piece of outreach. Soft yeses ghost. Honest no's free calendar space for real prospects."
+      },
+      {
+        "rule": "Three is not a sample. Thirty is.",
+        "detail": "Do not change the offer, niche, pricing, or positioning based on fewer than 30 reps. Adjust one variable at a time. Pain-driven change destroys early studios."
+      },
+      {
+        "rule": "Log every rep — including the ones that feel like nothing.",
+        "detail": "Voicemails, hangups, no-shows, ghosts — all tracked. Invisible work becomes invisible progress. The scoreboard tells the truth the feelings won't."
+      },
+      {
+        "rule": "No new course, platform, or offer while a current one has fewer than 30 reps.",
+        "detail": "Shiny-object chasing is the founder's version of the polite-yes ghost. Finish what you started before buying another thing."
+      },
+      {
+        "rule": "The work is right. Change the narration.",
+        "detail": "Most early-stage struggle is a narration problem, not a strategy problem. Before changing the offer, change the story being told about the offer."
+      },
+      {
+        "rule": "Catch the flinch.",
+        "detail": "The urge to build new infrastructure instead of doing manual outreach is the flinch. Strategic-sounding pivots on tired days are the flinch. Buying more frameworks/courses/tools instead of running the existing system is the flinch. Name it when it happens. Park the new idea. Return to the system."
+      },
+      {
+        "rule": "Calls produce everything else.",
+        "detail": "Cold call volume is the upstream input. Closes, revenue, content, case studies, platform users — all downstream of calls happening daily. Protect the Reps Block above all other activities."
+      },
+      {
+        "rule": "Document the journey while building it.",
+        "detail": "Content compounds when grounded in real work. Behind-the-scenes, build process, lessons learned, real client work — all higher value than teaching content. Document during, post after."
+      }
+    ]
+  },
+
+  "brand_architecture": {
+    "parent": "Elenos",
+    "structure": "Branded house. All engagements, services, and future products live under Elenos. No sub-brands active this quarter.",
+    "domain_strategy": "elenos.ai is the sole digital home. admin.elenos.ai for backend tools. portal.elenos.ai planned for client portal. Everything routes to elenos.ai."
+  },
+
+  "visual_identity": {
+    "logo_treatment": "ELENOS in all caps, sans-serif. Used in logo/footer contexts only. 'Elenos' otherwise.",
+    "primary_accent_color": "#a200ff",
+    "design_direction": [
+      "Futuristic",
+      "Minimal",
+      "Clean, dark modern",
+      "High contrast",
+      "System-oriented — grids, numbered sections, monospaced metadata",
+      "Cinematic without being theatrical"
+    ],
+    "design_rules": [
+      "Sentence case for most headlines",
+      "Numbered section markers with leading zeros (01, 02, 03 — with slash separators)",
+      "Middle dot · as metadata separator",
+      "Arrow → for CTAs",
+      "Italics only on load-bearing words in headlines, never for decoration",
+      "Whitespace is a feature, not empty space"
+    ]
+  },
+
+  "tech_stack": {
+    "languages": ["Python", "TypeScript", "JavaScript", "Java", "C++"],
+    "frameworks": ["Next.js", "React", "FastAPI", "Node.js"],
+    "infrastructure": ["Vercel", "TrueNAS", "Ubuntu", "Docker"],
+    "databases": ["Supabase", "PostgreSQL", "Neon"],
+    "ai_tools": ["Anthropic Claude API (primary)", "OpenAI API", "Gemini API"],
+    "lead_engine_stack": ["Apollo", "Apify", "Serper", "Claude scoring", "Next.js admin panel"],
+    "other_tools": ["GitHub", "Notion", "Discord", "Telegram", "Stripe", "Namecheap Private Email"],
+    "preferred_stack_for_client_websites": "Next.js on Vercel with Supabase as the backend when one is needed. Static-first, dynamic where required. Clean handoff to client's own repo if requested.",
+    "preferred_stack_for_internal_tools": "Next.js + Supabase + Vercel. Same as client stack for portability."
+  },
+
+  "founder": {
+    "name": "Edward Jones",
+    "age": 21,
+    "status": "Full-time founder as of June 4, 2026",
+    "previous_employment": "Geek Squad (left June 2026 after 14+ months as top performer, training new hires)",
+    "education": "Computer Science student at Rowan College of South Jersey — two semesters remaining (graduation May 2027)",
+    "background": [
+      "Former college basketball player",
+      "Prior businesses: graphic design business (100+ design clients), clothing brand, dropshipping experiments",
+      "GitHub: edwardjones7",
+      "Lives at home, low burn rate, ~24-30 months effective runway"
+    ],
+    "roles_currently": [
+      "Founder",
+      "Lead engineer",
+      "Lead designer",
+      "Lead salesperson",
+      "Sole operator"
+    ],
+    "strengths": [
+      "Technical-creative crossover — can both design and build",
+      "Systems thinker — sees the workflow under the work",
+      "High agency — ships without waiting for permission",
+      "Productization instinct — looks for the second and third use of every build",
+      "Prior business reps — already learned the basics of finding/closing/delivering through graphic design",
+      "Self-aware about own patterns (named the flinch, recognizes pricing discipline gaps)"
+    ],
+    "active_growth_areas": [
+      "Holding pricing floor under emotional pressure",
+      "Sustaining manual cold call volume across consecutive days",
+      "Building life outside Elenos to sustain 24-month timeline",
+      "Sleep discipline (consistent 8 hours, regular schedule)",
+      "Resisting the flinch toward new infrastructure during hard execution days"
+    ],
+    "founder_voice": {
+      "note": "This voice is for content meant to sound like Ed personally — social posts, personal outreach, behind-the-scenes notes — not Elenos studio copy. The studio voice is above; this one is warmer.",
+      "attributes": [
+        "Direct and honest, especially about trade-offs",
+        "More willing to reference personal story than Elenos voice is",
+        "Still minimal — no hype, no emoji",
+        "Can use 'I' where studio voice uses 'we'",
+        "Draws on basketball, building, and systems analogies naturally",
+        "Documentary tone — show the work, don't preach about it"
+      ],
+      "recurring_themes_ed_cares_about": [
+        "Authorship over being deployed",
+        "Long-horizon commitment over shortcuts",
+        "Evidence (film, receipts) over claims",
+        "Systems that compound over one-off wins",
+        "Caring without flinching — high standards without self-punishment",
+        "Sales as the universal portable skill",
+        "Building real things before talking about building them"
+      ]
+    }
+  },
+
+  "current_reality_q2_q3_2026": {
+    "note": "The honest stage-of-business as of June 2026. For tactical decisions, consult this before the aspirational sections.",
+
+    "revenue_stage": "Pre-revenue under the Elenos brand. Pipeline established. First close target: by end of June 2026.",
+    "team_size": "Solo. Ed is the full stack — sales, design, engineering, ops, content.",
+    "client_count": "Zero closed engagements under the Elenos brand as of June 9, 2026. Four warm prospects in active conversation.",
+
+    "active_pipeline_june_2026": {
+      "lyons_electrical": "Proposal in hand. Tier 3 ($4K + $750/mo). Awaiting Arthur/Gene reconvene per Gene's request. Status: warm, patient timeline.",
+      "mr_rock_electric": "Discovery call rescheduled twice, currently re-locking time. Kirk in FL, GoDaddy Airo site, running active Meta ads. Tier 3 territory. Status: hot.",
+      "alr_electric_llc": "Verbal yes at $997. No-showed initial call. Re-engagement text sent. Status: warm, soft.",
+      "frank_tristate_veterans": "Demo + price ($997 + $199/mo) sent May 22. Board decision pending per bylaws. Last contact May 23. Status: warm, institutional decision cycle."
+    },
+
+    "active_goal_june_2026": "Close 1-2 of the four warm prospects by end of June. Build to $5K+/month MRR through August.",
+
+    "constraints": [
+      "Full-time founder mode (Geek Squad ending mid-June 2026)",
+      "Full-time student until May 2027 — coursework demands real time",
+      "No ad budget yet. Growth is cold outreach + owned content only",
+      "No portfolio case studies closed under Elenos name yet — trust must be built through positioning, specificity, and the live site itself",
+      "No team. Delivery capacity = founder capacity. Max 2 concurrent projects recommended",
+      "~24-30 months effective runway given low expenses"
+    ],
+
+    "operational_assets_built_to_date": [
+      "elenos.ai live site (cinematic, on-brand)",
+      "admin.elenos.ai backend (subscriber list, contact form, Discord webhook) — currently being consolidated",
+      "Elenos-Lead-Engine v1.0 — operational lead generation software with Apollo + Apify + Claude scoring + Serper enrichment (GitHub: edwardjones7/Elenos-Lead-Engine)",
+      "Email infrastructure on Namecheap Private Email (SPF/DKIM/DMARC at 10/10 mail-tester score)",
+      "ICP profile v1.0 (companion JSON, used for lead scoring and outreach)",
+      "Cold outreach tracker (single-tab Excel)",
+      "First content piece published (carousel on Instagram)",
+      "Two validated cold outreach angles (FB Ad Library angle + diagnostic opener)"
+    ],
+
+    "current_outreach_motion": {
+      "channels_in_priority_order": ["Cold call (primary, validated)", "Cold email (secondary, infrastructure ready)", "Instagram content (tertiary, building)"],
+      "daily_target": "20-30 cold dials, 5-10 cold emails per Reps Block day, 4-5 Reps Block days per week",
+      "prospecting_sources": "Lead engine v1.0 (primary), Facebook Ad Library (validated), Google Maps (secondary)",
+      "tracker": "Excel + lead engine database (consolidating to single source of truth)"
+    },
+
+    "highest_leverage_moves_this_quarter": [
+      "Close 1-2 warm prospects before end of June 2026",
+      "Document the first close in detail — sales call notes, proposal, contract, delivery process — for future SOPs and case studies",
+      "Build minimum-viable client portal during first client delivery (not before)",
+      "Ship one content piece per week documenting the journey",
+      "Refine lead engine based on first 100 manual call results",
+      "Maintain Reps Block discipline through summer regardless of outcomes"
+    ],
+
+    "known_risks": [
+      "The flinch — pivoting offer/strategy/infrastructure when manual work feels hard",
+      "Pricing collapse under emotional pressure (volunteering discounts before asked)",
+      "Sleep schedule drift (late nights, late wake-ups) compounding into low-energy days",
+      "Comparison to Instagram lifestyle content driving identity-collapse with the business",
+      "Premature infrastructure building (portal, VSL, lead engine improvements) before client work justifies the time investment",
+      "Burnout from over-identification with the work (24/7 ideation pattern)"
+    ],
+
+    "discipline_frameworks_in_use": [
+      "Two-Ed framework: Founder Ed (mornings, Reps Block, money work) vs Builder Ed (afternoons/evenings, Construction Block, one project at a time)",
+      "Flinch tracking: name the pattern when it surfaces, park the new idea, return to the system",
+      "Three is not a sample: minimum 30 reps before adjusting any variable",
+      "Hard stop at 6 PM Founder work, with explicit life-outside-business activities required",
+      "Mental separation: business hours 9-6, life outside those hours"
+    ]
+  },
+
+  "anti_patterns": {
+    "note": "Things Elenos explicitly does not do. Any LLM generating copy, offers, or decisions for Elenos should treat these as hard rules.",
+
+    "brand_positioning_anti_patterns": [
+      "Elenos is not an agency. It is a studio. (Agencies sell hours. Studios ship systems.)",
+      "Elenos is not a creative shop. It is a systems studio that happens to have taste.",
+      "Elenos does not compete on price. It competes on precision and compounding value.",
+      "Elenos does not chase trend-of-the-week offers (NFTs, metaverse, generic 'AI automation' hype).",
+      "Elenos does not promise leads. Elenos builds the systems that convert traffic into booked work — the lead generation is the client's input.",
+      "Elenos does not sell websites. Elenos sells access to the partnership."
+    ],
+
+    "offer_anti_patterns": [
+      "Never quote a website below $997. That's the absolute floor.",
+      "Never volunteer multiple discounts in one message.",
+      "Never quote price on the first call. Always 'let me put together a proper proposal.'",
+      "Never build without a signed scope and 50% deposit.",
+      "Never offer unlimited revisions. Always scope revision rounds.",
+      "Never sell an AI operator to a business without an existing workflow to automate.",
+      "Never promise a timeline shorter than 2 weeks for a full build, regardless of pressure.",
+      "Never sell a website without an attached retainer. The retainer is the platform access."
+    ],
+
+    "sales_anti_patterns": [
+      "Never override prospect hesitation to push for a yes. Ask 'what's on your mind?' instead.",
+      "Never follow up more than twice on a cold email or DM in a 30-day window.",
+      "Never discount more than 10% off list price, even for 'friend of a friend.'",
+      "Never enter a sales call without having looked at the prospect's current web presence and ad spend.",
+      "Never send a proposal without a verbal buy-in on the call first.",
+      "Never volunteer the price floor when explaining what builds typically cost — always lead with the appropriate tier for their needs."
+    ],
+
+    "content_anti_patterns": [
+      "Never write copy that sounds like a typical agency (hype, exclamation points, generic promises).",
+      "Never use emoji in professional contexts.",
+      "Never publish case studies that lead with Elenos — lead with the client's outcome.",
+      "Never write thought-leadership content on topics Elenos hasn't actually executed.",
+      "Never use 'partner,' 'team,' or 'family' to refer to clients. They are clients.",
+      "Never post teaching content before earning the right to teach (10+ closed deals minimum).",
+      "Default to documentation content over teaching content at current stage."
+    ],
+
+    "founder_anti_patterns": [
+      "Never use 'I'm exhausted' as a reason to skip the next day's Reps Block. Rest, then run.",
+      "Never make strategic decisions on low-energy days. Park the idea, decide when regulated.",
+      "Never build new infrastructure (portal, VSL, lead engine improvements) during prime sales hours.",
+      "Never identify entirely with Elenos. The business is what you do. It is not who you are.",
+      "Never compare current trajectory to Instagram lifestyle content. Compare to the actual realistic path."
+    ]
+  },
+
+  "future_roadmap": {
+    "note": "Aspirational direction. Not active work in Q2/Q3 2026. Listed so an LLM understands where Elenos is heading, but does not confuse roadmap with reality.",
+
+    "next_3_to_6_months": [
+      "Close first 3-5 clients under Elenos brand",
+      "Deliver excellently and capture detailed case studies",
+      "Build minimum-viable client portal during first client delivery",
+      "Ship one documentary content piece per week",
+      "Refine lead engine v1.0 to v2.0 based on real conversion data",
+      "Establish $5K-$10K/month MRR floor"
+    ],
+
+    "6_to_12_months": [
+      "Portfolio of 10+ closed engagements with documented outcomes",
+      "Productize portal v2 — real features driven by real client usage",
+      "Develop and sell first AI operator as a repeatable offer tier",
+      "Cross-vertical case studies (electrical, HVAC, auto, restoration)",
+      "Reach recurring revenue floor of $15K-$25K/month in retainers",
+      "Begin hiring first part-time contractor (designer or developer)"
+    ],
+
+    "12_to_24_months": [
+      "Launch vertical-specific productized service (Elenos for Electrical, Elenos for HVAC)",
+      "Portal becomes the primary product surface — features clients actively request",
+      "Reach $40K-$80K/month MRR through expansion + new logos",
+      "Hire first full-time team member",
+      "Begin productizing AI operators as standalone SKUs"
+    ],
+
+    "longer_term_vision": [
+      "Operate a small studio of 3-5 people shipping sophisticated systems",
+      "Own one or two micro-SaaS products built from repeatable client workflows",
+      "Reach $500K-$1M+ annual founder income through compounding platform business",
+      "Ed writes and teaches publicly on systems, authorship, and building — only after earning the right to through actual results"
+    ]
+  },
+
+  "llm_usage_instructions": {
+    "note": "When an LLM is generating content, code, or advice using this context, follow these rules.",
+
+    "before_generating": [
+      "Read the voice section before writing copy — match the signatures (em-dashes, fragments, short declaratives).",
+      "Read the anti-patterns section — treat them as hard constraints.",
+      "For any outreach or marketing task, load the companion ICP doc (elenos_icp_profile.json).",
+      "For tactical or stage-appropriate advice, check current_reality_q2_q3_2026 first — not future_roadmap.",
+      "If the request is for new infrastructure, course content, or major strategic pivot, flag it as a potential flinch first."
+    ],
+
+    "when_generating_copy": [
+      "Sentences under 15 words unless a longer one earns its place.",
+      "Open sections with a declarative or imperative, never a greeting.",
+      "Use em-dashes ( — ) for sharp reframes, not softening.",
+      "Use 'we' for studio voice, 'I' for founder voice. Do not mix.",
+      "Zero exclamation points. Zero emoji.",
+      "Prefer concrete operational nouns over abstract business nouns.",
+      "When in doubt about whether something is on-brand, compare it to the on_brand_examples."
+    ],
+
+    "when_giving_strategic_advice": [
+      "Respect the founder's current stage — solo, pre-revenue, full-time founder + student.",
+      "Default to actions that compound (productizable, documentable, reusable) over one-offs.",
+      "Push back when the founder is pain-pivoting (changing offer after few reps, chasing a shinier offer, building new infrastructure during execution-focused weeks).",
+      "Name the flinch when it surfaces. Park the new idea. Return to the system.",
+      "Remind of the operating principles when relevant — especially 'three is not a sample, thirty is.'",
+      "Protect Reps Block hours above all other activities."
+    ],
+
+    "when_generating_code_or_technical_work": [
+      "Default stack: Next.js + Vercel + Supabase unless there's reason to deviate.",
+      "Keep design minimal, high-contrast, system-oriented. Use #a200ff as accent only.",
+      "Follow the Elenos design rules (sentence case, numbered sections, em-dashes, arrow CTAs).",
+      "Document the why — every meaningful decision in code or design should be traceable back to a principle."
+    ]
+  },
+
+  "quick_reference": {
+    "one_line_elevator": "Elenos is a software studio that builds the systems that compound revenue for service businesses — websites, custom software, and AI operators, engineered end-to-end, delivered through an ongoing partnership.",
+
+    "when_someone_asks_what_elenos_does": "We're the outsourced tech department for service businesses. Websites, custom software, AI operators — built by us, accessed through a portal. The website is where we start. The partnership is the product.",
+
+    "when_someone_asks_how_elenos_is_different": "Most studios sell deliverables. We sell the relationship. Every engagement is designed to feed the next — a workflow becomes a feature becomes a reusable operator. The portal is where the compounding lives.",
+
+    "when_someone_asks_price": "Builds start at $997 for a basic landing page tier and run to $5,000+ for full website + AI systems. Retainers range from $199 to $750 a month and include portal access. We'll give you a firm number after a 30-minute discovery call.",
+
+    "current_cta": "Book a 30-minute discovery call at elenos.ai."
+  }
+}
+
+
