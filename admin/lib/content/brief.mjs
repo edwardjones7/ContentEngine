@@ -43,11 +43,20 @@ export function makeBrief(idea) {
     return spec;
   }
 
-  // 2) templated from idea fields
+  // 2) templated from idea fields. Ideas born in Orbit threads (or live
+  // ideation) carry only title/angle/hook — synthesize the missing slide
+  // fields from those so any idea builds offline.
+  const blocks = (idea.blocks && idea.blocks.length)
+    ? idea.blocks
+    : [
+        { body: idea.angle },
+        { body: 'It shows up the same way across almost every shop we look at — quietly, in places *nobody is watching*.' },
+      ];
+  const breaker = idea.breaker || { type: 'quote', label: 'THE THESIS', quote: idea.hook };
   const slides = [
     { type: 'cover', index: 1, label: 'FIELD NOTES', headline: toRuns(idea.hook), illustration: idea.illustration || 'magnifier' },
-    { type: 'body', index: 2, label: 'THE LEAK', headline: toRuns(idea.leakHeadline || idea.title), blocks: (idea.blocks || []).map((b) => ({ body: toRuns(b.body) })), illustration: idea.leakIllustration || 'card' },
-    breakerSlide(idea.breaker, 3),
+    { type: 'body', index: 2, label: 'THE LEAK', headline: toRuns(idea.leakHeadline || idea.title), blocks: blocks.map((b) => ({ body: toRuns(b.body) })), illustration: idea.leakIllustration || 'card' },
+    breakerSlide(breaker, 3),
     idea.fix && { type: 'body', index: 4, label: 'THE FIX', headline: toRuns(idea.fix.headline), blocks: (idea.fix.blocks || []).map((b) => ({ body: toRuns(b.body) })), illustration: idea.fix.illustration || 'nodes' },
     {
       type: 'cta',

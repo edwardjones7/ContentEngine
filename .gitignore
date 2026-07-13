@@ -1,0 +1,9 @@
+node_modules/
+.next/
+*.log
+.DS_Store
+
+# local-only secrets/config (API keys live here — never commit)
+admin/settings.local.json
+.env
+.env.*

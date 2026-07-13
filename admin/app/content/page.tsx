@@ -1,34 +1,44 @@
 import { ensureIdeas } from '@/lib/service.mjs';
 import { getPieces } from '@/lib/db.mjs';
-import { MODE } from '@/lib/mode.mjs';
-import { PieceRow } from './parts';
-import { generateAction, researchAction } from './actions';
+import { provider } from '@/lib/mode.mjs';
+import { Column, IdeaCard, PieceRow } from './parts';
+import { researchAction } from './actions';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ContentPage() {
   const ideas = await ensureIdeas();
-  const pieces = getPieces().slice(0, 4);
+  const pieces = getPieces();
+  const accepted = new Set(pieces.map((p: any) => p.ideaId));
+
+  const research = ideas.filter((i: any) => !accepted.has(i.id));
+  const building = pieces.filter((p: any) => p.status === 'building');
+  const review = pieces.filter((p: any) => p.status === 'review' || p.status === 'draft');
+  const published = pieces.filter((p: any) => p.status === 'published');
+
   return (
     <>
-      <h1>Content ideas</h1>
-      <p className="lead">Research-grounded angles in the Elenos voice. Pick one — it becomes a blog draft + a swipeable carousel.</p>
+      <h1>Content pipeline</h1>
+      <p className="lead">Research → Build → Review. Chat with <a href="/orbit" style={{ color: 'var(--accent2)' }}>Orbit</a> to develop ideas, or accept one below — then fan it out into the mediums you pick.</p>
       <div className="row">
         <form action={researchAction}><button type="submit">↻ Refresh research</button></form>
-        <span className="src">{MODE === 'live' ? 'live: Claude + research' : 'offline: seeded ideas (set ANTHROPIC_API_KEY to go live)'}</span>
+        <span className="src">{provider().kind === 'offline' ? 'offline: seeded ideas (add an API key in Settings to go live)' : `live research via ${provider().kind === 'free' ? 'Gemini + Google Search' : 'Claude + web search'}`}</span>
       </div>
-      <div className="grid cols2" style={{ marginTop: 16 }}>
-        {ideas.map((i: any) => (
-          <div className="card" key={i.id}>
-            <div className="row"><span className="label">{i.source || 'idea'}</span><span className="sp" />{i.carouselFile ? null : <span className="src">novel · templated</span>}</div>
-            <h3>{i.title}</h3>
-            <div className="meta">{i.angle}</div>
-            <div className="meta" style={{ color: '#cfc7e6' }}>“{i.hook}”</div>
-            <form action={generateAction}><input type="hidden" name="ideaId" value={i.id} /><button className="primary" type="submit">Generate piece →</button></form>
-          </div>
-        ))}
+
+      <div className="board">
+        <Column title="Research" count={research.length} empty="No ideas yet — chat with Orbit to develop one, or hit ↻ Refresh research.">
+          {research.map((i: any) => <IdeaCard key={i.id} idea={i} />)}
+        </Column>
+        <Column title="Building" count={building.length} empty="Accept an idea to start building.">
+          {building.map((p: any) => <PieceRow key={p.id} p={p} />)}
+        </Column>
+        <Column title="Review" count={review.length} empty="Built pieces land here for review.">
+          {review.map((p: any) => <PieceRow key={p.id} p={p} />)}
+        </Column>
+        <Column title="Published" count={published.length} empty="Nothing published yet.">
+          {published.map((p: any) => <PieceRow key={p.id} p={p} />)}
+        </Column>
       </div>
-      {pieces.length ? (<><h2 className="sec">Recent pieces</h2><div className="grid">{pieces.map((p: any) => <PieceRow key={p.id} p={p} />)}</div></>) : null}
     </>
   );
 }
