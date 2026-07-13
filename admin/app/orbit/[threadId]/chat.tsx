@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { developIdeaAction } from '../actions';
+import { mdToHtml } from '@/lib/md.mjs';
 
 type StreamItem =
   | { kind: 'text'; text: string; citations: any[] }
@@ -14,8 +15,8 @@ type StreamItem =
   | { kind: 'idea'; idea: any }
   | { kind: 'error'; message: string };
 
-export default function Chat({ threadId, messages, ideas, acceptedIdeaIds }: {
-  threadId: string; messages: any[]; ideas: any[]; acceptedIdeaIds: string[];
+export default function Chat({ threadId, messages, ideas, acceptedIdeaIds, seed }: {
+  threadId: string; messages: any[]; ideas: any[]; acceptedIdeaIds: string[]; seed?: string | null;
 }) {
   const router = useRouter();
   const [input, setInput] = useState('');
@@ -23,6 +24,7 @@ export default function Chat({ threadId, messages, ideas, acceptedIdeaIds }: {
   const [pendingUser, setPendingUser] = useState<string | null>(null);
   const [stream, setStream] = useState<StreamItem[]>([]);
   const endRef = useRef<HTMLDivElement>(null);
+  const seeded = useRef(false);
   const accepted = new Set(acceptedIdeaIds);
   const ideaByToolUse = new Map(ideas.map((i) => [i.toolUseId, i]));
 
@@ -30,8 +32,17 @@ export default function Chat({ threadId, messages, ideas, acceptedIdeaIds }: {
   useEffect(() => { setPendingUser(null); setStream([]); }, [messages.length]);
   useEffect(() => { endRef.current?.scrollIntoView({ block: 'end' }); }, [messages.length, stream, pendingUser]);
 
-  async function send() {
-    const text = input.trim();
+  // arriving via "Ideate" on an idea: kick the conversation off automatically
+  useEffect(() => {
+    if (seed && !seeded.current && messages.length === 0) {
+      seeded.current = true;
+      send(seed);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seed]);
+
+  async function send(preset?: string) {
+    const text = (preset ?? input).trim();
     if (!text || busy) return;
     setInput(''); setBusy(true); setPendingUser(text); setStream([]);
     try {
@@ -106,7 +117,7 @@ export default function Chat({ threadId, messages, ideas, acceptedIdeaIds }: {
           disabled={busy}
           rows={2}
         />
-        <button className="primary" onClick={send} disabled={busy || !input.trim()}>Send</button>
+        <button className="primary" onClick={() => send()} disabled={busy || !input.trim()}>Send</button>
       </div>
     </div>
   );
@@ -146,7 +157,7 @@ function AssistantText({ text, citations }: { text: string; citations: any[] }) 
   const unique = [...new Map(citations.filter((c) => c?.url).map((c) => [c.url, c])).values()];
   return (
     <div className="bubble">
-      <div style={{ whiteSpace: 'pre-wrap' }}>{text}</div>
+      <div className="md" dangerouslySetInnerHTML={{ __html: mdToHtml(text) }} />
       {unique.length ? (
         <div className="citations">
           {unique.map((c, i) => <a key={c.url} className="chip" href={c.url} target="_blank" rel="noreferrer" title={c.cited_text || c.url}>{i + 1} · {host(c.url)}</a>)}

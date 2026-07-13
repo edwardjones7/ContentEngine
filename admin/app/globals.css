@@ -198,6 +198,20 @@ form.inline{ display:inline; }
 .msg .bubble{ background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:14px; padding:12px 16px; }
 .msg.user .bubble{ background:var(--raise); border-color:#3a2a5e; white-space:pre-wrap; border-radius:14px 14px 4px 14px; }
 .msg.assistant .bubble{ border-radius:14px 14px 14px 4px; }
+/* markdown inside chat bubbles */
+.md > :first-child{ margin-top:0; }
+.md > :last-child{ margin-bottom:0; }
+.md p{ margin:10px 0; }
+.md h1, .md h2{ font-size:16px; margin:16px 0 6px; letter-spacing:0; }
+.md h3{ font-size:15px; margin:16px 0 6px; }
+.md h4{ font-size:14px; margin:14px 0 4px; color:#cfc7e6; }
+.md ul, .md ol{ margin:8px 0; padding-left:22px; display:flex; flex-direction:column; gap:5px; }
+.md blockquote{ border-left:3px solid var(--accent); margin:10px 0; padding:2px 0 2px 14px; color:#cfc7e6; font-style:italic; }
+.md hr{ border:none; border-top:1px solid var(--line2); margin:14px 0; }
+.md a{ color:var(--accent2); text-decoration:underline; text-underline-offset:2px; }
+.md code{ font:12px/1.4 ui-monospace,monospace; background:rgba(139,92,246,.12); border:1px solid var(--line); border-radius:5px; padding:1px 5px; }
+.md strong{ color:#fff; }
+
 .activity{ font:12px/1.4 ui-monospace,monospace; color:var(--dim); padding:2px 4px; }
 .activity.error{ color:var(--red); }
 .thinking{ color:var(--accent2); font-size:11px; letter-spacing:4px; animation:pulse 1.2s infinite; padding:2px 4px; }

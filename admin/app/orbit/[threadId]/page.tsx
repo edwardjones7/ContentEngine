@@ -1,18 +1,29 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getThread, getMessages, getIdeas, getPieces } from '@/lib/db.mjs';
+import { getThread, getMessages, getIdeas, getPieces, getIdea } from '@/lib/db.mjs';
 import { provider } from '@/lib/mode.mjs';
 import { renameThreadAction } from '../actions';
 import Chat from './chat';
 
 export const dynamic = 'force-dynamic';
 
-export default async function ThreadPage({ params }: { params: Promise<{ threadId: string }> }) {
+export default async function ThreadPage({ params, searchParams }: {
+  params: Promise<{ threadId: string }>;
+  searchParams: Promise<{ ideate?: string }>;
+}) {
   const { threadId } = await params;
   const thread: any = getThread(threadId);
   if (!thread) notFound();
 
   const messages = getMessages(threadId);
+
+  // Arriving via "Ideate" on a pitched idea: seed the chat with a kickoff
+  // message (auto-sent client-side) — but only if the thread is still empty.
+  const { ideate } = await searchParams;
+  const ideaToIdeate: any = ideate && messages.length === 0 ? getIdea(ideate) : null;
+  const seed = ideaToIdeate
+    ? `Let's ideate on this idea you pitched: “${ideaToIdeate.title}” — angle: ${ideaToIdeate.angle}. Current hook: “${ideaToIdeate.hook}”. Pressure-test the angle, suggest sharper hooks, and sketch 2–3 directions this could go. If we land somewhere stronger, file the refined idea.`
+    : null;
   const threadIdeas = getIdeas().filter((i: any) => i.threadId === threadId);
   const accepted = new Set<string>(getPieces().map((p: any) => String(p.ideaId)));
 
@@ -29,7 +40,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ threadI
       </div>
       <p className="lead">Research with Orbit. When an idea crystallizes, Orbit files it — it shows up here and in the Research column.</p>
 
-      <Chat threadId={thread.id} messages={messages} ideas={threadIdeas} acceptedIdeaIds={[...accepted]} />
+      <Chat threadId={thread.id} messages={messages} ideas={threadIdeas} acceptedIdeaIds={[...accepted]} seed={seed} />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getThreads, getMessages, getIdeas, getPieces } from '@/lib/db.mjs';
 import { provider } from '@/lib/mode.mjs';
-import { createThreadAction, developIdeaAction, suggestIdeasAction, dismissIdeaAction } from './actions';
+import { createThreadAction, developIdeaAction, suggestIdeasAction, dismissIdeaAction, ideateIdeaAction } from './actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -45,10 +45,16 @@ export default async function OrbitPage() {
               <h3>{i.title}</h3>
               <div className="meta">{i.angle}</div>
               <div className="meta" style={{ color: '#cfc7e6' }}>“{i.hook}”</div>
-              <form action={developIdeaAction}>
-                <input type="hidden" name="ideaId" value={i.id} />
-                <button className="primary" type="submit">Develop this idea →</button>
-              </form>
+              <div className="row" style={{ gap: 8 }}>
+                <form action={ideateIdeaAction}>
+                  <input type="hidden" name="ideaId" value={i.id} />
+                  <button type="submit" title="Riff on this idea with Orbit before committing it">💬 Ideate</button>
+                </form>
+                <form action={developIdeaAction}>
+                  <input type="hidden" name="ideaId" value={i.id} />
+                  <button className="primary" type="submit">Develop →</button>
+                </form>
+              </div>
             </div>
           ))}
         </div>

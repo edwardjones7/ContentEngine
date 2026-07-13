@@ -1,7 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { id, saveThread, getThread } from '@/lib/db.mjs';
+import { id, saveThread, getThread, getIdea, addIdea } from '@/lib/db.mjs';
 import { acceptIdea, suggestIdeas, dismissIdea } from '@/lib/service.mjs';
 
 // Orbit pitches a few starter post ideas on its own.
@@ -33,6 +33,23 @@ export async function renameThreadAction(formData: FormData) {
   saveThread(thread);
   revalidatePath('/orbit');
   revalidatePath(`/orbit/${tid}`);
+}
+
+// Open (or resume) a research thread to riff on an idea before committing it
+// to the pipeline. The thread page auto-sends a kickoff message via ?ideate=.
+export async function ideateIdeaAction(formData: FormData) {
+  const idea = getIdea(String(formData.get('ideaId')));
+  if (!idea) return;
+
+  let thread = idea.threadId ? getThread(idea.threadId) : null;
+  if (!thread) {
+    const now = new Date().toISOString();
+    thread = saveThread({ id: id('th'), title: `Ideate: ${idea.title}`, createdAt: now, updatedAt: now });
+    addIdea({ ...idea, threadId: thread.id });
+    revalidatePath('/orbit');
+    revalidatePath('/content');
+  }
+  redirect(`/orbit/${thread.id}?ideate=${encodeURIComponent(idea.id)}`);
 }
 
 // A thread-spawned idea enters the pipeline exactly like a board idea.

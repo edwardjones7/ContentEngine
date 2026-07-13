@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { acceptAction } from './actions';
+import { ideateIdeaAction } from '../orbit/actions';
 
 const STAGES = ['research', 'building', 'review', 'published'] as const;
 const STAGE_LABEL: Record<string, string> = { research: 'Research', building: 'Building', review: 'Review', published: 'Published' };
@@ -41,7 +42,13 @@ export function IdeaCard({ idea }: { idea: any }) {
       <h3>{idea.title}</h3>
       <div className="meta">{idea.angle}</div>
       <div className="meta" style={{ color: '#cfc7e6' }}>“{idea.hook}”</div>
-      <form action={acceptAction}><input type="hidden" name="ideaId" value={idea.id} /><button className="primary" type="submit">Accept →</button></form>
+      <div className="row" style={{ gap: 8 }}>
+        <form action={ideateIdeaAction}>
+          <input type="hidden" name="ideaId" value={idea.id} />
+          <button type="submit" title="Riff on this idea with Orbit before committing it">💬 Ideate</button>
+        </form>
+        <form action={acceptAction}><input type="hidden" name="ideaId" value={idea.id} /><button className="primary" type="submit">Accept →</button></form>
+      </div>
     </div>
   );
 }
