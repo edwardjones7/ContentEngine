@@ -1,5 +1,5 @@
 import './globals.css';
-import Link from 'next/link';
+import Sidebar from './sidebar';
 import { provider } from '@/lib/mode.mjs';
 
 export const metadata = {
@@ -11,16 +11,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <nav>
-          <Link className="brand" href="/content">Elenos <span>/ Orbit</span></Link>
-          <Link className="tab" href="/orbit">Orbit</Link>
-          <Link className="tab" href="/content">Board</Link>
-          <Link className="tab" href="/content/queue">Queue</Link>
-          <Link className="tab" href="/blog">Published</Link>
-          <span className="sp" />
-          <Link className="mode" href="/settings">{provider().label} · settings</Link>
-        </nav>
-        <div className="wrap">{children}</div>
+        <div className="shell">
+          <Sidebar modeLabel={provider().label} />
+          <main className="main">
+            <div className="wrap">{children}</div>
+          </main>
+        </div>
       </body>
     </html>
   );
