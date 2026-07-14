@@ -1,5 +1,6 @@
 // High-level content operations (server-only). Server actions call these.
-import { ideate, brief, blog, mediums as mediumsGen } from './content/pipeline.mjs';
+import { ideate, brief, blog, mediums as mediumsGen, illustrate, editSlide as editSlideGen } from './content/pipeline.mjs';
+import { validateCarousel } from './slides/api.mjs';
 import { SEED_IDEAS } from './content/context.mjs';
 import { ALL_MEDIUMS, EXTRA_MEDIUMS } from './content/mediums.mjs';
 import { renderPieceSlides } from './render.mjs';
@@ -103,7 +104,7 @@ export async function buildPiece(pid, { mediums = ALL_MEDIUMS } = {}) {
   if (!p) throw new Error('piece not found');
   const idea = pieceIdea(p);
   const spec = await brief(idea);
-  p.spec = spec;
+  p.spec = mediums.includes('carousel') ? await enrichIllustrations(spec) : spec;
   if (mediums.includes('blog')) {
     p.blog = await blog(idea, spec);
     p.slug = p.blog.slug;
@@ -118,6 +119,23 @@ export async function buildPiece(pid, { mediums = ALL_MEDIUMS } = {}) {
   p.builtAt = new Date().toISOString();
   savePiece(p);
   return p;
+}
+
+// Swap the stock wireframe icons for bespoke AI-drawn ones matched to each
+// slide's message. Offline (or on any failure) the spec comes back unchanged,
+// so the stock kit remains the floor. Slides that already carry a raster
+// (`{img}`) are left alone.
+const runText = (runs) => (runs || []).map((r) => r.t).join('');
+async function enrichIllustrations(spec) {
+  const slots = (spec.slides || [])
+    .filter((s) => ['cover', 'body'].includes(s.type) && !(typeof s.illustration === 'object' && s.illustration?.img))
+    .map((s) => ({ index: s.index, hint: `${s.label} — ${runText(s.headline)}` }));
+  const illos = await illustrate(spec, slots);
+  if (!illos.size) return spec;
+  return {
+    ...spec,
+    slides: spec.slides.map((s) => (illos.has(s.index) ? { ...s, illustration: { svg: illos.get(s.index) } } : s)),
+  };
 }
 
 // Re-run a single medium's generator (or re-render/rewrite for carousel/blog).
@@ -144,6 +162,30 @@ export function saveMedium(pid, medium, data) {
   const p = getPiece(pid);
   if (!p || !EXTRA_MEDIUMS.includes(medium)) return null;
   p.mediums = { ...(p.mediums || {}), [medium]: { status: 'ready', ...data } };
+  savePiece(p);
+  return p;
+}
+
+// Conversational edit of one slide from the review page ("make the hook
+// punchier", "swap the icon"). The LLM revises the slide's spec; the result is
+// contract-validated before adoption, then just that composition re-renders
+// (same seed, no best-of-N pass — the user is iterating, not re-rolling).
+export async function editPieceSlide(pid, index, instruction) {
+  const p = getPiece(pid);
+  if (!p || !p.spec || !instruction.trim()) return null;
+  const idx = p.spec.slides.findIndex((s) => (s.index ?? 0) === Number(index));
+  if (idx < 0) return null;
+  const revised = await editSlideGen(p.spec.slides[idx], instruction);
+  if (revised) {
+    const trial = { ...p.spec, slides: p.spec.slides.map((s, i) => (i === idx ? revised : s)) };
+    const errors = [];
+    validateCarousel(p.spec.slug || 'edit', trial, errors, []);
+    if (errors.length) console.warn('[editPieceSlide] revision failed validation:', errors.join('; '));
+    else p.spec = trial;
+  }
+  const prevQa = p.render?.qa || null;
+  p.render = await renderPieceSlides(p, { seed: p.seed || 0, qa: false });
+  p.render.qa = prevQa;
   savePiece(p);
   return p;
 }

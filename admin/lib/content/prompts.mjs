@@ -100,6 +100,71 @@ const MEDIUM_SPECS = {
   },
 };
 
+// ---- vision QA: critique rendered slides (images are attached by the transport) ----
+export function critiquePrompt(slidesMeta) {
+  return {
+    tier: 'fast',
+    maxTokens: 2000,
+    json: true,
+    images: true,
+    system: `You are a strict art director reviewing rendered Instagram carousel slides (1080x1350). The images are attached in order. Judge only what is visible in the pixels.`,
+    user: `Slides (in image order): ${JSON.stringify(slidesMeta)}.
+Score each slide 1-10 and list concrete visual defects. Look for: text overflowing or touching edges, orphaned single words, cramped spacing, weak contrast between copy and background, headline hierarchy that doesn't lead the eye, awkward line breaks, an illustration crowding the copy.
+For each issue set "fix" to one of: "shorten-copy" (text too long/overflowing/orphaned), "change-layout" (composition/crowding problem), "none" (cosmetic, not worth fixing).
+Return JSON only: {"slides":[{"index":1,"score":8,"issues":[{"kind":"overflow","note":"...","fix":"shorten-copy"}]}],"overall":7.5}`,
+  };
+}
+export function postCritique(out) {
+  const j = extractJson(out);
+  if (!Array.isArray(j.slides)) throw new Error('critique missing slides');
+  return {
+    overall: Number(j.overall) || 0,
+    slides: j.slides.map((s) => ({
+      index: Number(s.index),
+      score: Number(s.score) || 0,
+      issues: (s.issues || []).filter((i) => i && i.note).map((i) => ({
+        kind: String(i.kind || 'other'),
+        note: String(i.note),
+        fix: ['shorten-copy', 'change-layout'].includes(i.fix) ? i.fix : 'none',
+      })),
+    })),
+  };
+}
+
+// ---- bespoke wireframe SVG illustrations for a carousel spec ----
+export function illustratePrompt(spec, slots) {
+  return {
+    tier: 'fast',
+    maxTokens: 4000,
+    json: true,
+    system: `You draw minimalist wireframe line-art icons as SVG, in the style of technical blueprints: geometric outlines, thin strokes, no fills except tiny solid accents, no text, no gradients. Elements allowed: svg, g, circle, ellipse, rect, line, path, polyline, polygon. Root: viewBox="0 0 360 380". Use stroke="var(--accent-bright)" and stroke-width="2"; use opacity (0.25-0.6) for secondary lines. 4-12 elements per icon — simple and iconic, not detailed.`,
+    user: `Carousel "${spec.title || spec.slug}". Draw one icon per slot, each visually representing that slide's message:\n${slots.map((s) => `- slide ${s.index}: ${s.hint}`).join('\n')}\nReturn JSON only: {"illos":[{"index":1,"svg":"<svg viewBox=\\"0 0 360 380\\">...</svg>"}]}`,
+  };
+}
+export const postIllustrate = (out) => {
+  const j = extractJson(out);
+  if (!Array.isArray(j.illos)) throw new Error('no illos in model response');
+  return j.illos;
+};
+
+// ---- targeted edit of one slide (user instruction or QA auto-fix) ----
+export function editSlidePrompt(slide, instruction) {
+  return {
+    tier: 'fast',
+    maxTokens: 2000,
+    json: true,
+    system: `You revise one slide of an Elenos carousel. Output ONLY the revised slide JSON, same shape and same "type"/"index"/"label" fields unless the instruction says otherwise.\n${SPEC_SUMMARY}\nVoice: ${voice()}`,
+    user: `Slide: ${JSON.stringify(slide)}\nInstruction: ${instruction}\nReturn the full revised slide JSON only.`,
+  };
+}
+export function postEditSlide(out, original) {
+  const slide = extractJson(out);
+  // never let an edit move the slide or change its archetype accidentally
+  slide.index = original.index;
+  slide.type = slide.type === original.type ? slide.type : original.type;
+  return slide;
+}
+
 export function mediumPrompt(kind, idea, spec) {
   const m = MEDIUM_SPECS[kind];
   if (!m) throw new Error(`unknown medium: ${kind}`);

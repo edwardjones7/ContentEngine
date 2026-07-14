@@ -439,7 +439,7 @@
       "id": "pc_mrjv4blc4",
       "ideaId": "idea-the-three-tap-inventory",
       "status": "review",
-      "seed": 0,
+      "seed": 780089,
       "concept": {
         "title": "The Three-Tap Inventory",
         "angle": "Inventory tracking fails at the fingertip. This playbook treats the mobile UI as the primary engine for margin, replacing manual serial entry with a three-tap workflow.",
@@ -551,7 +551,7 @@
             "index": 1,
             "label": "FIELD NOTES",
             "type": "cover",
-            "layout": "fullbleed",
+            "layout": "art-headline",
             "file": "01-field-notes.png",
             "url": "/renders/pc_mrjv4blc4/01-field-notes.png"
           },
@@ -559,7 +559,7 @@
             "index": 2,
             "label": "THE LEAK",
             "type": "body",
-            "layout": "stacked",
+            "layout": "art-watermark",
             "file": "02-the-leak.png",
             "url": "/renders/pc_mrjv4blc4/02-the-leak.png"
           },

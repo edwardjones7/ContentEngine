@@ -1,7 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { acceptIdea, updateConcept, buildPiece, regeneratePiece, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, ALL_MEDIUMS } from '@/lib/service.mjs';
+import { acceptIdea, updateConcept, buildPiece, regeneratePiece, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, editPieceSlide, ALL_MEDIUMS } from '@/lib/service.mjs';
 
 export async function researchAction() {
   await refreshIdeas();
@@ -62,6 +62,12 @@ export async function saveMediumAction(formData: FormData) {
     })).filter((b) => b.beat.trim());
     saveMedium(pid, medium, { hook: String(formData.get('hook') || ''), beats, cta: String(formData.get('cta') || '') });
   }
+  revalidatePath(`/content/${pid}`);
+}
+
+export async function editSlideAction(formData: FormData) {
+  const pid = String(formData.get('pieceId'));
+  await editPieceSlide(pid, Number(formData.get('index')), String(formData.get('instruction') || ''));
   revalidatePath(`/content/${pid}`);
 }
 

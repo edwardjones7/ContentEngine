@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { getPiece } from '@/lib/db.mjs';
+import { activeProvider } from '@/lib/settings.mjs';
 import { Stepper } from '../parts';
-import { saveAction, regenerateAction, publishAction, regenerateMediumAction, saveMediumAction } from '../actions';
+import { saveAction, regenerateAction, publishAction, regenerateMediumAction, saveMediumAction, editSlideAction } from '../actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,6 +14,8 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
   if (p.status === 'building') redirect(`/content/${pieceId}/edit`);
   const slides = p.render?.slides || [];
   const mediums = p.mediums || {};
+  const qa = p.render?.qa || null;
+  const live = activeProvider().kind !== 'offline';
 
   return (
     <>
@@ -57,13 +60,37 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
         {p.render ? (
           <div>
             <h2 className="sec">Carousel — {slides.length} slides, post-ready PNGs</h2>
+            {qa ? (
+              <div className="src" style={{ marginBottom: 10 }}>
+                🎯 AI QA {qa.overall != null ? `${qa.overall}/10` : 'ran'} · best of {qa.candidates.length} seed{qa.candidates.length > 1 ? 's' : ''}
+                {qa.fixes?.length ? ` · ${qa.fixes.length} auto-fix${qa.fixes.length > 1 ? 'es' : ''} applied` : ''}
+              </div>
+            ) : live ? null : (
+              <div className="src" style={{ marginBottom: 10 }}>AI QA off — offline mode (add a key in Settings)</div>
+            )}
             <div className="slides">
-              {slides.map((s: any) => (
-                <figure key={s.file}>
-                  <a href={s.url} target="_blank"><img src={s.url} loading="lazy" alt={`slide ${s.index}`} /></a>
-                  <figcaption>{String(s.index).padStart(2, '0')} · {s.type}/{s.layout}</figcaption>
-                </figure>
-              ))}
+              {slides.map((s: any) => {
+                const issues = (qa?.issues || []).filter((i: any) => i.index === s.index);
+                return (
+                  <figure key={s.file}>
+                    <a href={s.url} target="_blank"><img src={s.url} loading="lazy" alt={`slide ${s.index}`} /></a>
+                    <figcaption>
+                      {String(s.index).padStart(2, '0')} · {s.type}/{s.layout}
+                      {issues.map((i: any, n: number) => (
+                        <span key={n} className="src" style={{ display: 'block', color: '#d9b64e' }} title={i.note}>⚠ {i.kind}: {i.note}</span>
+                      ))}
+                    </figcaption>
+                    {live ? (
+                      <form action={editSlideAction} className="row" style={{ gap: 6, marginTop: 6 }}>
+                        <input type="hidden" name="pieceId" value={p.id} />
+                        <input type="hidden" name="index" value={s.index} />
+                        <input className="title" style={{ fontSize: 12, flex: 1 }} name="instruction" placeholder="AI edit — e.g. punchier hook, shorter copy…" />
+                        <button type="submit" title="Revise this slide with AI and re-render">✨</button>
+                      </form>
+                    ) : null}
+                  </figure>
+                );
+              })}
             </div>
           </div>
         ) : null}

@@ -129,8 +129,20 @@ function MessageRow({ m, ideaByToolUse, accepted }: { m: any; ideaByToolUse: Map
   const blocks = Array.isArray(m.content) ? m.content : [{ type: 'text', text: String(m.content) }];
   if (m.role === 'user') {
     const texts = blocks.filter((b: any) => b.type === 'text');
-    if (!texts.length) return null; // tool_result rows are plumbing, not conversation
-    return <div className="msg user"><div className="bubble">{texts.map((b: any) => b.text).join('\n')}</div></div>;
+    if (texts.length) return <div className="msg user"><div className="bubble">{texts.map((b: any) => b.text).join('\n')}</div></div>;
+    // tool_result rows are plumbing — but web searches run during a tool round
+    // are persisted alongside them; replay those as assistant-style activity
+    const searchy = blocks.filter((b: any) => ['server_tool_use', 'web_search_tool_result'].includes(b.type));
+    if (!searchy.length) return null;
+    return (
+      <div className="msg assistant">
+        {searchy.map((b: any, i: number) =>
+          b.type === 'server_tool_use'
+            ? <div key={i} className="activity">🔎 searched: {b.input?.query}</div>
+            : <Sources key={i} results={(Array.isArray(b.content) ? b.content : []).filter((r: any) => r?.url)} />
+        )}
+      </div>
+    );
   }
   const visible = blocks.filter((b: any) => ['text', 'server_tool_use', 'web_search_tool_result', 'tool_use'].includes(b.type));
   if (!visible.length) return null;

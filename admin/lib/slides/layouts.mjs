@@ -19,6 +19,9 @@ export const LAYOUTS_FOR = {
 const illHTML = (slide) => {
   const ill = slide.illustration;
   if (!ill) return '';
+  // {svg} = bespoke AI-generated wireframe, already sanitized (sanitize-svg.mjs)
+  // and carrying the same theme-var stroke + glow as the stock kit
+  if (typeof ill === 'object' && ill.svg) return ill.svg;
   if (typeof ill === 'object' && ill.img) return `<img src="${ill.img}"/>`;
   return illustrationSVG(ill, { overlay: slide.illustrationOverlay });
 };

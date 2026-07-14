@@ -34,7 +34,7 @@ const CHECK = { runs: isRuns, string: isStr, blocks: isBlocks, items: isItems, c
 function validIllustration(v) {
   if (v === undefined || v === null) return true;
   if (typeof v === 'string') return ILLUSTRATIONS.includes(v);
-  if (typeof v === 'object') return isStr(v.img) || isStr(v.ai);
+  if (typeof v === 'object') return isStr(v.img) || isStr(v.ai) || isStr(v.svg);
   return false;
 }
 

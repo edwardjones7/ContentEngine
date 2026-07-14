@@ -10,8 +10,22 @@
 //             replay to Gemini is lossless.
 import { id, addMessage, getMessages, getIdea, addIdea } from '../db.mjs';
 import { geminiKey } from '../settings.mjs';
-import { BASE, GEMINI_CHAIN, isRetryable, friendlyGeminiError } from '../content/gemini.mjs';
+import { BASE, GEMINI_CHAIN, isRetryable, friendlyGeminiError, searchGrounded } from '../content/gemini.mjs';
 import { orbitSystem, PROPOSE_IDEA_TOOL } from './persona.mjs';
+
+// The persona tells Orbit to "use web_search" (a real server tool on the
+// Claude path), so Gemini regularly calls it as a function even though its
+// native grounding is also offered. Declare it and back it with a grounded
+// search sub-request instead of bouncing "Unknown tool".
+const WEB_SEARCH_FN = {
+  name: 'web_search',
+  description: 'Live web search. Pass 1–4 focused queries; returns concrete findings with source URLs. Use for current facts, numbers, or examples.',
+  parameters: {
+    type: 'object',
+    properties: { queries: { type: 'array', items: { type: 'string' }, description: '1–4 focused search queries' } },
+    required: ['queries'],
+  },
+};
 const MAX_TURNS = 8;
 const now = () => new Date().toISOString();
 
@@ -124,7 +138,10 @@ export async function* geminiChatTurn(threadId) {
 
   const body = {
     systemInstruction: { parts: [{ text: orbitSystem() }] },
-    _functions: [{ name: PROPOSE_IDEA_TOOL.name, description: PROPOSE_IDEA_TOOL.description, parameters: PROPOSE_IDEA_TOOL.input_schema }],
+    _functions: [
+      { name: PROPOSE_IDEA_TOOL.name, description: PROPOSE_IDEA_TOOL.description, parameters: PROPOSE_IDEA_TOOL.input_schema },
+      WEB_SEARCH_FN,
+    ],
     generationConfig: { maxOutputTokens: 8000 },
   };
 
@@ -209,7 +226,28 @@ export async function* geminiChatTurn(threadId) {
       const call = calls[i].functionCall;
       const toolUse = callBlocks[i];
       let result;
-      if (call.name !== 'propose_idea') {
+      if (call.name === 'web_search') {
+        const queries = [call.args?.queries || call.args?.query || []].flat().filter(Boolean).map(String).slice(0, 4);
+        if (!queries.length) {
+          result = 'Rejected: pass queries (an array of 1–4 search strings).';
+        } else {
+          for (const q of queries) {
+            yield { type: 'search', query: q };
+            resultBlocks.push({ type: 'server_tool_use', id: id('gs'), name: 'web_search', input: { query: q } });
+          }
+          try {
+            const { summary, sources } = await searchGrounded(queries);
+            if (sources.length) {
+              resultBlocks.push({ type: 'web_search_tool_result', tool_use_id: toolUse.id, content: sources });
+              yield { type: 'sources', results: sources };
+            }
+            result = `${summary || 'No findings.'}${sources.length ? `\n\nSources:\n${sources.map((s) => `- ${s.title}: ${s.url}`).join('\n')}` : ''}`;
+          } catch (e) {
+            if (e.rateLimited) groundingBlockedUntil = Date.now() + 15 * 60 * 1000;
+            result = `web_search unavailable right now (${e.message}). Answer from what you know and say so.`;
+          }
+        }
+      } else if (call.name !== 'propose_idea') {
         result = `Unknown tool: ${call.name}`;
       } else {
         const { title, angle, hook, source, evidence } = call.args || {};

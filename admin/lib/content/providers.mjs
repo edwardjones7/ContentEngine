@@ -1,14 +1,26 @@
 // PAID provider — Claude API transport. Prompts + post-processing live in
 // prompts.mjs (shared with the free Gemini provider in gemini.mjs).
 import { anthropicKey } from '../settings.mjs';
-import { ideatePrompt, postIdeate, briefPrompt, postBrief, blogPrompt, postBlog, mediumPrompt, postMedium } from './prompts.mjs';
+import {
+  ideatePrompt, postIdeate, briefPrompt, postBrief, blogPrompt, postBlog, mediumPrompt, postMedium,
+  critiquePrompt, postCritique, illustratePrompt, postIllustrate, editSlidePrompt, postEditSlide,
+} from './prompts.mjs';
 
 const TEXT_MODEL = 'claude-opus-4-8'; // best long-form on-brand writing (blog, brief)
-const FAST_MODEL = 'claude-sonnet-4-6'; // cheaper fan-out (ideation, mediums)
+const FAST_MODEL = 'claude-sonnet-4-6'; // cheaper fan-out (ideation, mediums, vision QA)
 
-async function callClaude({ system, user, tier = 'text', maxTokens = 4000 }) {
+async function callClaude({ system, user, tier = 'text', maxTokens = 4000, images = [] }) {
   const key = anthropicKey();
   if (!key) throw new Error('no Anthropic API key — add one in Settings');
+  const content = images.length
+    ? [
+        ...images.map((png) => ({
+          type: 'image',
+          source: { type: 'base64', media_type: 'image/png', data: png.toString('base64') },
+        })),
+        { type: 'text', text: user },
+      ]
+    : user;
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
@@ -16,7 +28,7 @@ async function callClaude({ system, user, tier = 'text', maxTokens = 4000 }) {
       model: tier === 'fast' ? FAST_MODEL : TEXT_MODEL,
       max_tokens: maxTokens,
       system,
-      messages: [{ role: 'user', content: user }],
+      messages: [{ role: 'user', content }],
     }),
   });
   if (!res.ok) throw new Error(`Claude ${res.status}: ${await res.text()}`);
@@ -43,4 +55,16 @@ export async function blog(idea, spec) {
 
 export async function medium(kind, idea, spec) {
   return postMedium(await callClaude(mediumPrompt(kind, idea, spec)));
+}
+
+export async function critique(pngs, slidesMeta) {
+  return postCritique(await callClaude({ ...critiquePrompt(slidesMeta), images: pngs }));
+}
+
+export async function illustrate(spec, slots) {
+  return postIllustrate(await callClaude(illustratePrompt(spec, slots)));
+}
+
+export async function editSlide(slide, instruction) {
+  return postEditSlide(await callClaude(editSlidePrompt(slide, instruction)), slide);
 }

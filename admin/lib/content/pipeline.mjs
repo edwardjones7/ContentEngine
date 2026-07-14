@@ -42,6 +42,48 @@ export async function blog(idea, spec) {
   return makeBlog(idea, spec);
 }
 
+// Vision QA: score rendered slide PNGs against a design rubric. Returns null
+// offline or on any live failure — callers treat null as "no QA available"
+// and keep the render as-is (QA must never break a build).
+export async function critique(pngs, slidesMeta) {
+  const live = liveModule();
+  if (!live) return null;
+  try { return await live.critique(pngs, slidesMeta); } catch (e) {
+    console.warn('[critique] live failed, skipping QA:', e.message);
+    return null;
+  }
+}
+
+// Bespoke wireframe SVG illustrations, generated per slide topic and run
+// through the strict sanitizer. Returns a Map(index -> sanitized svg); empty
+// offline or on failure, so callers fall back to the stock kit.
+export async function illustrate(spec, slots) {
+  const live = liveModule();
+  const out = new Map();
+  if (!live || !slots.length) return out;
+  try {
+    const { sanitizeSVG } = await import('../slides/sanitize-svg.mjs');
+    for (const illo of await live.illustrate(spec, slots)) {
+      const clean = sanitizeSVG(illo.svg);
+      if (clean) out.set(Number(illo.index), clean);
+    }
+  } catch (e) {
+    console.warn('[illustrate] live failed, using stock kit:', e.message);
+  }
+  return out;
+}
+
+// Targeted revision of one slide. Returns the revised slide object, or null
+// offline / on failure (caller keeps the original slide).
+export async function editSlide(slide, instruction) {
+  const live = liveModule();
+  if (!live) return null;
+  try { return await live.editSlide(slide, instruction); } catch (e) {
+    console.warn('[editSlide] live failed:', e.message);
+    return null;
+  }
+}
+
 // Fan-out: generate the requested extra mediums (caption/xthread/linkedin/video)
 // in parallel. Live output is validated; invalid or failed calls fall back to
 // the template, and only a template failure marks the medium as an error —
