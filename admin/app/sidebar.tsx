@@ -22,6 +22,13 @@ const ICONS: Record<string, React.ReactNode> = {
       <path d="M4 6h16M4 12h16M4 18h10" />
     </svg>
   ),
+  calendar: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M3 10h18M8 3v4M16 3v4" />
+      <circle cx="12" cy="15" r="1.4" fill="currentColor" stroke="none" />
+    </svg>
+  ),
   published: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 19V5M5 12l7-7 7 7" />
@@ -39,6 +46,7 @@ const NAV = [
   { href: '/orbit', label: 'Orbit', icon: 'orbit', hint: 'Chat & research' },
   { href: '/content', label: 'Board', icon: 'board', hint: 'Pipeline' },
   { href: '/content/queue', label: 'Queue', icon: 'queue', hint: 'Up next' },
+  { href: '/content/calendar', label: 'Calendar', icon: 'calendar', hint: 'Schedule' },
   { href: '/blog', label: 'Published', icon: 'published', hint: 'Live posts' },
 ];
 

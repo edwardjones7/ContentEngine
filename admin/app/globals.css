@@ -331,6 +331,44 @@ input[type="date"]{
 .composer textarea{ min-height:58px; flex:1; }
 .composer button{ padding:14px 20px; }
 
+/* ---------- content calendar ---------- */
+.wrap:has(.cal){ max-width:1480px; }
+.cal-month{ font-size:18px; margin:0; letter-spacing:-.01em; min-width:180px; text-align:center; }
+.cal{
+  display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:14px;
+}
+.cal-wd{ font:10px/1 ui-monospace,monospace; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); padding:4px 6px; }
+.cal-day{
+  min-height:118px; border:1px solid var(--line); border-radius:12px; padding:8px;
+  background:rgba(19,13,33,.45); display:flex; flex-direction:column; gap:5px;
+  transition:border-color .12s, background .12s;
+}
+.cal-day.out{ opacity:.38; background:transparent; }
+.cal-day.today{ border-color:var(--accent); box-shadow:0 0 0 1px var(--accent-soft) inset; }
+.cal-day.drop, .cal-tray.drop{ border-color:var(--accent); background:rgba(139,92,246,.08); }
+.cal-num{ font:11px/1 ui-monospace,monospace; color:var(--faint); }
+.cal-day.today .cal-num{ color:var(--accent2); }
+.cal-pill{
+  display:flex; align-items:center; gap:6px; padding:5px 8px; border-radius:8px;
+  font-size:11.5px; line-height:1.25; border:1px solid var(--line2);
+  background:var(--raise); transition:border-color .12s;
+}
+.cal-pill:hover{ border-color:var(--accent); }
+.cal-pill[draggable="true"]{ cursor:grab; }
+.cal-pill.sched{ border-left:3px solid var(--accent2); }
+.cal-pill.posted{ border-left:3px solid var(--green); opacity:.85; }
+.cal-pill-t{ overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+.cal-dot{ width:6px; height:6px; border-radius:50%; flex:0 0 auto; }
+.cal-key{ display:inline-block; width:10px; height:10px; border-radius:3px; vertical-align:-1px; }
+.cal-key-sched{ background:var(--accent2); }
+.cal-key-posted{ background:var(--green); }
+.cal-tray{
+  display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; padding:12px;
+  border:1px dashed var(--line2); border-radius:12px; min-height:52px; align-items:center;
+  transition:border-color .12s, background .12s;
+}
+.cal-tray .cal-pill{ max-width:260px; }
+
 /* ---------- pipeline stepper ---------- */
 .stepper{
   display:flex; align-items:center; gap:8px; flex-wrap:wrap;

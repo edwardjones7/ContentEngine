@@ -61,6 +61,15 @@ export async function setTagAction(formData: FormData) {
 export async function setPostDateAction(formData: FormData) {
   setPostDate(String(formData.get('pieceId')), String(formData.get('postAt') || ''));
   revalidatePath('/content');
+  revalidatePath('/content/calendar');
+}
+
+// Calendar drag handler — plain args, the client owns navigation.
+export async function schedulePieceAction(pieceId: string, postAt: string): Promise<{ ok: boolean }> {
+  setPostDate(pieceId, postAt);
+  revalidatePath('/content');
+  revalidatePath('/content/calendar');
+  return { ok: true };
 }
 
 // Build button on a Production card: full build, stay on the board.
