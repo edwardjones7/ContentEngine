@@ -194,6 +194,55 @@
   ],
   "ideas": [
     {
+      "id": "idea-the-end-of-the-phone-tag-era",
+      "title": "The End of the Phone Tag Era",
+      "angle": "Client self-scheduling with real-time field tech availability is the single most effective way to eliminate administrative friction and secure the 'first-to-book' advantage.",
+      "hook": "The customer wants the repair, not the conversation. Give them the portal. Let them book. Close the loop before the competitor picks up the phone.",
+      "source": "brand",
+      "goal": "leads",
+      "funnel": "bof",
+      "brand": "elenos",
+      "suggested": true,
+      "suggestedAt": "2026-08-06T22:20:30.672Z"
+    },
+    {
+      "id": "idea-ad-spend-is-the-wrong-lever",
+      "title": "Ad Spend is the Wrong Lever",
+      "angle": "Service businesses rarely have a lead generation problem; they have a capture latency problem where high-intent traffic dies in an unmonitored inbox.",
+      "hook": "Stop buying more traffic. Your funnel is a sieve. Five-minute response times are the only metric that matters. Everything else is noise.",
+      "source": "brand",
+      "goal": "values",
+      "funnel": "tof",
+      "brand": "elenos",
+      "suggested": true,
+      "suggestedAt": "2026-08-06T22:20:30.671Z"
+    },
+    {
+      "id": "idea-inventory-is-a-data-stream-not-a-ledger",
+      "title": "Inventory is a Data Stream, Not a Ledger",
+      "angle": "Paper-based inventory logs are not just slow; they are silent margin killers that prevent real-time job costing and dynamic pricing.",
+      "hook": "The truck is a warehouse on wheels. Most operators treat it like a black hole. Parts disappear. Margins thin. Systems stall.",
+      "source": "brand",
+      "goal": "authority",
+      "funnel": "mof",
+      "brand": "elenos",
+      "suggested": true,
+      "suggestedAt": "2026-08-06T22:20:30.671Z"
+    },
+    {
+      "id": "idea-how-ai-actually-makes-a-business-money-the-part-",
+      "title": "How AI Actually Makes a Business Money (the part nobody explains)",
+      "angle": "Format: Value / nurture long-form. Target 8–12 min. Audience: Business owners (local home-service + broader small biz). Goal: Teach the framework, prove you know your shit, end with a soft book-a-call CTA. Style note for you, Eddie: Talk like you're explaining it to a buddy who owns a business, not lecturing a room. Short sentences. Let the Miro board do the heavy lifting visually.",
+      "hook": "Everybody's telling you AI is going to make you rich. Almost nobody can tell you how. Like, where does the money actually come from?\r\n\r\nHere's the thing nobody says out loud: AI doesn't make you money. Not on its own. It's not a magic button. It's a set of levers. And if you pull the wrong lever, which is what most business owners are doing right now, you get a cool demo and zero extra dollars.\r\n\r\nSo in the next few minutes I'm going to show you the actual machine your business already is, and the exact five places AI touches the money. And more importantly, how to find the one spot in YOUR business that's quietly bleeding cash, because that's the one you fix first.\r\n\r\nI do this for real businesses. Not theory. Let me show you.",
+      "script": "PART 2 — THE REFRAME + THE MACHINE (0:40–2:00)\r\n\r\nNow you're on the board. Zoomed out so they see the whole machine.\r\n\r\n\"Okay. Every business, doesn't matter if you're a roofer, a dentist, a gym, an ecom store, is the same machine. You turn attention into cash. That's it.\r\n\r\nAnd that machine has five stages. Money flows left to right, and at every stage some of it leaks out.\r\n\r\n[point to each as you name it]\r\n\r\nOne, you get found. Two, you respond when someone reaches out. Three, you convert them into a paying customer. Four, you deliver the thing. Five, you keep them and get them to come back or refer.\r\n\r\nHere's the mistake. Everybody sees 'AI' and immediately thinks 'chatbot' or 'let me use ChatGPT to write my emails.' That's picking a lever before you've found the leak. It's like your bathtub is overflowing and you're in the kitchen fixing a drippy faucet.\r\n\r\nSo instead of asking 'how do I use AI,' the real question is: where is my machine leaking the most money right now? Then you point AI at that. Let me walk you through all five so you can spot yours.\"\r\n\r\nPART 3 — THE FIVE STAGES (2:00–8:30)\r\n\r\nZoom into each stage as you go. ~60–90 sec each. Structure for each: the leak → the AI lever → the money. Use a real-feeling example each time.\r\n\r\nStage 1 — GET FOUND\r\n\r\n\"Stage one. Getting found.\r\n\r\nThe leak here is simple: people are literally searching for what you sell and they can't find you, or they find you and you look like an amateur. No website. A dead Instagram. A Google listing with two reviews from 2019.\r\n\r\nWhere AI plugs in: it lets one person produce the kind of web presence and content that used to take a marketing team. A real site that ranks for what your customers actually type into Google. Content that keeps you showing up instead of disappearing.\r\n\r\nThe money: this is top of the funnel. If nobody finds you, nothing else in the machine matters. But heads up, this is not where most established businesses are leaking. If you already get calls and DMs, don't start here.\"\r\n\r\nStage 2 — RESPOND (this is usually the big one)\r\n\r\n\"Stage two. Responding. This is the one that shocks people.\r\n\r\nThe leak: someone raises their hand. They call, they fill out a form, they DM you. And then... you're on a job. Or it's 8pm. Or you just miss it. ⚠️ The data on this is brutal, speed to lead is one of the biggest predictors of whether you close, and most small businesses take hours to respond, if they respond at all. Every one of those is a customer who was ready to pay, waving money at you, and they went to the next guy who picked up.\r\n\r\nWhere AI plugs in: instant response, 24/7. A chatbot on your site that answers and books while you're up a ladder. A missed-call text-back so the second you can't answer, they get a text and stay warm instead of calling your competitor.\r\n\r\nThe money: this is usually the fastest, cheapest win in the whole machine, because you're not finding new leads, you're just stopping the ones you already paid for from leaking out the side. If you're already getting inquiries, nine times out of ten this is your leak.\"\r\n\r\nStage 3 — CONVERT\r\n\r\n\"Stage three. Converting.\r\n\r\nThe leak: the 'let me think about it' people. The ones who don't buy on the first touch. Most sales need multiple follow-ups, and as a busy owner you follow up once, maybe, then forget. So the maybes just... evaporate.\r\n\r\nWhere AI plugs in: automated, personalized follow-up. Sequences that keep talking to that lead over days and weeks so you don't have to remember. Qualifying so you only spend your actual time on the people ready to buy.\r\n\r\nThe money: you're converting customers you were already going to lose. You're not adding leads, you're squeezing more out of the ones in the pipe.\"\r\n\r\nStage 4 — DELIVER\r\n\r\n\"Stage four. Delivering, or running the thing.\r\n\r\nThe leak: you, the owner, are drowning. Scheduling, invoicing, answering the same five questions for the hundredth time, chasing paperwork. Every hour you spend on admin is an hour you're not selling or serving. That's money too, it's just hidden.\r\n\r\nWhere AI plugs in: automating the boring stuff. Scheduling, quotes, FAQs, the repetitive admin that eats your day.\r\n\r\nThe money: this one's sneaky. It doesn't look like revenue, it looks like time. But time is the thing stopping you from growing. Free up 10 hours a week and point them at stage two and three, and now the whole machine runs faster.\"\r\n\r\nStage 5 — RETAIN & EXPAND\r\n\r\n\"Stage five. Keeping them.\r\n\r\nThe leak: one and done. Customer pays, job's done, you never talk again. No review, no repeat, no referral. You're constantly refilling a leaky bucket.\r\n\r\nWhere AI plugs in: automated review requests so you actually build up that five-star wall without chasing anyone. Reactivation campaigns that go back to old customers. Referral asks that happen on autopilot.\r\n\r\nThe money: reviews feed straight back into stage one and two, more trust means more people find you and more of them convert. And repeat customers are the cheapest revenue you'll ever make, because you already paid to get them the first time.\"\r\n\r\nPART 4 — THE PAYOFF: FIND YOUR ONE LEAK (8:30–10:00)\r\n\r\nZoom back out to the whole board. This is the money lesson. Slow down here.\r\n\r\n\"So here's what I want you to take away, because this is the part that actually matters.\r\n\r\nYou do NOT need all five of these. Anyone telling you to 'AI-transform your entire business' is trying to sell you a big scary project. That's backwards.\r\n\r\nYou've got one, maybe two stages doing most of the leaking. Everybody does. The roofer who gets tons of calls but never answers them, his leak is stage two, and fixing just that one thing might be a five-figure swing. The contractor with a great reputation but no website, that's stage one. The owner buried in admin who has no time to sell, stage four.\r\n\r\nThe whole game is: find your biggest leak, plug it with the right lever, count the money, then move to the next one. One at a time. That's how AI actually makes you money. Not by adding a hundred tools. By fixing the one hole that's costing you the most.\"\r\n\r\nPART 5 — THE CTA (10:00–10:45)\r\n\r\nBack to camera, or stay on the board. Keep it low pressure. You just gave them real value, so this lands as a natural next step, not a pitch.\r\n\r\n\"Now, if you're watching this going 'okay, I think I know my leak but I don't know how to fix it,' or worse, 'I have no idea which stage is killing me,' that's literally the thing I do.\r\n\r\nI'll get on a quick call with you, we'll map your machine together, find your biggest leak, and I'll tell you straight up what I'd fix first. Even if we never work together, you walk away knowing exactly where your money's going.\r\n\r\nLink's in the description. No pitch deck, no pressure, just a real look at your business. Book a time and let's find your leak.\r\n\r\nAnd if you got value out of this, subscribe, because I break down exactly how I build this stuff for real businesses every week. See you in the next one.\"\r\n\r\nAPPENDIX — Production notes\r\nB-roll / screen shares: When you hit stage 2 (respond) and stage 5 (retain), show a real example if you can, a live chatbot booking a slot, a review-request text going out. Real > slides every time. It's your credibility.\r\nStats: The ⚠️ marks are places I gave you a directional claim (speed-to-lead, multiple follow-ups to close). These are real, well-documented patterns, but do NOT quote a specific multiplier on camera unless you've pulled the source yourself. \"The data's brutal on this\" is safer and just as convincing as a made-up \"391% increase.\"\r\nRuntime: This is ~10–11 min read at a natural pace. If YouTube retention is a worry, you can cut stage 4 (Deliver) shortest, it's the least sexy. Never cut stage 2, it's your strongest hook and your best proof.\r\nThumbnail/title ideas: \"Where AI Actually Makes You Money (5 Stages)\" / \"Your business is leaking money in ONE of these 5 spots\" / \"AI isn't a money button. It's a lever. Here's where to pull it.\"\r\nThe through-line to remember: you are positioning as a diagnostician, not a tool salesman. The video's entire value is \"find your leak.\" That's what makes the book-a-call feel like a gift instead of a sales trap.",
+      "goal": "nurture",
+      "brand": "edjones",
+      "funnel": "mof",
+      "source": "manual",
+      "manual": true,
+      "createdAt": "2026-08-06T21:41:40.093Z"
+    },
+    {
       "id": "idea-the-driveway-estimate",
       "title": "The Driveway Estimate",
       "angle": "The contractor who delivers a clean, digital estimate first wins seventy percent of the time. This is the precise automation architecture that moves an on-site diagnostic to client approval before you leave the driveway.",
@@ -237,6 +286,325 @@
     }
   ],
   "pieces": [
+    {
+      "id": "pc_msi2221f3",
+      "ideaId": "idea-the-ten-minute-quote-pipeline",
+      "status": "production",
+      "goal": "leads",
+      "brand": null,
+      "funnel": null,
+      "seed": 0,
+      "concept": {
+        "title": "The Ten-Minute Quote Pipeline",
+        "angle": "In residential service, the contractor who delivers the clean digital estimate first wins the project seventy percent of the time. This is the precise automation sequence that moves an on-site diagnostic to client approval without opening a laptop.",
+        "hook": "The first estimate wins. Build the pipeline that quotes the job before you leave the driveway.",
+        "script": null,
+        "source": "brand",
+        "carouselFile": null
+      },
+      "title": "The Ten-Minute Quote Pipeline",
+      "createdAt": "2026-08-06T21:56:01.875Z"
+    },
+    {
+      "id": "pc_msi1plec2",
+      "ideaId": "idea-the-driveway-estimate",
+      "status": "production",
+      "goal": "authority",
+      "brand": null,
+      "funnel": null,
+      "seed": 0,
+      "concept": {
+        "title": "The Driveway Estimate",
+        "angle": "The contractor who delivers a clean, digital estimate first wins seventy percent of the time. This is the precise automation architecture that moves an on-site diagnostic to client approval before you leave the driveway.",
+        "hook": "\"I’ll send you a quote tonight.\" The six words that kill residential service contracts.",
+        "script": null,
+        "source": "brand",
+        "carouselFile": null
+      },
+      "title": "The Driveway Estimate",
+      "createdAt": "2026-08-06T21:46:20.436Z"
+    },
+    {
+      "id": "pc_msi1jt1a1",
+      "ideaId": "idea-how-ai-actually-makes-a-business-money-the-part-",
+      "status": "review",
+      "goal": "nurture",
+      "brand": "edjones",
+      "funnel": "mof",
+      "seed": 88748,
+      "concept": {
+        "title": "How AI Actually Makes a Business Money (the part nobody explains)",
+        "angle": "Format: Value / nurture long-form. Target 8–12 min. Audience: Business owners (local home-service + broader small biz). Goal: Teach the framework, prove you know your shit, end with a soft book-a-call CTA. Style note for you, Eddie: Talk like you're explaining it to a buddy who owns a business, not lecturing a room. Short sentences. Let the Miro board do the heavy lifting visually.",
+        "hook": "Everybody's telling you AI is going to make you rich. Almost nobody can tell you how. Like, where does the money actually come from?\r\n\r\nHere's the thing nobody says out loud: AI doesn't make you money. Not on its own. It's not a magic button. It's a set of levers. And if you pull the wrong lever, which is what most business owners are doing right now, you get a cool demo and zero extra dollars.\r\n\r\nSo in the next few minutes I'm going to show you the actual machine your business already is, and the exact five places AI touches the money. And more importantly, how to find the one spot in YOUR business that's quietly bleeding cash, because that's the one you fix first.\r\n\r\nI do this for real businesses. Not theory. Let me show you.",
+        "script": "PART 2 — THE REFRAME + THE MACHINE (0:40–2:00)\r\n\r\nNow you're on the board. Zoomed out so they see the whole machine.\r\n\r\n\"Okay. Every business, doesn't matter if you're a roofer, a dentist, a gym, an ecom store, is the same machine. You turn attention into cash. That's it.\r\n\r\nAnd that machine has five stages. Money flows left to right, and at every stage some of it leaks out.\r\n\r\n[point to each as you name it]\r\n\r\nOne, you get found. Two, you respond when someone reaches out. Three, you convert them into a paying customer. Four, you deliver the thing. Five, you keep them and get them to come back or refer.\r\n\r\nHere's the mistake. Everybody sees 'AI' and immediately thinks 'chatbot' or 'let me use ChatGPT to write my emails.' That's picking a lever before you've found the leak. It's like your bathtub is overflowing and you're in the kitchen fixing a drippy faucet.\r\n\r\nSo instead of asking 'how do I use AI,' the real question is: where is my machine leaking the most money right now? Then you point AI at that. Let me walk you through all five so you can spot yours.\"\r\n\r\nPART 3 — THE FIVE STAGES (2:00–8:30)\r\n\r\nZoom into each stage as you go. ~60–90 sec each. Structure for each: the leak → the AI lever → the money. Use a real-feeling example each time.\r\n\r\nStage 1 — GET FOUND\r\n\r\n\"Stage one. Getting found.\r\n\r\nThe leak here is simple: people are literally searching for what you sell and they can't find you, or they find you and you look like an amateur. No website. A dead Instagram. A Google listing with two reviews from 2019.\r\n\r\nWhere AI plugs in: it lets one person produce the kind of web presence and content that used to take a marketing team. A real site that ranks for what your customers actually type into Google. Content that keeps you showing up instead of disappearing.\r\n\r\nThe money: this is top of the funnel. If nobody finds you, nothing else in the machine matters. But heads up, this is not where most established businesses are leaking. If you already get calls and DMs, don't start here.\"\r\n\r\nStage 2 — RESPOND (this is usually the big one)\r\n\r\n\"Stage two. Responding. This is the one that shocks people.\r\n\r\nThe leak: someone raises their hand. They call, they fill out a form, they DM you. And then... you're on a job. Or it's 8pm. Or you just miss it. ⚠️ The data on this is brutal, speed to lead is one of the biggest predictors of whether you close, and most small businesses take hours to respond, if they respond at all. Every one of those is a customer who was ready to pay, waving money at you, and they went to the next guy who picked up.\r\n\r\nWhere AI plugs in: instant response, 24/7. A chatbot on your site that answers and books while you're up a ladder. A missed-call text-back so the second you can't answer, they get a text and stay warm instead of calling your competitor.\r\n\r\nThe money: this is usually the fastest, cheapest win in the whole machine, because you're not finding new leads, you're just stopping the ones you already paid for from leaking out the side. If you're already getting inquiries, nine times out of ten this is your leak.\"\r\n\r\nStage 3 — CONVERT\r\n\r\n\"Stage three. Converting.\r\n\r\nThe leak: the 'let me think about it' people. The ones who don't buy on the first touch. Most sales need multiple follow-ups, and as a busy owner you follow up once, maybe, then forget. So the maybes just... evaporate.\r\n\r\nWhere AI plugs in: automated, personalized follow-up. Sequences that keep talking to that lead over days and weeks so you don't have to remember. Qualifying so you only spend your actual time on the people ready to buy.\r\n\r\nThe money: you're converting customers you were already going to lose. You're not adding leads, you're squeezing more out of the ones in the pipe.\"\r\n\r\nStage 4 — DELIVER\r\n\r\n\"Stage four. Delivering, or running the thing.\r\n\r\nThe leak: you, the owner, are drowning. Scheduling, invoicing, answering the same five questions for the hundredth time, chasing paperwork. Every hour you spend on admin is an hour you're not selling or serving. That's money too, it's just hidden.\r\n\r\nWhere AI plugs in: automating the boring stuff. Scheduling, quotes, FAQs, the repetitive admin that eats your day.\r\n\r\nThe money: this one's sneaky. It doesn't look like revenue, it looks like time. But time is the thing stopping you from growing. Free up 10 hours a week and point them at stage two and three, and now the whole machine runs faster.\"\r\n\r\nStage 5 — RETAIN & EXPAND\r\n\r\n\"Stage five. Keeping them.\r\n\r\nThe leak: one and done. Customer pays, job's done, you never talk again. No review, no repeat, no referral. You're constantly refilling a leaky bucket.\r\n\r\nWhere AI plugs in: automated review requests so you actually build up that five-star wall without chasing anyone. Reactivation campaigns that go back to old customers. Referral asks that happen on autopilot.\r\n\r\nThe money: reviews feed straight back into stage one and two, more trust means more people find you and more of them convert. And repeat customers are the cheapest revenue you'll ever make, because you already paid to get them the first time.\"\r\n\r\nPART 4 — THE PAYOFF: FIND YOUR ONE LEAK (8:30–10:00)\r\n\r\nZoom back out to the whole board. This is the money lesson. Slow down here.\r\n\r\n\"So here's what I want you to take away, because this is the part that actually matters.\r\n\r\nYou do NOT need all five of these. Anyone telling you to 'AI-transform your entire business' is trying to sell you a big scary project. That's backwards.\r\n\r\nYou've got one, maybe two stages doing most of the leaking. Everybody does. The roofer who gets tons of calls but never answers them, his leak is stage two, and fixing just that one thing might be a five-figure swing. The contractor with a great reputation but no website, that's stage one. The owner buried in admin who has no time to sell, stage four.\r\n\r\nThe whole game is: find your biggest leak, plug it with the right lever, count the money, then move to the next one. One at a time. That's how AI actually makes you money. Not by adding a hundred tools. By fixing the one hole that's costing you the most.\"\r\n\r\nPART 5 — THE CTA (10:00–10:45)\r\n\r\nBack to camera, or stay on the board. Keep it low pressure. You just gave them real value, so this lands as a natural next step, not a pitch.\r\n\r\n\"Now, if you're watching this going 'okay, I think I know my leak but I don't know how to fix it,' or worse, 'I have no idea which stage is killing me,' that's literally the thing I do.\r\n\r\nI'll get on a quick call with you, we'll map your machine together, find your biggest leak, and I'll tell you straight up what I'd fix first. Even if we never work together, you walk away knowing exactly where your money's going.\r\n\r\nLink's in the description. No pitch deck, no pressure, just a real look at your business. Book a time and let's find your leak.\r\n\r\nAnd if you got value out of this, subscribe, because I break down exactly how I build this stuff for real businesses every week. See you in the next one.\"\r\n\r\nAPPENDIX — Production notes\r\nB-roll / screen shares: When you hit stage 2 (respond) and stage 5 (retain), show a real example if you can, a live chatbot booking a slot, a review-request text going out. Real > slides every time. It's your credibility.\r\nStats: The ⚠️ marks are places I gave you a directional claim (speed-to-lead, multiple follow-ups to close). These are real, well-documented patterns, but do NOT quote a specific multiplier on camera unless you've pulled the source yourself. \"The data's brutal on this\" is safer and just as convincing as a made-up \"391% increase.\"\r\nRuntime: This is ~10–11 min read at a natural pace. If YouTube retention is a worry, you can cut stage 4 (Deliver) shortest, it's the least sexy. Never cut stage 2, it's your strongest hook and your best proof.\r\nThumbnail/title ideas: \"Where AI Actually Makes You Money (5 Stages)\" / \"Your business is leaking money in ONE of these 5 spots\" / \"AI isn't a money button. It's a lever. Here's where to pull it.\"\r\nThe through-line to remember: you are positioning as a diagnostician, not a tool salesman. The video's entire value is \"find your leak.\" That's what makes the book-a-call feel like a gift instead of a sales trap.",
+        "source": "manual",
+        "carouselFile": null
+      },
+      "title": "How AI Actually Makes a Business Money (the part nobody explains)",
+      "createdAt": "2026-08-06T21:41:50.398Z",
+      "spec": {
+        "slug": "how-ai-actually-makes-a-business-money-the-part-",
+        "title": "How AI Actually Makes a Business Money (the part nobody explains)",
+        "slides": [
+          {
+            "type": "cover",
+            "index": 1,
+            "label": "FIELD NOTES",
+            "headline": [
+              {
+                "t": "Everybody's telling you AI is going to make you rich."
+              }
+            ],
+            "illustration": {
+              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><circle cx=\"180\" cy=\"190\" r=\"80\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"/><path d=\"M180 110V50M180 270v60M100 190H40M260 190h60\" stroke=\"var(--accent-bright)\" stroke-width=\"2\" opacity=\"0.4\"/><rect x=\"170\" y=\"180\" width=\"20\" height=\"20\" fill=\"var(--accent-bright)\"/></svg>"
+            },
+            "total": 4
+          },
+          {
+            "type": "body",
+            "index": 2,
+            "label": "THE LEAK",
+            "headline": [
+              {
+                "t": "Revenue leaks are rarely loud."
+              }
+            ],
+            "blocks": [
+              {
+                "body": [
+                  {
+                    "t": "Most operational waste isn't visible on a balance sheet. It lives in the friction of daily handoffs and the gaps between your existing tools."
+                  }
+                ]
+              },
+              {
+                "body": [
+                  {
+                    "t": "It shows up the same way across every shop we analyze — quietly, in places "
+                  },
+                  {
+                    "t": "nobody is watching",
+                    "em": true
+                  },
+                  {
+                    "t": "."
+                  }
+                ]
+              }
+            ],
+            "illustration": {
+              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><path d=\"M100 100h160v120c0 40-40 40-40 40H140s-40 0-40-40V100z\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"/><path d=\"M140 100V60\" stroke=\"var(--accent-bright)\" stroke-width=\"2\" opacity=\"0.4\"/><path d=\"M220 100V60\" stroke=\"var(--accent-bright)\" stroke-width=\"2\" opacity=\"0.4\"/><path d=\"M160 160h40\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"/><path d=\"M160 190h40\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"/><circle cx=\"240\" cy=\"240\" r=\"15\" stroke=\"var(--accent-bright)\" stroke-width=\"2\" fill=\"var(--accent-bright)\"/></svg>"
+            },
+            "layout": "right-text-left-art"
+          },
+          {
+            "type": "quote",
+            "index": 3,
+            "label": "THE THESIS",
+            "quote": [
+              {
+                "t": "The promise of effortless wealth through automation is noise. We build for the signal."
+              }
+            ],
+            "cite": "Elenos"
+          },
+          {
+            "type": "cta",
+            "index": 4,
+            "label": "NEXT",
+            "headline": [
+              {
+                "t": "Audit your current stack."
+              }
+            ],
+            "arrow": true,
+            "sub": "Free 20-minute teardown · elenos.ai",
+            "ctaBody": [
+              {
+                "t": "We identify the friction points in your workflow. We quantify the leaks. We show you exactly where to intervene."
+              }
+            ],
+            "footer": "Elenos / Software Studio · New Jersey · USA",
+            "illustration": "hex"
+          }
+        ]
+      },
+      "blog": {
+        "title": "How AI Actually Makes a Business Money (The Part Nobody Explains)",
+        "slug": "how-ai-actually-makes-a-business-money-the-part-",
+        "dek": "Format: Value / nurture long-form. Target 8–12 min. Audience: Business owners (local home-service + broader small biz). Goal: Teach the framework, prove you know your shit, end with a soft book-a-call CTA. Style note for you, Eddie: Talk like you're explaining it to a buddy who owns a business, not lecturing a room. Short sentences. Let the Miro board do the heavy lifting visually.",
+        "markdown": "# How AI Actually Makes a Business Money (The Part Nobody Explains)\n\n*The internet tells you AI is a magic button for wealth. It isn't. It’s a series of levers. Stop treating it like a chatbot and start treating it like a system.*\n\nEverybody’s talking about AI. The hype is loud. The promises are grandiose. But walk into the average home-service shop or local business, and the reality is different. They’re running on spreadsheets and good intentions. They’re drowning in manual tasks.\n\nHere is the thing nobody says out loud: AI doesn’t make you money. Not on its own. It’s not a magic button you press to print cash. It is a set of levers. If you pull the wrong lever—which is what most business owners are doing right now—you get a cool demo and zero extra dollars.\n\nYou need to stop asking, \"How do I use AI?\" \n\nYou need to start asking, \"Where is my machine leaking?\"\n\n## The Machine\n\nEvery business is the same machine. It doesn't matter if you’re a roofer, a gym owner, or an e-commerce operator. You turn attention into cash. That is the function.\n\nThat machine has five distinct stages. Money flows left to right. And at every single stage, some of it leaks out. \n\n1.  **Get Found:** Customers searching for you.\n2.  **Respond:** The moment they raise their hand.\n3.  **Convert:** The friction between \"maybe\" and \"yes.\"\n4.  **Deliver:** The actual execution of the service.\n5.  **Retain:** Turning one-time buyers into lifetime value.\n\nThe mistake is assuming you need to automate everything. You don't. You need to find the one spot in your machine that is bleeding the most cash. That is where you plug in the AI. \n\n> \"The whole game is: find your biggest leak, plug it with the right lever, count the money, then move to the next one.\"\n\n## The Anatomy of a Leak\n\nIf you’re drowning in leads but never closing them, your problem isn’t your marketing. It’s your conversion. If you’re buried in admin work and can’t find time to sell, your problem isn’t a lack of opportunity. It’s your delivery pipeline.\n\nLet’s look at the stages where most businesses hemorrhage value.\n\n**The Response Leak (Stage Two)**\nThis is where most businesses die. Someone fills out a form. They DM you. They call. Then, silence. Maybe you call back hours later. Maybe never. Data shows that \"speed to lead\" is the primary predictor of a closed deal. When you take hours to respond, that customer isn't waiting. They are calling your competitor. \n\nAI plugs this leak with instant response. A chatbot that books appointments while you’re on a ladder. A missed-call text-back that keeps the lead warm when you can't reach the phone. This isn't vanity tech. This is stopping the cash from leaking out the side.\n\n**The Deliver Leak (Stage Four)**\nYou are the owner. You are scheduling, invoicing, and answering the same five questions for the hundredth time. Every hour you spend on admin is an hour you are not selling or serving. This leak is sneaky. It doesn't look like a missed sale—it looks like a lack of time. Free up ten hours a week, point that time at Stage Two or Three, and you change the entire trajectory of the business.\n\n**The Retain Leak (Stage Five)**\nYou do the work, you get paid, and then you vanish. No reviews. No repeat business. No referrals. You are constantly refilling a leaky bucket. Automated review requests and reactivation campaigns turn a transaction into a system. They feed trust back into Stage One, making the machine compound.\n\n## Diagnose Before You Build\n\nYou do not need to \"AI-transform\" your entire business. That is a expensive project designed to keep consultants busy. \n\nThe strategy is simple. Find your biggest leak. Plug it with the right tool. Count the capital. Then move to the next. \n\nIf you are a contractor getting fifty calls a week but answering ten, you do not need more leads. You need an automated response system. If you are an agency with a reputation but no reviews, you need an automated retention loop.\n\nDiagnose before you build. Fix the hole, then watch the machine run.\n\n***\n\n**We build the software that closes the leaks.**\n\nIf you’re ready to stop guessing and start engineering your growth, let’s map your machine. No pitch deck. No corporate jargon. Just a clear look at where your business is bleeding and how to seal it.\n\n[Book a call with the Elenos studio.](https://elenos.ai)",
+        "meta": {
+          "description": "Format: Value / nurture long-form. Target 8–12 min. Audience: Business owners (local home-service + broader small biz). Goal: Teach the framework, prove you know your shit, end with a soft book-a-call CTA. Style note for you, Eddie: Talk like you're explaining it to a buddy who owns a business, not lecturing a room. Short sentences. Let the Miro board do the heavy lifting visually.",
+          "source": "manual"
+        }
+      },
+      "slug": "how-ai-actually-makes-a-business-money-the-part-",
+      "render": {
+        "theme": "blue",
+        "slides": [
+          {
+            "index": 1,
+            "label": "FIELD NOTES",
+            "type": "cover",
+            "layout": "art-headline",
+            "file": "01-field-notes.png",
+            "url": "/renders/pc_msi1jt1a1/01-field-notes.png"
+          },
+          {
+            "index": 2,
+            "label": "THE LEAK",
+            "type": "body",
+            "layout": "right-text-left-art",
+            "file": "02-the-leak.png",
+            "url": "/renders/pc_msi1jt1a1/02-the-leak.png"
+          },
+          {
+            "index": 3,
+            "label": "THE THESIS",
+            "type": "quote",
+            "layout": "quote-center",
+            "file": "03-the-thesis.png",
+            "url": "/renders/pc_msi1jt1a1/03-the-thesis.png"
+          },
+          {
+            "index": 4,
+            "label": "NEXT",
+            "type": "cta",
+            "layout": "cta-centered",
+            "file": "04-next.png",
+            "url": "/renders/pc_msi1jt1a1/04-next.png"
+          }
+        ],
+        "qa": {
+          "overall": 8.25,
+          "candidates": [
+            {
+              "seed": 88748,
+              "score": 7.25
+            },
+            {
+              "seed": 88751,
+              "score": 7
+            }
+          ],
+          "issues": [],
+          "fixes": [
+            {
+              "index": 2,
+              "fix": "shorten-copy"
+            },
+            {
+              "index": 2,
+              "fix": "change-layout",
+              "to": "left-text-right-art"
+            },
+            {
+              "index": 4,
+              "fix": "shorten-copy"
+            },
+            {
+              "index": 2,
+              "fix": "change-layout",
+              "to": "right-text-left-art"
+            },
+            {
+              "index": 3,
+              "fix": "shorten-copy"
+            },
+            {
+              "fix": "dewidow"
+            },
+            {
+              "fix": "widen-gap"
+            }
+          ],
+          "rounds": 2
+        }
+      },
+      "mediums": {
+        "video": {
+          "status": "ready",
+          "hook": "Everyone says AI makes money. No one explains where the cash is hiding.",
+          "beats": [
+            {
+              "beat": "AI isn't a magic button. It's a set of levers.",
+              "onScreenText": "AI is a lever. Not magic."
+            },
+            {
+              "beat": "Pull the wrong lever, you get a cool demo. And zero extra dollars.",
+              "onScreenText": "Demo vs. Dollars"
+            },
+            {
+              "beat": "Money isn't created by prompts. It is saved by closing the leaks in your pipeline.",
+              "onScreenText": "Close the pipeline leaks"
+            },
+            {
+              "beat": "Manual handoffs. Buried data. Spreadsheets that don't talk to your CRM.",
+              "onScreenText": "Diagnose the friction"
+            },
+            {
+              "beat": "That friction is the leak. It is quietly bleeding your margin.",
+              "onScreenText": "The invisible bleed"
+            },
+            {
+              "beat": "Find that one spot. Automate the machine. Stop chasing tools and start building systems.",
+              "onScreenText": "Build systems that compound"
+            }
+          ],
+          "cta": "I diagnose these systems for real businesses. Link in bio to start."
+        },
+        "caption": {
+          "status": "ready",
+          "text": "Everybody sells AI as a magic button. It is not.\n\nAI is a set of levers. If you pull the wrong one, you get a demo, not revenue. The money is buried in the operational gaps you ignore.\n\nStop chasing the hype. Start auditing the flow.\n\nThere are only five places AI touches your profit. The machine is already running. Your job is to find where it is leaking.\n\nWe map these systems for real operators. Not theory. Not chatbots. We close the leaks, one workflow at a time.\n\nDiagnose before you build.\n\nIf you want to see where the cash is hiding in your stack, send a message. Let’s look at the pipeline.",
+          "hashtags": [
+            "systemsengineering",
+            "businessautomation",
+            "operationalexcellence",
+            "scaling",
+            "workflowdesign",
+            "businessintelligence",
+            "softwarearchitecture",
+            "technicalstrategy",
+            "elenos",
+            "businessgrowth"
+          ]
+        },
+        "linkedin": {
+          "status": "ready",
+          "text": "Everybody tells you AI is a goldmine. Nobody explains the extraction process.\n\nAI isn't a magic button. It’s not an automated wealth generator. It’s a set of levers. If you pull the wrong lever—which is what most business owners are doing right now—you get a cool demo and zero dollars. \n\nWe don’t build demos. We build systems.\n\nBusiness is just a machine that moves data from a lead to a closed deal. AI makes money only when it accelerates that movement or plugs the holes where information leaks out. \n\nIf you want the machine to compound, you must diagnose before you build.\n\nHere is how AI actually touches the money in your business:\n\n→ The Handoff: Removing the human friction between sales and operations.\n→ The Retrieval: Finding the buried data that answers customer questions instantly.\n→ The Response: Drafting the initial reply before a human ever touches the keyboard.\n→ The Schedule: Syncing logistics without a single back-and-forth email thread.\n→ The Receipt: Automating the follow-up that keeps the contract moving.\n\nThese aren't abstract concepts. They are operational leaks. \n\nMost businesses have a 'spreadsheet stack'—manual data entry, copying, pasting, correcting. This is where your profit goes. Every minute your team spends moving data between silos is a minute they aren't closing deals. \n\nWe identify the leak. We build the automation that closes it. We deploy the portal where your operation lives.\n\nStop chasing the hype. Start looking at your pipeline.\n\nIf you want to see where your business is losing money—and how we can automate the fix—let’s talk. Not a sales call. A diagnostic.\n\nLink in the first comment."
+        },
+        "xthread": {
+          "status": "ready",
+          "tweets": [
+            {
+              "text": "Everyone promises AI will make you rich. Nobody explains the mechanism. AI is not a magic button. It is a set of operational levers. Pull the wrong one — you get a cool demo and zero dollars. Here is where the money actually hides."
+            },
+            {
+              "text": "The business is a machine. It runs on inputs, processes, and outputs. Most businesses have leaks. Quiet, recurring leaks. Manual handoffs between departments. Buried data. Time lost to repetitive tasks. These are not growth problems. These are systems problems."
+            },
+            {
+              "text": "AI touches the money in five specific places. Not everywhere. Just five. You identify the bottleneck. You map the flow. You install the agent to handle the recurring task. The human keeps the agency. The machine keeps the pace."
+            },
+            {
+              "text": "Do not automate for the sake of the tech. Diagnose before you build. Find the spot where your team is drowning in manual work. Solve that. Then compound. The goal is not more noise. The goal is a leaner, faster engine."
+            },
+            {
+              "text": "We build systems that compound. We diagnose the leaks. We close them. No hype. Just operational precision. If you are ready to stop guessing and start engineering, look at the portal. The partnership lives there: https://elenos.ai"
+            }
+          ]
+        }
+      },
+      "mediumsRequested": [
+        "carousel",
+        "blog",
+        "caption",
+        "xthread",
+        "linkedin",
+        "video"
+      ],
+      "builtAt": "2026-08-06T22:40:18.218Z"
+    },
     {
       "id": "pc_msi0z5of1",
       "ideaId": "idea-stop-hiring-office-assistants-to-do-api-jobs",

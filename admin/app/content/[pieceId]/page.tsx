@@ -89,6 +89,10 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
               <div className="src" style={{ marginBottom: 10 }}>
                 🎯 AI QA {qa.overall != null ? `${qa.overall}/10` : 'ran'} · best of {qa.candidates.length} seed{qa.candidates.length > 1 ? 's' : ''}
                 {qa.fixes?.length ? ` · ${qa.fixes.length} auto-fix${qa.fixes.length > 1 ? 'es' : ''} applied` : ''}
+                {qa.rounds ? ` · re-verified ×${qa.rounds}` : ''}
+                {!(qa.issues || []).length
+                  ? <span style={{ color: 'var(--green)' }}> · ✓ clean</span>
+                  : <span style={{ color: 'var(--amber)' }}> · {qa.issues.length} unresolved</span>}
               </div>
             ) : live ? null : (
               <div className="src" style={{ marginBottom: 10 }}>AI QA off — offline mode (add a key in Settings)</div>

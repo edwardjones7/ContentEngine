@@ -23,7 +23,8 @@ import { critique, editSlide } from './content/pipeline.mjs';
 import { activeProvider } from './settings.mjs';
 import { RENDER_DIR } from './db.mjs';
 
-const MAX_COPY_FIXES = 2; // per render — bounds LLM spend on the fix pass
+const MAX_COPY_FIXES = 3; // per fix round — bounds LLM spend
+const MAX_FIX_ROUNDS = 2; // fix → re-render → re-critique cycles after best-of-N
 const PASS_SCORE = 8; // slides at/above this need no fixing
 
 const fileName = (s) =>
@@ -77,21 +78,47 @@ async function improveRender(piece, seed, firstRender) {
     if ((reviews[i]?.overall ?? -1) > (reviews[best]?.overall ?? -1)) best = i;
   }
   const winner = candidates[best];
-  const review = reviews[best];
   piece.seed = winner.seed;
 
   const qa = {
-    overall: review?.overall ?? null,
+    overall: reviews[best]?.overall ?? null,
     candidates: candidates.map((c, i) => ({ seed: c.seed, score: reviews[i]?.overall ?? null })),
     issues: [],
     fixes: [],
+    rounds: 0,
   };
-  if (!review) return { rendered: winner.rendered, qa };
+  if (!reviews[best]) return { rendered: winner.rendered, qa };
 
-  // 2. bounded auto-fix pass on the winner
-  const fixed = await applyFixes(piece, review, qa);
-  const rendered = fixed ? await renderCarousel(piece.spec, { seed: winner.seed }) : winner.rendered;
+  // 2. converging fix loop: apply fixes, re-render, RE-CRITIQUE — repeat until
+  //    the critique comes back clean or the round budget runs out. The shipped
+  //    qa.issues are only what the FINAL critique still flags, so the UI never
+  //    shows stale complaints about problems that were already fixed.
+  let rendered = winner.rendered;
+  let review = reviews[best];
+  for (let round = 0; round < MAX_FIX_ROUNDS; round++) {
+    if (!actionableIssues(review).length) break;
+    const changed = await applyFixes(piece, review, qa);
+    if (!changed) break;
+    qa.rounds = round + 1;
+    rendered = await renderCarousel(piece.spec, { seed: winner.seed });
+    const recheck = await critique(rendered.slides.map((s) => s.png), slideMeta(rendered.slides));
+    if (!recheck) break; // judge unavailable mid-loop — keep the fixed render, last known review
+    review = recheck;
+    qa.overall = recheck.overall ?? qa.overall;
+  }
+
+  qa.issues = actionableIssues(review);
   return { rendered, qa };
+}
+
+// Only defects the fix pass could/should act on — cosmetic 'none' notes never
+// surface to the user or drive another round.
+function actionableIssues(review) {
+  return (review?.slides || []).flatMap((sr) =>
+    (sr.issues || [])
+      .filter((i) => i.fix !== 'none')
+      .map((i) => ({ index: sr.index, kind: i.kind, note: i.note }))
+  );
 }
 
 async function applyFixes(piece, review, qa) {
@@ -105,8 +132,6 @@ async function applyFixes(piece, review, qa) {
     const slide = piece.spec.slides[idx];
 
     for (const issue of sr.issues) {
-      qa.issues.push({ index: sr.index, kind: issue.kind, note: issue.note });
-
       if (issue.fix === 'change-layout') {
         const layout = pickAltLayout(piece.spec.slides, idx);
         if (layout) {
@@ -116,7 +141,7 @@ async function applyFixes(piece, review, qa) {
         }
       } else if (issue.fix === 'shorten-copy' && copyFixes < MAX_COPY_FIXES) {
         copyFixes++;
-        const revised = await editSlide(slide, `A design review of the rendered slide found: "${issue.note}". Revise the copy so it fits comfortably — tighter phrasing, same meaning, same voice. Do not change the layout or illustration fields.`);
+        const revised = await editSlide(slide, `A design review of the rendered slide found: "${issue.note}". Rewrite the copy to fully resolve this — complete, audience-facing sentences only, tighter phrasing, same meaning, same voice. Never include meta commentary, notes to the author, or truncated sentences. Do not change the layout or illustration fields.`);
         if (revised && specAcceptsSlide(piece.spec, idx, revised)) {
           piece.spec.slides[idx] = revised;
           qa.fixes.push({ index: sr.index, fix: 'shorten-copy' });

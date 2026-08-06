@@ -2,7 +2,7 @@
 // list/compare). renderLayout(slide) returns the content that fills `.content`
 // (the region under the constant `NN / LABEL` index). The art-director picks the
 // `layout` token; this module just renders whatever it's handed.
-import { runs, esc, pad2, text } from './util.mjs';
+import { runs, esc, pad2, text, dewidow } from './util.mjs';
 import { illustrationSVG } from './illustrations.mjs';
 
 // Which layouts are valid for each archetype (art-director rotates within these).
@@ -31,8 +31,18 @@ const headlineHTML = (slide, mode = 'grad') =>
 
 const blocksHTML = (slide) =>
   (slide.blocks || [])
-    .map((b, i) => `${i ? '<div class="rule"></div>' : ''}<div class="block"><p>${runs(b.body, 'accent')}</p></div>`)
+    .map((b, i) => `${i ? '<div class="rule"></div>' : ''}<div class="block"><p>${runs(dewidow(b.body), 'accent')}</p></div>`)
     .join('');
+
+// Statement headlines shrink as copy grows so long text can never run off the
+// canvas — the last resort behind the prompt contract and the QA loop.
+function headScale(slide) {
+  const len = (slide.headline || []).reduce((n, r) => n + (r.t || '').length, 0);
+  if (len > 220) return ' h-clamp-3';
+  if (len > 120) return ' h-clamp-2';
+  if (len > 60) return ' h-clamp-1';
+  return '';
+}
 
 export function renderLayout(slide) {
   const L = slide.layout;
@@ -40,33 +50,33 @@ export function renderLayout(slide) {
   // ---- statement layouts (cover / headline slides) ----
   if (L === 'headline-art') {
     return `<div class="L lay-headline-art">
-      <h1 class="headline h-xl">${headlineHTML(slide)}</h1>
+      <h1 class="headline h-xl${headScale(slide)}">${headlineHTML(slide)}</h1>
       ${slide.illustration ? `<div class="ill ill-br">${illHTML(slide)}</div>` : ''}
     </div>`;
   }
   if (L === 'art-headline') {
     return `<div class="L lay-art-headline">
       <div class="ill ill-side">${illHTML(slide)}</div>
-      <h1 class="headline h-lg">${headlineHTML(slide)}</h1>
+      <h1 class="headline h-lg${headScale(slide)}">${headlineHTML(slide)}</h1>
     </div>`;
   }
   if (L === 'centered') {
     return `<div class="L lay-centered">
       ${slide.illustration ? `<div class="ill ill-watermark">${illHTML(slide)}</div>` : ''}
-      <h1 class="headline h-lg center">${headlineHTML(slide)}</h1>
+      <h1 class="headline h-lg center${headScale(slide)}">${headlineHTML(slide)}</h1>
     </div>`;
   }
   if (L === 'fullbleed') {
     return `<div class="L lay-fullbleed">
       <div class="ill ill-fill">${illHTML(slide)}</div>
       <div class="fb-scrim"></div>
-      <h1 class="headline h-lg fb-head">${headlineHTML(slide)}</h1>
+      <h1 class="headline h-lg fb-head${headScale(slide)}">${headlineHTML(slide)}</h1>
     </div>`;
   }
   if (L === 'bottom-heavy') {
     return `<div class="L lay-bottom-heavy">
       ${slide.illustration ? `<div class="ill ill-top">${illHTML(slide)}</div>` : ''}
-      <h1 class="headline h-xl bh-head">${headlineHTML(slide)}</h1>
+      <h1 class="headline h-xl bh-head${headScale(slide)}">${headlineHTML(slide)}</h1>
     </div>`;
   }
 
@@ -116,7 +126,7 @@ export function renderLayout(slide) {
         <h1 class="headline h-lg cta-h">${headlineHTML(slide, 'ink')}</h1>
         <div class="streak"></div>
         ${slide.sub ? `<div class="cta-sub">${esc(text(slide.sub))}</div>` : ''}
-        ${slide.ctaBody ? `<div class="block cta-body"><p>${runs(slide.ctaBody, 'accent')}</p></div>` : ''}
+        ${slide.ctaBody ? `<div class="block cta-body"><p>${runs(dewidow(slide.ctaBody), 'accent')}</p></div>` : ''}
       </div>
     </div>`;
   }
@@ -125,13 +135,13 @@ export function renderLayout(slide) {
   if (L === 'stat-center') {
     return `<div class="L lay-stat">
       <div class="stat-num">${esc(text(slide.stat))}</div>
-      <div class="stat-cap">${runs(slide.caption, 'accent')}</div>
+      <div class="stat-cap">${runs(dewidow(slide.caption), 'accent')}</div>
     </div>`;
   }
   if (L === 'quote-center') {
     return `<div class="L lay-quote">
       <div class="q-mark">&ldquo;</div>
-      <blockquote class="q-text">${runs(slide.quote, 'accent')}</blockquote>
+      <blockquote class="q-text">${runs(dewidow(slide.quote), 'accent')}</blockquote>
       ${slide.cite ? `<div class="q-cite">${esc(text(slide.cite))}</div>` : ''}
     </div>`;
   }
@@ -170,6 +180,9 @@ export const LAYOUT_CSS = `
   .h-lg{ font-size:96px; }
   .h-md{ font-size:88px; }
   .h-sm{ font-size:64px; }
+  .h-clamp-1.h-clamp-1{ font-size:72px; max-width:18ch; }
+  .h-clamp-2.h-clamp-2{ font-size:56px; line-height:1.15; max-width:26ch; }
+  .h-clamp-3.h-clamp-3{ font-size:44px; line-height:1.25; letter-spacing:0; max-width:34ch; }
   .ill{ position:absolute; z-index:2; }
   .ill img{ width:100%; height:100%; object-fit:contain; }
 
@@ -207,7 +220,7 @@ export const LAYOUT_CSS = `
   .lay-body{ display:flex; flex-direction:column; padding-top:22px; }
   .lay-body .h-md{ margin-bottom:28px; max-width:12ch; }
   .lay-body .h-md.h-long{ font-size:62px; max-width:18ch; }
-  .body-row{ flex:1; display:flex; align-items:center; gap:48px; min-height:0; }
+  .body-row{ flex:1; display:flex; align-items:center; gap:60px; min-height:0; }
   .body-row .blocks-wrap{ flex:none; width:56%; }
   .lay-body-rtl .body-row{ flex-direction:row-reverse; }
   .blocks-wrap{ flex:1; display:flex; align-items:center; }

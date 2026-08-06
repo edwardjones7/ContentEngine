@@ -36,6 +36,22 @@ export function text(v) {
   return v == null ? '' : String(v);
 }
 
+// Join a paragraph's final two words with a non-breaking space so no text
+// block ever ends on a single orphaned word (classic widow prevention).
+export function dewidow(parts) {
+  if (typeof parts === 'string') parts = [{ t: parts }];
+  const out = (parts || []).map((p) => ({ ...p }));
+  for (let i = out.length - 1; i >= 0; i--) {
+    const t = out[i].t || '';
+    const j = t.lastIndexOf(' ');
+    if (j > 0) {
+      out[i].t = t.slice(0, j) + ' ' + t.slice(j + 1);
+      break;
+    }
+  }
+  return out;
+}
+
 // Render an array of {t, em} runs into HTML. `mode` controls the emphasis style:
 //   'grad'   -> themed gradient italic (headlines)
 //   'accent' -> themed accent italic (body emphasis)

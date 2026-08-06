@@ -52,9 +52,18 @@ export function makeBrief(idea) {
         { body: idea.angle },
         { body: 'It shows up the same way across almost every shop we look at — quietly, in places *nobody is watching*.' },
       ];
-  const breaker = idea.breaker || { type: 'quote', label: 'THE THESIS', quote: idea.hook };
+  // hooks are supposed to be one line, but manual ideas (and script-fed ones)
+  // can carry paragraphs — clamp to the first sentence so the cover never
+  // renders a wall of 96px serif
+  const firstSentence = (s, max) => {
+    const t = String(s || '').trim();
+    if (t.length <= max) return t;
+    const first = t.split(/(?<=[.!?])\s/)[0];
+    return first.length <= max ? first : first.slice(0, max - 1).trimEnd() + '…';
+  };
+  const breaker = idea.breaker || { type: 'quote', label: 'THE THESIS', quote: firstSentence(idea.hook, 220) };
   const slides = [
-    { type: 'cover', index: 1, label: 'FIELD NOTES', headline: toRuns(idea.hook), illustration: idea.illustration || 'magnifier' },
+    { type: 'cover', index: 1, label: 'FIELD NOTES', headline: toRuns(firstSentence(idea.hook, 110)), illustration: idea.illustration || 'magnifier' },
     { type: 'body', index: 2, label: 'THE LEAK', headline: toRuns(idea.leakHeadline || idea.title), blocks: blocks.map((b) => ({ body: toRuns(b.body) })), illustration: idea.leakIllustration || 'card' },
     breakerSlide(breaker, 3),
     idea.fix && { type: 'body', index: 4, label: 'THE FIX', headline: toRuns(idea.fix.headline), blocks: (idea.fix.blocks || []).map((b) => ({ body: toRuns(b.body) })), illustration: idea.fix.illustration || 'nodes' },

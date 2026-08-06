@@ -29,7 +29,8 @@ Each slide: { type, index, label, ... }. Rich text fields are run arrays: [{t:"p
 label, sub, footer, cite, stat, and tag are PLAIN STRINGS, never run arrays.
 type=cover{headline,illustration?}; body{headline,blocks:[{body}],illustration?}; cta{headline,sub?,ctaBody?,footer?,arrow?};
 stat{stat,caption}; quote{quote,cite?}; list{headline?,items:[{text}]}; compare{headline?,left:{tag?,body},right:{tag?,body}}.
-illustration is one of: magnifier phone bubble card clock bolt nodes hex. 5-7 slides, cover first, cta last, 1-2 rhythm-breakers.`;
+illustration is one of: magnifier phone bubble card clock bolt nodes hex. 5-7 slides, cover first, cta last, 1-2 rhythm-breakers.
+Every text field is FINISHED, audience-facing copy: complete sentences only — never truncated, never meta commentary, notes to the author, style notes, or placeholders.`;
 
 export function ideatePrompt({ count = 6, avoid = [] } = {}) {
   const avoidLine = avoid.length
@@ -51,7 +52,7 @@ export const postIdeate = (out) => {
 };
 
 const scriptNote = (idea) => idea.script
-  ? `\nThe "script" is the author's own draft — treat it as the source of truth for the argument and keep its strongest phrasing.`
+  ? `\nThe "script" is the author's own draft — source of truth for the ARGUMENT; keep its strongest phrasing. It may also contain production notes (format, length targets, style notes, lines addressed to the author) — those guide HOW you write but must NEVER appear in the output copy. Output only finished, audience-facing sentences.`
   : '';
 
 export function briefPrompt(idea) {
@@ -119,8 +120,9 @@ export function critiquePrompt(slidesMeta) {
     images: true,
     system: `You are a strict art director reviewing rendered Instagram carousel slides (1080x1350). The images are attached in order. Judge only what is visible in the pixels.`,
     user: `Slides (in image order): ${JSON.stringify(slidesMeta)}.
-Score each slide 1-10 and list concrete visual defects. Look for: text overflowing or touching edges, orphaned single words, cramped spacing, weak contrast between copy and background, headline hierarchy that doesn't lead the eye, awkward line breaks, an illustration crowding the copy.
-For each issue set "fix" to one of: "shorten-copy" (text too long/overflowing/orphaned), "change-layout" (composition/crowding problem), "none" (cosmetic, not worth fixing).
+Score each slide 1-10 and list concrete visual defects. Look for: text overflowing, cut off mid-sentence, or touching edges; orphaned single words; cramped spacing; weak contrast; headline hierarchy that doesn't lead the eye; awkward line breaks; an illustration crowding the copy; any meta/instructional text that should never face the audience (notes to the author, style notes, placeholders).
+For each issue set "fix" to one of: "shorten-copy" (ANY copy defect — overflow, truncation, orphans, meta or placeholder text), "change-layout" (composition/crowding problem), "none" (purely cosmetic, not worth fixing).
+List ONLY genuine defects — never positive observations, praise, or "no issues" notes. A clean slide gets "issues": [].
 Return JSON only: {"slides":[{"index":1,"score":8,"issues":[{"kind":"overflow","note":"...","fix":"shorten-copy"}]}],"overall":7.5}`,
   };
 }
@@ -132,11 +134,13 @@ export function postCritique(out) {
     slides: j.slides.map((s) => ({
       index: Number(s.index),
       score: Number(s.score) || 0,
-      issues: (s.issues || []).filter((i) => i && i.note).map((i) => ({
-        kind: String(i.kind || 'other'),
-        note: String(i.note),
-        fix: ['shorten-copy', 'change-layout'].includes(i.fix) ? i.fix : 'none',
-      })),
+      issues: (s.issues || [])
+        .filter((i) => i && i.note && i.kind !== 'none')
+        .map((i) => ({
+          kind: String(i.kind || 'other'),
+          note: String(i.note),
+          fix: ['shorten-copy', 'rewrite-copy'].includes(i.fix) ? 'shorten-copy' : i.fix === 'change-layout' ? 'change-layout' : 'none',
+        })),
     })),
   };
 }

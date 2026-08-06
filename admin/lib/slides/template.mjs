@@ -24,7 +24,7 @@ const BASE_CSS = `
     box-shadow:0 0 16px var(--accent-glow); }
   .content{ position:relative; z-index:2; flex:1; display:flex; margin-top:30px; }
   .footer{ position:relative; z-index:2; font-family:'Space Mono', monospace; font-size:24px;
-    letter-spacing:.08em; color:#8a7fb0; text-align:center; margin-top:14px; }
+    letter-spacing:.08em; color:#8a7fb0; text-align:center; margin:14px 0 34px; }
   .headline{ font-family:'Playfair Display', Georgia, serif; font-weight:500; color:#f4f1fb;
     line-height:1.02; letter-spacing:-.005em;
     text-shadow:0 0 46px var(--accent-glow), 0 0 16px rgba(255,255,255,.08); }
