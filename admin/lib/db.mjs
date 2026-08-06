@@ -44,6 +44,11 @@ export function savePiece(piece) {
   if (i >= 0) db.pieces[i] = piece; else db.pieces.unshift(piece);
   write(db); return piece;
 }
+export function removePiece(pid) {
+  const db = read();
+  db.pieces = db.pieces.filter((p) => p.id !== pid);
+  write(db);
+}
 export const getIdeas = () => read().ideas;
 export const getIdea = (iid) => read().ideas.find((i) => i.id === iid);
 export function setIdeas(ideas) { const db = read(); db.ideas = ideas; write(db); }

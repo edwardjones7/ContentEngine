@@ -1,7 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, createIdea, editPieceSlide, setPieceStage, setTag, setPostDate, ALL_MEDIUMS } from '@/lib/service.mjs';
+import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, createIdea, editPieceSlide, setPieceStage, setTag, setPostDate, deletePiece, ALL_MEDIUMS } from '@/lib/service.mjs';
 
 export async function researchAction() {
   await refreshIdeas();
@@ -26,6 +26,12 @@ export async function addIdeaAction(formData: FormData) {
     funnel: String(formData.get('funnel') || ''),
   });
   revalidatePath('/content');
+}
+
+export async function deletePieceAction(formData: FormData) {
+  deletePiece(String(formData.get('pieceId')));
+  revalidatePath('/content');
+  revalidatePath('/content/queue');
 }
 
 // Board drag handler. Plain args (not a form) — the client board calls it

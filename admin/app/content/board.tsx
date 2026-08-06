@@ -6,8 +6,8 @@
 import Link from 'next/link';
 import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { moveCardAction, setTagAction, setPostDateAction, buildCardAction, acceptAction, addIdeaAction } from './actions';
-import { ideateIdeaAction } from '../orbit/actions';
+import { moveCardAction, setTagAction, setPostDateAction, buildCardAction, acceptAction, addIdeaAction, deletePieceAction } from './actions';
+import { ideateIdeaAction, dismissIdeaAction } from '../orbit/actions';
 import { SubmitButton } from './pending';
 
 export type CardDTO = {
@@ -260,6 +260,16 @@ function TagRow({ kind, card }: { kind: string; card: CardDTO }) {
   );
 }
 
+// A small confirm-guarded ✕ used on both card types.
+function DeleteButton({ action, name, id, prompt }: { action: (fd: FormData) => void; name: string; id: string; prompt: string }) {
+  return (
+    <form action={action} onSubmit={(e) => { if (!confirm(prompt)) e.preventDefault(); }}>
+      <input type="hidden" name={name} value={id} />
+      <button type="submit" className="del" title={prompt.split('?')[0] + '?'}>✕</button>
+    </form>
+  );
+}
+
 function IdeaCardC({ card, setDrag }: { card: CardDTO; setDrag: (c: CardDTO | null) => void }) {
   return (
     <div className="card" {...dragProps(card, setDrag)}>
@@ -269,6 +279,7 @@ function IdeaCardC({ card, setDrag }: { card: CardDTO; setDrag: (c: CardDTO | nu
         {card.threadId
           ? <Link className="src" href={`/orbit/${card.threadId}`}>from thread →</Link>
           : card.suggested ? <span className="src">✨ orbit pitch</span> : <span className="src">novel</span>}
+        <DeleteButton action={dismissIdeaAction} name="ideaId" id={card.id} prompt="Dismiss this idea?" />
       </div>
       <h3>{card.title}</h3>
       <div className="meta">{card.angle}</div>
@@ -300,6 +311,8 @@ function PieceCardC({ card, setDrag }: { card: CardDTO; setDrag: (c: CardDTO | n
       {card.thumb ? <Link href={href}><img className="card-thumb" src={card.thumb} alt="" /></Link> : null}
       <div className="row" style={{ gap: 8 }}>
         <Link href={href}><h3 style={{ margin: 0 }}>{card.title}</h3></Link>
+        <span className="sp" />
+        <DeleteButton action={deletePieceAction} name="pieceId" id={card.id} prompt="Delete this piece? Its rendered slides are removed too — the source idea returns to the Idea column." />
       </div>
       {card.angle && !card.built ? <div className="meta">{card.angle}</div> : null}
       <div className="row" style={{ gap: 6, marginBottom: 10 }}>

@@ -4,7 +4,9 @@ import { validateCarousel } from './slides/api.mjs';
 import { SEED_IDEAS } from './content/context.mjs';
 import { ALL_MEDIUMS, EXTRA_MEDIUMS } from './content/mediums.mjs';
 import { renderPieceSlides } from './render.mjs';
-import { id, getIdeas, setIdeas, addIdea, getPiece, savePiece, addPublished } from './db.mjs';
+import { rmSync } from 'node:fs';
+import { join } from 'node:path';
+import { id, getIdeas, setIdeas, addIdea, getPiece, savePiece, removePiece, addPublished, RENDER_DIR } from './db.mjs';
 import { PIECE_STAGES, TAG_FIELDS, normalizeGoal, normalizeBrand, normalizeFunnel } from './content/stages.mjs';
 
 export { ALL_MEDIUMS };
@@ -129,6 +131,16 @@ export function setTag(kind, targetId, field, value) {
   if (!p) return null;
   p[field] = v;
   savePiece(p);
+  return p;
+}
+
+// Delete a piece and its rendered PNGs. The source idea (if still in db.ideas)
+// reappears in the Idea column, so this un-does an accept rather than losing work.
+export function deletePiece(pid) {
+  const p = getPiece(pid);
+  if (!p) return null;
+  removePiece(pid);
+  rmSync(join(RENDER_DIR, pid), { recursive: true, force: true });
   return p;
 }
 
