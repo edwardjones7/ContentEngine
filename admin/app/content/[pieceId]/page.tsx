@@ -3,7 +3,9 @@ import { notFound, redirect } from 'next/navigation';
 import { getPiece } from '@/lib/db.mjs';
 import { activeProvider } from '@/lib/settings.mjs';
 import { Stepper } from '../parts';
-import { saveAction, regenerateAction, publishAction, regenerateMediumAction, saveMediumAction, editSlideAction } from '../actions';
+import { SubmitButton } from '../pending';
+import { saveAction, regenerateAction, rebuildCarouselAction, publishAction, regenerateMediumAction, saveMediumAction, editSlideAction, setGoalAction } from '../actions';
+import { GOALS, GOAL_LABEL } from '@/lib/content/stages.mjs';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,7 +13,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
   const { pieceId } = await params;
   const p: any = getPiece(pieceId);
   if (!p) notFound();
-  if (p.status === 'building') redirect(`/content/${pieceId}/edit`);
+  if (!p.builtAt) redirect(`/content/${pieceId}/edit`);
   const slides = p.render?.slides || [];
   const mediums = p.mediums || {};
   const qa = p.render?.qa || null;
@@ -24,6 +26,15 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
       <div className="row" style={{ margin: '6px 0 18px' }}>
         <h1 style={{ margin: 0 }}>{p.title}</h1>
         <span className={`badge ${p.status}`}>{p.status}</span>
+        <form action={setGoalAction} className="row" style={{ gap: 6 }}>
+          <input type="hidden" name="kind" value="piece" />
+          <input type="hidden" name="id" value={p.id} />
+          {GOALS.map((g: string) => (
+            <button key={g} type="submit" name="goal" value={g} style={{ padding: 0, border: 'none', background: 'none' }} title={`Goal: ${GOAL_LABEL[g]}`}>
+              <span className={`chip goal goal-${g} ${p.goal === g ? 'on' : ''}`}>{GOAL_LABEL[g]}</span>
+            </button>
+          ))}
+        </form>
         <span className="sp" />
         {p.render ? <span className="src">{p.render.theme}/{p.render.bg} · seed {p.seed}</span> : null}
       </div>
@@ -31,21 +42,32 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
       <div className="row" style={{ marginBottom: 20 }}>
         {p.render ? (
           <>
-            <form action={regenerateAction}><input type="hidden" name="pieceId" value={p.id} /><button type="submit">↻ Reshuffle layouts</button></form>
+            <form action={regenerateAction}>
+              <input type="hidden" name="pieceId" value={p.id} />
+              <SubmitButton busy="↻ reshuffling…" title="New seed, same copy — reshuffles theme/background/layouts (runs AI QA)">↻ Reshuffle layouts</SubmitButton>
+            </form>
+            <form action={rebuildCarouselAction}>
+              <input type="hidden" name="pieceId" value={p.id} />
+              <SubmitButton busy="✦ rewriting & rendering…" title="Rewrite the carousel from the concept — new copy, new illustrations, fresh AI QA pass">✦ Refresh carousel</SubmitButton>
+            </form>
             <a className="btn" href={`/content/${p.id}/download`}>⤓ Download slides (.zip)</a>
           </>
         ) : null}
         {p.blog ? (
-          p.status !== 'published'
-            ? <form action={publishAction}><input type="hidden" name="pieceId" value={p.id} /><button className="primary" type="submit">✓ Accept &amp; publish blog</button></form>
-            : <Link className="btn" href={`/blog/${p.slug}`}>View published post →</Link>
+          <>
+            <form action={publishAction}>
+              <input type="hidden" name="pieceId" value={p.id} />
+              <button className={p.publishedAt ? '' : 'primary'} type="submit">{p.publishedAt ? '↻ Republish blog' : '✓ Publish blog'}</button>
+            </form>
+            {p.publishedAt ? <Link className="btn ghost" href={`/blog/${p.slug}`}>View published post →</Link> : null}
+          </>
         ) : <span className="src">no blog in this build — nothing to publish</span>}
       </div>
 
       <div className="split">
         {p.blog ? (
           <div>
-            <h2 className="sec">Blog draft {p.status !== 'published' ? '(editable — not published)' : '(published)'}</h2>
+            <h2 className="sec">Blog draft {p.publishedAt ? '(published)' : '(editable — not published)'}</h2>
             <form action={saveAction}>
               <input type="hidden" name="pieceId" value={p.id} />
               <input className="title" name="title" defaultValue={p.blog.title} />
@@ -85,7 +107,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
                         <input type="hidden" name="pieceId" value={p.id} />
                         <input type="hidden" name="index" value={s.index} />
                         <input className="title" style={{ fontSize: 12, flex: 1 }} name="instruction" placeholder="AI edit — e.g. punchier hook, shorter copy…" />
-                        <button type="submit" title="Revise this slide with AI and re-render">✨</button>
+                        <SubmitButton busy="✨…" title="Revise this slide with AI and re-render">✨</SubmitButton>
                       </form>
                     ) : null}
                   </figure>
@@ -120,7 +142,7 @@ function MediumHead({ p, medium, title, note }: { p: any; medium: string; title:
       <form action={regenerateMediumAction}>
         <input type="hidden" name="pieceId" value={p.id} />
         <input type="hidden" name="medium" value={medium} />
-        <button type="submit">↻ Regenerate</button>
+        <SubmitButton busy="↻ regenerating…">↻ Regenerate</SubmitButton>
       </form>
     </div>
   );

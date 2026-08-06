@@ -29,6 +29,7 @@ export const PROPOSE_IDEA_TOOL = {
       angle: { type: 'string', description: '1-2 sentence editorial angle' },
       hook: { type: 'string', description: 'Opening hook in Elenos voice — short, specific, no hype' },
       source: { type: 'string', enum: ['web', 'brand', 'thread'], description: 'Where the idea is grounded' },
+      goal: { type: 'string', enum: ['leads', 'authority', 'nurture', 'story', 'values'], description: 'Business job of the post: leads (demand capture), authority (expertise proof), nurture (educate audience), story (narrative/case), values (POV/beliefs)' },
       evidence: {
         type: 'array',
         description: 'Key sources backing the idea',

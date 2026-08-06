@@ -114,6 +114,8 @@ button, .btn{
 }
 button:hover,.btn:hover{ border-color:var(--accent); background:#221740; }
 button:active,.btn:active{ transform:translateY(1px); }
+button[disabled]{ cursor:progress; opacity:.75; }
+.busy{ color:var(--accent2); animation:pulse 1.2s infinite; white-space:nowrap; }
 .btn.primary, button.primary{
   background:linear-gradient(180deg,var(--accent2),#6d28d9); border-color:transparent; font-weight:600;
   box-shadow:0 2px 14px rgba(139,92,246,.28);
@@ -140,10 +142,30 @@ form.inline{ display:inline; }
   padding:6px 10px; border-radius:20px;
 }
 .badge{ font:11px/1 ui-monospace,monospace; padding:5px 9px; border-radius:20px; border:1px solid var(--line2); color:var(--dim); background:rgba(255,255,255,.02); }
-.badge.published{ color:var(--green); border-color:#16623f; background:rgba(52,224,168,.06); }
+.badge.published, .badge.posted{ color:var(--green); border-color:#16623f; background:rgba(52,224,168,.06); }
 .badge.draft, .badge.review{ color:var(--amber); border-color:#5c4413; background:rgba(255,194,77,.05); }
-.badge.building{ color:var(--accent2); border-color:#3a2a5e; background:var(--accent-soft); }
+.badge.building, .badge.production{ color:var(--accent2); border-color:#3a2a5e; background:var(--accent-soft); }
+.badge.ready{ color:var(--blue); border-color:#1e3a52; background:rgba(143,211,255,.05); }
 .badge.medium{ color:var(--blue); border-color:#1e3a52; background:rgba(143,211,255,.05); padding:4px 7px; }
+
+/* ---------- goal tags ---------- */
+.chip.goal{ cursor:pointer; background:rgba(255,255,255,.02); }
+.goal-leads{ color:var(--green); border-color:#16623f; background:rgba(52,224,168,.06); }
+.goal-authority{ color:var(--accent2); border-color:#3a2a5e; background:var(--accent-soft); }
+.goal-nurture{ color:var(--blue); border-color:#1e3a52; background:rgba(143,211,255,.05); }
+.goal-story{ color:var(--amber); border-color:#5c4413; background:rgba(255,194,77,.05); }
+.goal-values{ color:var(--red); border-color:#5c1e1e; background:rgba(255,156,156,.05); }
+.chip.on{ color:var(--ink); border-color:var(--accent); background:var(--accent-soft); }
+.goal-pick{ position:relative; display:inline-block; }
+.goal-pick summary{ list-style:none; cursor:pointer; }
+.goal-pick summary::-webkit-details-marker{ display:none; }
+.goal-pick .goal-menu{
+  position:absolute; top:calc(100% + 6px); left:0; z-index:20;
+  display:flex; flex-direction:column; gap:6px; padding:8px;
+  background:var(--raise); border:1px solid var(--line2); border-radius:12px;
+  box-shadow:0 8px 30px rgba(0,0,0,.5);
+}
+.goal-pick .goal-menu button{ padding:0; border:none; background:none; }
 
 /* ---------- slides ---------- */
 .slides{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
@@ -161,8 +183,13 @@ form.inline{ display:inline; }
 .empty{ color:var(--dim); padding:30px; text-align:center; border:1px dashed var(--line2); border-radius:14px; font-size:13px; }
 
 /* ---------- pipeline board ---------- */
-.board{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; align-items:start; margin-top:20px; }
-.column{ background:rgba(19,13,33,.55); border:1px solid var(--line); border-radius:14px; padding:12px; min-height:120px; }
+/* the board page breaks out of the narrow reading column — 5 kanban columns
+   need width; columns keep a floor and the board scrolls sideways instead of
+   squishing cards tall */
+.wrap:has(.board){ max-width:1680px; }
+/* columns stretch to the tallest lane so the board reads as one unit */
+.board{ display:grid; grid-template-columns:repeat(5,minmax(240px,1fr)); gap:14px; align-items:stretch; margin-top:20px; overflow-x:auto; padding-bottom:8px; }
+.column{ display:flex; flex-direction:column; background:rgba(19,13,33,.55); border:1px solid var(--line); border-radius:14px; padding:12px; min-height:280px; transition:border-color .12s, background .12s; }
 .column > h2{
   font:11px/1 ui-monospace,monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--dim);
   margin:4px 4px 12px; display:flex; gap:8px; align-items:center;
@@ -174,9 +201,27 @@ form.inline{ display:inline; }
 .column .card:last-child{ margin-bottom:0; }
 .column .card h3{ font-size:14.5px; }
 .column .card .meta{ margin-bottom:10px; }
-.column .empty{ padding:18px 12px; font-size:12px; }
-@media(max-width:1080px){ .board{ grid-template-columns:1fr 1fr; } }
-@media(max-width:560px){ .board{ grid-template-columns:1fr; } }
+.column .empty{ flex:1; display:flex; align-items:center; justify-content:center; padding:18px 12px; font-size:12px; }
+/* clamp card copy on the board — full text lives on the detail pages */
+.column .card h3{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.column .card .meta{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:8px; }
+@media(max-width:560px){ .board{ grid-template-columns:1fr; overflow-x:visible; } }
+
+/* drag-and-drop affordances */
+.card[draggable="true"]{ cursor:grab; }
+.card.dragging{ opacity:.4; }
+.column.drop{ border-color:var(--accent); background:rgba(139,92,246,.06); }
+.board-hint{ font:12px/1.4 ui-monospace,monospace; color:var(--amber); padding:2px 4px; }
+.board-filter{ display:flex; gap:6px; flex-wrap:wrap; margin-top:16px; }
+.board-filter .chip{ background:none; }
+.card-thumb{
+  width:100%; aspect-ratio:1080/1350; max-height:110px; object-fit:cover; object-position:top;
+  border-radius:8px; border:1px solid var(--line); display:block; margin-bottom:10px;
+}
+input[type="date"]{
+  background:#0d0918; color:var(--ink); border:1px solid var(--line); border-radius:8px;
+  padding:6px 8px; font:12px/1 ui-monospace,monospace; color-scheme:dark;
+}
 
 .mediums-pick{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .mediums-pick .pick{

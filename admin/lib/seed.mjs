@@ -4,7 +4,7 @@
 import { rmSync, existsSync } from 'node:fs';
 import { DATA_DIR, RENDER_DIR, setIdeas, saveThread, addMessage, addIdea, id } from './db.mjs';
 import { SEED_IDEAS } from './content/context.mjs';
-import { acceptIdea, buildPiece, publishPiece } from './service.mjs';
+import { acceptIdea, buildPiece, publishPiece, setPieceStage } from './service.mjs';
 import { closeBrowser } from './slides/api.mjs';
 
 if (existsSync(DATA_DIR)) rmSync(DATA_DIR, { recursive: true });
@@ -15,8 +15,8 @@ const PLAN = [['idea-contractor-site', true], ['idea-speed-to-lead', false], ['i
 for (const [ideaId, pub] of PLAN) {
   const accepted = acceptIdea(ideaId);
   const p = await buildPiece(accepted.id);
-  if (pub) publishPiece(p.id);
-  console.log(`  seeded ${ideaId} -> ${p.id} [${pub ? 'published' : 'review'}] (${p.render.slides.length} slides)`);
+  if (pub) { publishPiece(p.id); setPieceStage(p.id, 'posted'); }
+  console.log(`  seeded ${ideaId} -> ${p.id} [${pub ? 'posted' : 'review'}] (${p.render.slides.length} slides)`);
 }
 
 // Demo Orbit thread: a short research exchange that filed one idea to the board.

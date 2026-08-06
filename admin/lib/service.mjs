@@ -5,6 +5,7 @@ import { SEED_IDEAS } from './content/context.mjs';
 import { ALL_MEDIUMS, EXTRA_MEDIUMS } from './content/mediums.mjs';
 import { renderPieceSlides } from './render.mjs';
 import { id, getIdeas, setIdeas, addIdea, getPiece, savePiece, addPublished } from './db.mjs';
+import { PIECE_STAGES, normalizeGoal } from './content/stages.mjs';
 
 export { ALL_MEDIUMS };
 
@@ -56,15 +57,16 @@ export function dismissIdea(ideaId) {
   setIdeas(getIdeas().filter((i) => i.id !== ideaId));
 }
 
-// Stage 1 → 2: accept an idea into a 'building' piece. Snapshots the idea as an
-// editable concept; runs nothing expensive (no brief/blog/render yet).
+// Stage 1 → 2: accept an idea into a 'production' piece. Snapshots the idea as
+// an editable concept; runs nothing expensive (no brief/blog/render yet).
 export function acceptIdea(ideaId) {
   const idea = getIdeas().find((i) => i.id === ideaId) || SEED_IDEAS.find((i) => i.id === ideaId);
   if (!idea) throw new Error('idea not found');
   const piece = {
     id: id('pc'),
     ideaId,
-    status: 'building',
+    status: 'production',
+    goal: normalizeGoal(idea.goal),
     seed: 0,
     concept: { title: idea.title, angle: idea.angle, hook: idea.hook, source: idea.source, carouselFile: idea.carouselFile || null },
     title: idea.title,
@@ -72,6 +74,43 @@ export function acceptIdea(ideaId) {
   };
   savePiece(piece);
   return piece;
+}
+
+// Pure board move — never touches spec/render/blog/mediums, so backward drags
+// are lossless. An unbuilt piece can only sit in Production.
+export function setPieceStage(pid, stage) {
+  const p = getPiece(pid);
+  if (!p) return { ok: false, error: 'piece not found' };
+  if (!PIECE_STAGES.includes(stage)) return { ok: false, error: 'invalid stage' };
+  if (stage !== 'production' && !p.builtAt) return { ok: false, error: 'Build the piece first' };
+  if (stage === 'posted' && !p.postedAt) p.postedAt = new Date().toISOString();
+  if (stage !== 'posted' && p.status === 'posted') p.postedAt = null; // re-posting re-stamps
+  p.status = stage;
+  savePiece(p);
+  return { ok: true };
+}
+
+export function setGoal(kind, targetId, goal) {
+  const g = normalizeGoal(goal);
+  if (kind === 'idea') {
+    const idea = getIdeas().find((i) => i.id === targetId);
+    if (!idea) return null;
+    return addIdea({ ...idea, goal: g });
+  }
+  const p = getPiece(targetId);
+  if (!p) return null;
+  p.goal = g;
+  savePiece(p);
+  return p;
+}
+
+// Target post date for the Ready to Post column. '' clears it.
+export function setPostDate(pid, postAt) {
+  const p = getPiece(pid);
+  if (!p) return null;
+  p.postAt = postAt || null;
+  savePiece(p);
+  return p;
 }
 
 // The concept snapshots only the editable fields; templated ideas carry extra
@@ -82,10 +121,10 @@ function pieceIdea(p) {
   return { ...original, ...p.concept, id: p.ideaId };
 }
 
-// Refine the concept before building. Only valid while still 'building'.
+// Refine the concept before building. Only valid while in 'production'.
 export function updateConcept(pid, { title, angle, hook }) {
   const p = getPiece(pid);
-  if (!p || p.status !== 'building') return null;
+  if (!p || p.status !== 'production') return null;
   if (title != null) p.concept.title = title;
   if (angle != null) p.concept.angle = angle;
   if (hook != null) p.concept.hook = hook;
@@ -94,11 +133,11 @@ export function updateConcept(pid, { title, angle, hook }) {
   return p;
 }
 
-// The heavy step: brief + selected mediums. 'building' → 'review'.
+// The heavy step: brief + selected mediums. 'production' → 'review'.
 // The brief always runs (it's the shared skeleton every medium distills);
 // slides render and the blog is written only if selected. Extra mediums
 // (caption/xthread/linkedin/video) fail independently without failing the
-// build. Throws on brief/render failure, leaving the piece in 'building'.
+// build. Throws on brief/render failure, leaving the piece in 'production'.
 export async function buildPiece(pid, { mediums = ALL_MEDIUMS } = {}) {
   const p = getPiece(pid);
   if (!p) throw new Error('piece not found');
@@ -190,6 +229,20 @@ export async function editPieceSlide(pid, index, instruction) {
   return p;
 }
 
+// Full carousel refresh: re-run the brief (new copy from the same concept),
+// redraw the illustrations, and re-render with the full QA pass. Contrast with
+// regeneratePiece, which keeps the copy and only reshuffles the composition.
+export async function rebuildCarousel(pid) {
+  const p = getPiece(pid);
+  if (!p) return null;
+  const idea = pieceIdea(p);
+  p.spec = await enrichIllustrations(await brief(idea));
+  p.seed = Math.floor(Math.random() * 1e6);
+  p.render = await renderPieceSlides(p, { seed: p.seed });
+  savePiece(p);
+  return p;
+}
+
 export async function regeneratePiece(pid) {
   const p = getPiece(pid);
   if (!p) return null;
@@ -204,16 +257,17 @@ export function saveBlog(pid, { title, markdown }) {
   if (!p) return null;
   if (title) p.blog.title = title;
   if (markdown != null) p.blog.markdown = markdown;
-  if (p.status === 'published') addPublished({ title: p.blog.title, slug: p.slug, dek: p.blog.dek, markdown: p.blog.markdown, meta: p.blog.meta });
+  if (p.publishedAt) addPublished({ title: p.blog.title, slug: p.slug, dek: p.blog.dek, markdown: p.blog.markdown, meta: p.blog.meta });
   savePiece(p);
   return p;
 }
 
+// Publishing the blog is orthogonal to board stage: it copies the blog into
+// db.published (visible at /blog) and stamps publishedAt. Stage stays put.
 export function publishPiece(pid) {
   const p = getPiece(pid);
   if (!p) return null;
   if (!p.blog) return null; // publish is the blog step; blog-less pieces have nothing to publish
-  p.status = 'published';
   p.publishedAt = new Date().toISOString();
   // In the monorepo this becomes: insert blog_posts row + revalidatePath('/blog/[slug]').
   addPublished({ title: p.blog.title, slug: p.slug, dek: p.blog.dek, markdown: p.blog.markdown, meta: p.blog.meta });

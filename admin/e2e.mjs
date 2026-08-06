@@ -10,8 +10,12 @@ const page = await b.newPage({ viewport: { width: 1240, height: 1000 } });
 await page.goto(base + '/content', { waitUntil: 'networkidle' });
 await page.screenshot({ path: `${shots}/admin-board.png`, fullPage: true });
 const threadChips = await page.locator('a:has-text("from thread")').count();
-console.log('board loaded | thread-spawned idea chips:', threadChips);
+const columns = await page.locator('.board .column').count();
+const goalChips = await page.locator('.board-filter .chip').count();
+console.log('board loaded | thread-spawned idea chips:', threadChips, '| columns:', columns, '| goal filter chips:', goalChips);
 if (!threadChips) throw new Error('expected a thread-spawned idea on the board');
+if (columns !== 5) throw new Error(`expected 5 board columns, got ${columns}`);
+if (goalChips !== 6) throw new Error(`expected All + 5 goal filter chips, got ${goalChips}`);
 
 // ACCEPT → concept editor with medium checkboxes
 await Promise.all([
@@ -59,12 +63,11 @@ console.log('caption regenerate round-tripped:', (await page.locator('textarea[n
 await page.goto(base + '/content/queue', { waitUntil: 'networkidle' });
 await page.locator('.card:has(.badge:text("review")) a:has-text("Review")').last().click();
 await page.waitForURL(/\/content\/pc_/);
-await page.locator('button:has-text("publish")').click();
-await page.waitForFunction(
-  () => /published/i.test(document.querySelector('.badge')?.textContent || ''),
-  null, { timeout: 20000 },
-);
-console.log('status after publish: published');
+await page.locator('button:has-text("Publish blog")').click();
+// publishing no longer moves the board stage — it stamps publishedAt and the
+// page swaps to Republish + a "View published post" link
+await page.waitForSelector('a:has-text("View published post")', { timeout: 20000 });
+console.log('blog published: republish + view link shown');
 
 // ORBIT — seeded thread renders history + idea card; offline chat streams a canned reply
 await page.goto(base + '/orbit', { waitUntil: 'networkidle' });

@@ -1,7 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { acceptIdea, updateConcept, buildPiece, regeneratePiece, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, editPieceSlide, ALL_MEDIUMS } from '@/lib/service.mjs';
+import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, editPieceSlide, setPieceStage, setGoal, setPostDate, ALL_MEDIUMS } from '@/lib/service.mjs';
 
 export async function researchAction() {
   await refreshIdeas();
@@ -13,6 +13,41 @@ export async function acceptAction(formData: FormData) {
   const piece = acceptIdea(String(formData.get('ideaId')));
   revalidatePath('/content');
   redirect(`/content/${piece.id}/edit`);
+}
+
+// Board drag handler. Plain args (not a form) — the client board calls it
+// directly and owns navigation, so no redirect here.
+export async function moveCardAction(kind: 'idea' | 'piece', id: string, toStage: string): Promise<{ ok: boolean; error?: string }> {
+  if (kind === 'idea') {
+    if (toStage !== 'production') return { ok: false, error: 'Ideas can only move to Production' };
+    try { acceptIdea(id); } catch (e) { return { ok: false, error: (e as Error).message }; }
+  } else {
+    const res = setPieceStage(id, toStage);
+    if (!res.ok) return res;
+  }
+  revalidatePath('/content');
+  revalidatePath('/content/queue');
+  return { ok: true };
+}
+
+export async function setGoalAction(formData: FormData) {
+  const kind = String(formData.get('kind')) as 'idea' | 'piece';
+  const id = String(formData.get('id'));
+  setGoal(kind, id, String(formData.get('goal') || ''));
+  revalidatePath('/content');
+  if (kind === 'piece') revalidatePath(`/content/${id}`);
+}
+
+export async function setPostDateAction(formData: FormData) {
+  setPostDate(String(formData.get('pieceId')), String(formData.get('postAt') || ''));
+  revalidatePath('/content');
+}
+
+// Build button on a Production card: full build, stay on the board.
+export async function buildCardAction(formData: FormData) {
+  await buildPiece(String(formData.get('pieceId')), { mediums: ALL_MEDIUMS });
+  revalidatePath('/content');
+  revalidatePath('/content/queue');
 }
 
 export async function updateConceptAction(formData: FormData) {
@@ -62,6 +97,12 @@ export async function saveMediumAction(formData: FormData) {
     })).filter((b) => b.beat.trim());
     saveMedium(pid, medium, { hook: String(formData.get('hook') || ''), beats, cta: String(formData.get('cta') || '') });
   }
+  revalidatePath(`/content/${pid}`);
+}
+
+export async function rebuildCarouselAction(formData: FormData) {
+  const pid = String(formData.get('pieceId'));
+  await rebuildCarousel(pid);
   revalidatePath(`/content/${pid}`);
 }
 

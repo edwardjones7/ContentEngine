@@ -1,44 +1,65 @@
 import { ensureIdeas } from '@/lib/service.mjs';
 import { getPieces } from '@/lib/db.mjs';
 import { provider } from '@/lib/mode.mjs';
-import { Column, IdeaCard, PieceRow } from './parts';
+import { Board, type CardDTO } from './board';
 import { researchAction } from './actions';
 
 export const dynamic = 'force-dynamic';
+
+// Card DTOs pick fields explicitly — heavy piece payloads (spec, blog
+// markdown, render QA) must not cross the client boundary.
+function toIdeaCard(i: any): CardDTO {
+  return {
+    kind: 'idea', id: i.id, stage: 'idea',
+    title: i.title, goal: i.goal || null, formats: [],
+    source: i.source, angle: i.angle, hook: i.hook,
+    threadId: i.threadId || null, suggested: !!i.suggested,
+  };
+}
+
+function toPieceCard(p: any): CardDTO {
+  return {
+    kind: 'piece', id: p.id, stage: p.status,
+    title: p.title, goal: p.goal || null,
+    formats: p.mediumsRequested || (p.builtAt ? ['carousel', 'blog'] : []),
+    angle: p.concept?.angle,
+    thumb: p.render?.slides?.[0]?.url ?? null,
+    built: !!p.builtAt,
+    hasBlog: !!p.blog,
+    blogPublished: !!p.publishedAt,
+    slug: p.slug,
+    postAt: p.postAt || null,
+    postedAt: p.postedAt || null,
+  };
+}
 
 export default async function ContentPage() {
   const ideas = await ensureIdeas();
   const pieces = getPieces();
   const accepted = new Set(pieces.map((p: any) => p.ideaId));
 
-  const research = ideas.filter((i: any) => !accepted.has(i.id));
-  const building = pieces.filter((p: any) => p.status === 'building');
-  const review = pieces.filter((p: any) => p.status === 'review' || p.status === 'draft');
-  const published = pieces.filter((p: any) => p.status === 'published');
+  const byStage = (s: string) => pieces.filter((p: any) => p.status === s).map(toPieceCard);
+  const ready = byStage('ready').sort((a: CardDTO, b: CardDTO) =>
+    (a.postAt || '9999') < (b.postAt || '9999') ? -1 : 1);
+
+  const columns = {
+    idea: ideas.filter((i: any) => !accepted.has(i.id)).map(toIdeaCard),
+    production: byStage('production'),
+    review: byStage('review'),
+    ready,
+    posted: byStage('posted'),
+  };
 
   return (
     <>
-      <h1>Content pipeline</h1>
-      <p className="lead">Research → Build → Review. Chat with <a href="/orbit" style={{ color: 'var(--accent2)' }}>Orbit</a> to develop ideas, or accept one below — then fan it out into the mediums you pick.</p>
+      <h1>Content OS</h1>
+      <p className="lead">Idea → Production → Review → Ready to Post → Posted. Chat with <a href="/orbit" style={{ color: 'var(--accent2)' }}>Orbit</a> to develop ideas, drag cards through the pipeline, and let AI do the heavy lifting at each stage.</p>
       <div className="row">
         <form action={researchAction}><button type="submit">↻ Refresh research</button></form>
         <span className="src">{provider().kind === 'offline' ? 'offline: seeded ideas (add an API key in Settings to go live)' : `live research via ${provider().kind === 'free' ? 'Gemini + Google Search' : 'Claude + web search'}`}</span>
       </div>
 
-      <div className="board">
-        <Column title="Research" count={research.length} empty="No ideas yet — chat with Orbit to develop one, or hit ↻ Refresh research.">
-          {research.map((i: any) => <IdeaCard key={i.id} idea={i} />)}
-        </Column>
-        <Column title="Building" count={building.length} empty="Accept an idea to start building.">
-          {building.map((p: any) => <PieceRow key={p.id} p={p} />)}
-        </Column>
-        <Column title="Review" count={review.length} empty="Built pieces land here for review.">
-          {review.map((p: any) => <PieceRow key={p.id} p={p} />)}
-        </Column>
-        <Column title="Published" count={published.length} empty="Nothing published yet.">
-          {published.map((p: any) => <PieceRow key={p.id} p={p} />)}
-        </Column>
-      </div>
+      <Board columns={columns} />
     </>
   );
 }

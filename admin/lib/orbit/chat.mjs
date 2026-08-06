@@ -10,6 +10,7 @@ import { activeProvider } from '../settings.mjs';
 import { streamMessages, createAccumulator } from './anthropic-stream.mjs';
 import { geminiChatTurn } from './gemini-chat.mjs';
 import { orbitSystem, PROPOSE_IDEA_TOOL } from './persona.mjs';
+import { normalizeGoal } from '../content/stages.mjs';
 
 const CHAT_MODEL = 'claude-sonnet-4-6'; // paid research chat — swap to claude-opus-4-8 if depth disappoints
 const WEB_SEARCH_TOOL = { type: 'web_search_20260209', name: 'web_search', max_uses: 5 };
@@ -92,7 +93,7 @@ export async function* chatTurn(threadId, userText) {
       const results = [];
       for (const b of blocks) {
         if (b.type !== 'tool_use' || b.name !== 'propose_idea') continue;
-        const { title, angle, hook, source, evidence } = b.input || {};
+        const { title, angle, hook, source, evidence, goal } = b.input || {};
         if (!title || !angle || !hook) {
           results.push({ type: 'tool_result', tool_use_id: b.id, is_error: true, content: 'Rejected: title, angle, and hook are all required.' });
           continue;
@@ -100,6 +101,7 @@ export async function* chatTurn(threadId, userText) {
         const idea = addIdea({
           id: slugifyIdeaId(title),
           title, angle, hook,
+          goal: normalizeGoal(goal),
           source: source || 'thread',
           threadId,
           messageId: assistantRow.id,

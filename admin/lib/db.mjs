@@ -5,6 +5,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { normalizeStatus } from './content/stages.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 export const DATA_DIR = resolve(here, '..', 'data');
@@ -21,6 +22,13 @@ export function read() {
   const db = JSON.parse(readFileSync(DB, 'utf8'));
   // backfill collections added after a db.json was first written
   db.threads ||= []; db.messages ||= []; db.ideas ||= []; db.pieces ||= []; db.published ||= [];
+  // legacy piece statuses (building/draft/published) normalize to board stages;
+  // the file converges to the new vocabulary on its next write
+  for (const p of db.pieces) {
+    const s = normalizeStatus(p.status);
+    if (p.status === 'published' && !p.postedAt) p.postedAt = p.publishedAt || null;
+    p.status = s;
+  }
   return db;
 }
 export function write(db) { ensure(); writeFileSync(DB, JSON.stringify(db, null, 2)); }

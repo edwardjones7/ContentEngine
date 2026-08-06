@@ -19,15 +19,15 @@ export default async function EditConceptPage({ params }: { params: Promise<{ pi
   const { pieceId } = await params;
   const p: any = getPiece(pieceId);
   if (!p) notFound();
-  if (p.status !== 'building') redirect(`/content/${pieceId}`);
+  if (p.status !== 'production') redirect(`/content/${pieceId}`);
 
   return (
     <>
       <div className="row"><Link className="src" href="/content">← board</Link></div>
-      <Stepper current="building" />
+      <Stepper current="production" />
       <div className="row" style={{ margin: '6px 0 4px' }}>
         <h1 style={{ margin: 0 }}>Shape the concept</h1>
-        <span className="badge building">building</span>
+        <span className="badge production">production</span>
       </div>
       <p className="lead">Refine the angle before building. Nothing is rendered until you hit Build.</p>
       {p.concept?.carouselFile ? <p className="src">authored carousel — slide content is fixed; edits here shape the blog framing only.</p> : null}
@@ -62,7 +62,7 @@ export default async function EditConceptPage({ params }: { params: Promise<{ pi
                   </label>
                 ))}
               </div>
-              <button className="primary" type="submit" style={{ marginTop: 14 }}>Build piece →</button>
+              <button className="primary" type="submit" style={{ marginTop: 14 }}>{p.builtAt ? 'Rebuild piece →' : 'Build piece →'}</button>
             </form>
           </div>
         </div>

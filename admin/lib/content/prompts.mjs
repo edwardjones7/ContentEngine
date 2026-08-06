@@ -4,6 +4,7 @@
 // both engines produce identical shapes.
 import { validateCarousel } from '../slides/api.mjs';
 import { loadBrandContext } from './context.mjs';
+import { normalizeGoal } from './stages.mjs';
 
 export function voice() {
   const c = loadBrandContext();
@@ -38,14 +39,14 @@ export function ideatePrompt({ count = 6, avoid = [] } = {}) {
     maxTokens: 2000,
     json: true,
     system: `You are Orbit, the Elenos content engine. You generate Instagram/blog content ideas for Elenos, a software studio for service businesses. Brand voice: ${voice()}`,
-    user: `Propose ${count} distinct content ideas grounded in current pain points of US service-business owners (contractors, HVAC, plumbers). Vary the approach across ideas (diagnostic teardown / contrarian take / specific playbook), but "angle" must be a 1-2 sentence editorial angle stating the specific argument the post makes — never a category label.${avoidLine} Return JSON: {"ideas":[{"id","title","angle","hook","source":"web"|"brand"}]}. Hooks in Elenos voice — short, specific, no hype.`,
+    user: `Propose ${count} distinct content ideas grounded in current pain points of US service-business owners (contractors, HVAC, plumbers). Vary the approach across ideas (diagnostic teardown / contrarian take / specific playbook), but "angle" must be a 1-2 sentence editorial angle stating the specific argument the post makes — never a category label.${avoidLine} Return JSON: {"ideas":[{"id","title","angle","hook","source":"web"|"brand","goal":"leads"|"authority"|"nurture"|"story"|"values"}]}. "goal" is the business job of the post: leads (demand capture), authority (expertise proof), nurture (educate the existing audience), story (narrative/case), values (POV/beliefs). Hooks in Elenos voice — short, specific, no hype.`,
   };
 }
 export const postIdeate = (out) => {
   const j = extractJson(out);
   const ideas = Array.isArray(j) ? j : j.ideas;
   if (!Array.isArray(ideas) || !ideas.length) throw new Error('no ideas in model response');
-  return ideas;
+  return ideas.map((i) => ({ ...i, goal: normalizeGoal(i.goal) }));
 };
 
 export function briefPrompt(idea) {
