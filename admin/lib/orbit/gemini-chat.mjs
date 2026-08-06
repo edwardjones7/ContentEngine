@@ -12,7 +12,7 @@ import { id, addMessage, getMessages, getIdea, addIdea } from '../db.mjs';
 import { geminiKey } from '../settings.mjs';
 import { BASE, GEMINI_CHAIN, isRetryable, friendlyGeminiError, searchGrounded } from '../content/gemini.mjs';
 import { orbitSystem, PROPOSE_IDEA_TOOL } from './persona.mjs';
-import { normalizeGoal } from '../content/stages.mjs';
+import { normalizeGoal, normalizeFunnel } from '../content/stages.mjs';
 
 // The persona tells Orbit to "use web_search" (a real server tool on the
 // Claude path), so Gemini regularly calls it as a function even though its
@@ -251,7 +251,7 @@ export async function* geminiChatTurn(threadId) {
       } else if (call.name !== 'propose_idea') {
         result = `Unknown tool: ${call.name}`;
       } else {
-        const { title, angle, hook, source, evidence, goal } = call.args || {};
+        const { title, angle, hook, source, evidence, goal, funnel } = call.args || {};
         if (!title || !angle || !hook) {
           result = 'Rejected: title, angle, and hook are all required.';
         } else {
@@ -259,6 +259,8 @@ export async function* geminiChatTurn(threadId) {
             id: slugifyIdeaId(title),
             title, angle, hook,
             goal: normalizeGoal(goal),
+            funnel: normalizeFunnel(funnel),
+            brand: 'elenos', // Orbit researches for Elenos; retag on the board if it's an edjonesai post
             source: source || 'thread',
             threadId,
             toolUseId: toolUse.id,

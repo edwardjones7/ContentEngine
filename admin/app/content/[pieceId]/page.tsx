@@ -4,8 +4,8 @@ import { getPiece } from '@/lib/db.mjs';
 import { activeProvider } from '@/lib/settings.mjs';
 import { Stepper } from '../parts';
 import { SubmitButton } from '../pending';
-import { saveAction, regenerateAction, rebuildCarouselAction, publishAction, regenerateMediumAction, saveMediumAction, editSlideAction, setGoalAction } from '../actions';
-import { GOALS, GOAL_LABEL } from '@/lib/content/stages.mjs';
+import { saveAction, regenerateAction, rebuildCarouselAction, publishAction, regenerateMediumAction, saveMediumAction, editSlideAction, setTagAction } from '../actions';
+import { TAG_FIELDS } from '@/lib/content/stages.mjs';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,15 +26,18 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
       <div className="row" style={{ margin: '6px 0 18px' }}>
         <h1 style={{ margin: 0 }}>{p.title}</h1>
         <span className={`badge ${p.status}`}>{p.status}</span>
-        <form action={setGoalAction} className="row" style={{ gap: 6 }}>
-          <input type="hidden" name="kind" value="piece" />
-          <input type="hidden" name="id" value={p.id} />
-          {GOALS.map((g: string) => (
-            <button key={g} type="submit" name="goal" value={g} style={{ padding: 0, border: 'none', background: 'none' }} title={`Goal: ${GOAL_LABEL[g]}`}>
-              <span className={`chip goal goal-${g} ${p.goal === g ? 'on' : ''}`}>{GOAL_LABEL[g]}</span>
-            </button>
-          ))}
-        </form>
+        {Object.entries(TAG_FIELDS).map(([field, dim]: [string, any]) => (
+          <form key={field} action={setTagAction} className="row" style={{ gap: 6 }}>
+            <input type="hidden" name="kind" value="piece" />
+            <input type="hidden" name="id" value={p.id} />
+            <input type="hidden" name="field" value={field} />
+            {dim.values.map((v: string) => (
+              <button key={v} type="submit" name="value" value={v} style={{ padding: 0, border: 'none', background: 'none' }} title={`${field}: ${dim.labels[v]}`}>
+                <span className={`chip goal ${field}-${v} ${p[field] === v ? 'on' : ''}`}>{dim.labels[v]}</span>
+              </button>
+            ))}
+          </form>
+        ))}
         <span className="sp" />
         {p.render ? <span className="src">{p.render.theme}/{p.render.bg} · seed {p.seed}</span> : null}
       </div>

@@ -1,7 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, createIdea, editPieceSlide, setPieceStage, setGoal, setPostDate, ALL_MEDIUMS } from '@/lib/service.mjs';
+import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, createIdea, editPieceSlide, setPieceStage, setTag, setPostDate, ALL_MEDIUMS } from '@/lib/service.mjs';
 
 export async function researchAction() {
   await refreshIdeas();
@@ -22,6 +22,8 @@ export async function addIdeaAction(formData: FormData) {
     hook: String(formData.get('hook') || ''),
     script: String(formData.get('script') || ''),
     goal: String(formData.get('goal') || ''),
+    brand: String(formData.get('brand') || ''),
+    funnel: String(formData.get('funnel') || ''),
   });
   revalidatePath('/content');
 }
@@ -41,10 +43,11 @@ export async function moveCardAction(kind: 'idea' | 'piece', id: string, toStage
   return { ok: true };
 }
 
-export async function setGoalAction(formData: FormData) {
+// Sets one tag dimension (goal / brand / funnel) on an idea or piece.
+export async function setTagAction(formData: FormData) {
   const kind = String(formData.get('kind')) as 'idea' | 'piece';
   const id = String(formData.get('id'));
-  setGoal(kind, id, String(formData.get('goal') || ''));
+  setTag(kind, id, String(formData.get('field')), String(formData.get('value') || ''));
   revalidatePath('/content');
   if (kind === 'piece') revalidatePath(`/content/${id}`);
 }

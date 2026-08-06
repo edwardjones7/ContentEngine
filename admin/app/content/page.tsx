@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 function toIdeaCard(i: any): CardDTO {
   return {
     kind: 'idea', id: i.id, stage: 'idea',
-    title: i.title, goal: i.goal || null, formats: [],
+    title: i.title, goal: i.goal || null, brand: i.brand || null, funnel: i.funnel || null, formats: [],
     source: i.source, angle: i.angle, hook: i.hook, hasScript: !!i.script,
     threadId: i.threadId || null, suggested: !!i.suggested,
   };
@@ -20,7 +20,7 @@ function toIdeaCard(i: any): CardDTO {
 function toPieceCard(p: any): CardDTO {
   return {
     kind: 'piece', id: p.id, stage: p.status,
-    title: p.title, goal: p.goal || null,
+    title: p.title, goal: p.goal || null, brand: p.brand || null, funnel: p.funnel || null,
     formats: p.mediumsRequested || (p.builtAt ? ['carousel', 'blog'] : []),
     angle: p.concept?.angle,
     thumb: p.render?.slides?.[0]?.url ?? null,

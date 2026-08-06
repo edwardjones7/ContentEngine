@@ -30,6 +30,7 @@ export const PROPOSE_IDEA_TOOL = {
       hook: { type: 'string', description: 'Opening hook in Elenos voice — short, specific, no hype' },
       source: { type: 'string', enum: ['web', 'brand', 'thread'], description: 'Where the idea is grounded' },
       goal: { type: 'string', enum: ['leads', 'authority', 'nurture', 'story', 'values'], description: 'Business job of the post: leads (demand capture), authority (expertise proof), nurture (educate audience), story (narrative/case), values (POV/beliefs)' },
+      funnel: { type: 'string', enum: ['tof', 'mof', 'bof'], description: 'Audience stage: tof (top of funnel — broad awareness), mof (middle — evaluating), bof (bottom — ready to buy)' },
       evidence: {
         type: 'array',
         description: 'Key sources backing the idea',

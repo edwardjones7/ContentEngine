@@ -155,6 +155,12 @@ form.inline{ display:inline; }
 .goal-nurture{ color:var(--blue); border-color:#1e3a52; background:rgba(143,211,255,.05); }
 .goal-story{ color:var(--amber); border-color:#5c4413; background:rgba(255,194,77,.05); }
 .goal-values{ color:var(--red); border-color:#5c1e1e; background:rgba(255,156,156,.05); }
+/* brand (destination site) + funnel-stage tag chips */
+.brand-elenos{ color:var(--accent2); border-color:#3a2a5e; background:var(--accent-soft); }
+.brand-edjones{ color:#ffd9a8; border-color:#5c4413; background:rgba(255,217,168,.05); }
+.funnel-tof{ color:var(--blue); border-color:#1e3a52; background:rgba(143,211,255,.05); }
+.funnel-mof{ color:var(--amber); border-color:#5c4413; background:rgba(255,194,77,.05); }
+.funnel-bof{ color:var(--green); border-color:#16623f; background:rgba(52,224,168,.06); }
 .chip.on{ color:var(--ink); border-color:var(--accent); background:var(--accent-soft); }
 .goal-pick{ position:relative; display:inline-block; }
 .goal-pick summary{ list-style:none; cursor:pointer; }

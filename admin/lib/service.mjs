@@ -5,7 +5,7 @@ import { SEED_IDEAS } from './content/context.mjs';
 import { ALL_MEDIUMS, EXTRA_MEDIUMS } from './content/mediums.mjs';
 import { renderPieceSlides } from './render.mjs';
 import { id, getIdeas, setIdeas, addIdea, getPiece, savePiece, addPublished } from './db.mjs';
-import { PIECE_STAGES, normalizeGoal } from './content/stages.mjs';
+import { PIECE_STAGES, TAG_FIELDS, normalizeGoal, normalizeBrand, normalizeFunnel } from './content/stages.mjs';
 
 export { ALL_MEDIUMS };
 
@@ -19,14 +19,15 @@ export async function refreshIdeas() {
   const ideas = await ideate();
   // batch refresh replaces generated ideas but must not wipe thread-spawned
   // ideas, Orbit's own pitches, or manually filed ones
-  const merged = [...getIdeas().filter((i) => i.threadId || i.suggested || i.manual), ...ideas];
+  // batch research is Elenos-grounded, so those ideas default to the elenos.ai brand
+  const merged = [...getIdeas().filter((i) => i.threadId || i.suggested || i.manual), ...ideas.map((i) => ({ ...i, brand: normalizeBrand(i.brand) || 'elenos' }))];
   setIdeas(merged);
   return merged;
 }
 
 // Manually filed idea from the board — no AI involved. `script` is optional
 // draft copy/notes that ride along into the build brief.
-export function createIdea({ title, angle, hook, goal, script }) {
+export function createIdea({ title, angle, hook, goal, brand, funnel, script }) {
   if (!title || !title.trim()) return null;
   const idea = {
     id: slugifyIdeaId(title.trim()),
@@ -35,6 +36,8 @@ export function createIdea({ title, angle, hook, goal, script }) {
     hook: (hook || '').trim(),
     script: (script || '').trim() || null,
     goal: normalizeGoal(goal),
+    brand: normalizeBrand(brand),
+    funnel: normalizeFunnel(funnel),
     source: 'manual',
     manual: true,
     createdAt: new Date().toISOString(),
@@ -65,6 +68,7 @@ export async function suggestIdeas(count = 3) {
       ...g,
       id: slugifyIdeaId(g.title),
       source: g.source || 'orbit',
+      brand: normalizeBrand(g.brand) || 'elenos',
       suggested: true,
       suggestedAt: new Date().toISOString(),
     }));
@@ -86,6 +90,8 @@ export function acceptIdea(ideaId) {
     ideaId,
     status: 'production',
     goal: normalizeGoal(idea.goal),
+    brand: normalizeBrand(idea.brand),
+    funnel: normalizeFunnel(idea.funnel),
     seed: 0,
     concept: { title: idea.title, angle: idea.angle, hook: idea.hook, script: idea.script || null, source: idea.source, carouselFile: idea.carouselFile || null },
     title: idea.title,
@@ -109,16 +115,19 @@ export function setPieceStage(pid, stage) {
   return { ok: true };
 }
 
-export function setGoal(kind, targetId, goal) {
-  const g = normalizeGoal(goal);
+// Set one of the card tag dimensions (goal / brand / funnel) on an idea or piece.
+export function setTag(kind, targetId, field, value) {
+  const dim = TAG_FIELDS[field];
+  if (!dim) return null;
+  const v = dim.normalize(value);
   if (kind === 'idea') {
     const idea = getIdeas().find((i) => i.id === targetId);
     if (!idea) return null;
-    return addIdea({ ...idea, goal: g });
+    return addIdea({ ...idea, [field]: v });
   }
   const p = getPiece(targetId);
   if (!p) return null;
-  p.goal = g;
+  p[field] = v;
   savePiece(p);
   return p;
 }

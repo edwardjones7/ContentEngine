@@ -6,7 +6,7 @@
 import Link from 'next/link';
 import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { moveCardAction, setGoalAction, setPostDateAction, buildCardAction, acceptAction, addIdeaAction } from './actions';
+import { moveCardAction, setTagAction, setPostDateAction, buildCardAction, acceptAction, addIdeaAction } from './actions';
 import { ideateIdeaAction } from '../orbit/actions';
 import { SubmitButton } from './pending';
 
@@ -16,6 +16,8 @@ export type CardDTO = {
   stage: string;
   title: string;
   goal: string | null;
+  brand: string | null;
+  funnel: string | null;
   formats: string[];
   source?: string;
   angle?: string;
@@ -46,6 +48,16 @@ const STAGE_EMPTY: Record<string, string> = {
 };
 const GOALS = ['leads', 'authority', 'nurture', 'story', 'values'];
 const GOAL_LABEL: Record<string, string> = { leads: 'Leads', authority: 'Authority', nurture: 'Nurture', story: 'Story', values: 'Values' };
+const BRANDS = ['elenos', 'edjones'];
+const BRAND_LABEL: Record<string, string> = { elenos: 'elenos.ai', edjones: 'edjonesai' };
+const FUNNELS = ['tof', 'mof', 'bof'];
+const FUNNEL_LABEL: Record<string, string> = { tof: 'TOF', mof: 'MOF', bof: 'BOF' };
+// One entry per tag dimension — drives the pickers, filters, and form selects.
+const TAG_DIMS: { field: string; values: string[]; labels: Record<string, string>; hint: string }[] = [
+  { field: 'goal', values: GOALS, labels: GOAL_LABEL, hint: 'goal' },
+  { field: 'brand', values: BRANDS, labels: BRAND_LABEL, hint: 'site' },
+  { field: 'funnel', values: FUNNELS, labels: FUNNEL_LABEL, hint: 'funnel' },
+];
 const MEDIUM_BADGE: Record<string, string> = { carousel: 'IG', blog: 'Blog', caption: 'Cap', xthread: 'X', linkedin: 'LI', video: '🎬' };
 
 function canDrop(card: CardDTO | null, stage: string): boolean {
@@ -60,7 +72,7 @@ export function Board({ columns }: { columns: Columns }) {
   const router = useRouter();
   const [cols, setCols] = useState<Columns>(columns);
   const [drag, setDrag] = useState<CardDTO | null>(null);
-  const [goalFilter, setGoalFilter] = useState<string | null>(null);
+  const [filters, setFilters] = useState<Record<string, string | null>>({ goal: null, brand: null, funnel: null });
   const [hint, setHint] = useState('');
   const [, startTransition] = useTransition();
 
@@ -90,21 +102,30 @@ export function Board({ columns }: { columns: Columns }) {
     });
   }
 
-  const visible = (cards: CardDTO[]) => (goalFilter ? cards.filter((c) => c.goal === goalFilter) : cards);
+  const allClear = Object.values(filters).every((v) => v === null);
+  const visible = (cards: CardDTO[]) =>
+    cards.filter((c: any) => TAG_DIMS.every(({ field }) => !filters[field] || c[field] === filters[field]));
+  const toggle = (field: string, v: string) =>
+    setFilters((f) => ({ ...f, [field]: f[field] === v ? null : v }));
 
   return (
     <>
       <div className="board-filter">
-        <button type="button" className={`chip ${goalFilter === null ? 'on' : ''}`} onClick={() => setGoalFilter(null)}>All</button>
-        {GOALS.map((g) => (
-          <button
-            key={g}
-            type="button"
-            className={`chip goal goal-${g} ${goalFilter === g ? 'on' : ''}`}
-            onClick={() => setGoalFilter(goalFilter === g ? null : g)}
-          >
-            {GOAL_LABEL[g]}
-          </button>
+        <button type="button" className={`chip ${allClear ? 'on' : ''}`} onClick={() => setFilters({ goal: null, brand: null, funnel: null })}>All</button>
+        {TAG_DIMS.map(({ field, values, labels }, di) => (
+          <span key={field} className="row" style={{ gap: 6 }}>
+            <span className="src" style={{ opacity: 0.5 }}>·</span>
+            {values.map((v) => (
+              <button
+                key={v}
+                type="button"
+                className={`chip goal ${field}-${v} ${filters[field] === v ? 'on' : ''}`}
+                onClick={() => toggle(field, v)}
+              >
+                {labels[v]}
+              </button>
+            ))}
+          </span>
         ))}
         {hint ? <span className="board-hint">⚠ {hint}</span> : null}
       </div>
@@ -186,11 +207,15 @@ function NewIdeaCard() {
         <textarea name="angle" placeholder="Angle — the argument this post makes (optional)" style={{ minHeight: 60, marginBottom: 8 }} />
         <textarea name="hook" placeholder="Hook — the opening line (optional)" style={{ minHeight: 48, marginBottom: 8 }} />
         <textarea name="script" placeholder="Script — draft copy or notes; guides the AI build (optional)" style={{ minHeight: 90, marginBottom: 8 }} />
+        <div className="row" style={{ gap: 8, marginBottom: 8 }}>
+          {TAG_DIMS.map(({ field, values, labels, hint }) => (
+            <select key={field} name={field} defaultValue="" title={`${field} tag`}>
+              <option value="">{hint}…</option>
+              {values.map((v) => <option key={v} value={v}>{labels[v]}</option>)}
+            </select>
+          ))}
+        </div>
         <div className="row" style={{ gap: 8 }}>
-          <select name="goal" defaultValue="" title="Goal tag">
-            <option value="">goal…</option>
-            {GOALS.map((g) => <option key={g} value={g}>{GOAL_LABEL[g]}</option>)}
-          </select>
           <span className="sp" />
           <button type="button" onClick={() => setOpen(false)}>Cancel</button>
           <SubmitButton className="primary" busy="adding…">Add</SubmitButton>
@@ -200,24 +225,38 @@ function NewIdeaCard() {
   );
 }
 
-function GoalPicker({ kind, id, goal }: { kind: string; id: string; goal: string | null }) {
+// Chip dropdown for one tag dimension (goal / brand / funnel).
+function TagPicker({ kind, id, field, value }: { kind: string; id: string; field: string; value: string | null }) {
+  const dim = TAG_DIMS.find((d) => d.field === field)!;
   return (
     <details className="goal-pick">
       <summary>
-        {goal
-          ? <span className={`chip goal goal-${goal}`}>{GOAL_LABEL[goal]}</span>
-          : <span className="chip goal">＋ goal</span>}
+        {value
+          ? <span className={`chip goal ${field}-${value}`}>{dim.labels[value]}</span>
+          : <span className="chip goal">＋ {dim.hint}</span>}
       </summary>
-      <form className="goal-menu" action={setGoalAction} onClick={(e) => (e.currentTarget.closest('details') as HTMLDetailsElement)?.removeAttribute('open')}>
+      <form className="goal-menu" action={setTagAction} onClick={(e) => (e.currentTarget.closest('details') as HTMLDetailsElement)?.removeAttribute('open')}>
         <input type="hidden" name="kind" value={kind} />
         <input type="hidden" name="id" value={id} />
-        {GOALS.map((g) => (
-          <button key={g} type="submit" name="goal" value={g}>
-            <span className={`chip goal goal-${g} ${g === goal ? 'on' : ''}`}>{GOAL_LABEL[g]}</span>
+        <input type="hidden" name="field" value={field} />
+        {dim.values.map((v) => (
+          <button key={v} type="submit" name="value" value={v}>
+            <span className={`chip goal ${field}-${v} ${v === value ? 'on' : ''}`}>{dim.labels[v]}</span>
           </button>
         ))}
       </form>
     </details>
+  );
+}
+
+// All three tag pickers for a card.
+function TagRow({ kind, card }: { kind: string; card: CardDTO }) {
+  return (
+    <>
+      <TagPicker kind={kind} id={card.id} field="goal" value={card.goal} />
+      <TagPicker kind={kind} id={card.id} field="brand" value={card.brand} />
+      <TagPicker kind={kind} id={card.id} field="funnel" value={card.funnel} />
+    </>
   );
 }
 
@@ -234,8 +273,8 @@ function IdeaCardC({ card, setDrag }: { card: CardDTO; setDrag: (c: CardDTO | nu
       <h3>{card.title}</h3>
       <div className="meta">{card.angle}</div>
       {card.hook ? <div className="meta" style={{ color: '#cfc7e6' }}>“{card.hook}”</div> : null}
-      <div className="row" style={{ gap: 8 }}>
-        <GoalPicker kind="idea" id={card.id} goal={card.goal} />
+      <div className="row" style={{ gap: 6 }}>
+        <TagRow kind="idea" card={card} />
         {card.hasScript ? <span className="badge medium" title="Has a draft script — it guides the AI build">📝 script</span> : null}
         <span className="sp" />
         <form action={ideateIdeaAction}>
@@ -264,7 +303,7 @@ function PieceCardC({ card, setDrag }: { card: CardDTO; setDrag: (c: CardDTO | n
       </div>
       {card.angle && !card.built ? <div className="meta">{card.angle}</div> : null}
       <div className="row" style={{ gap: 6, marginBottom: 10 }}>
-        <GoalPicker kind="piece" id={card.id} goal={card.goal} />
+        <TagRow kind="piece" card={card} />
         {card.formats.map((m) => <span key={m} className="badge medium">{MEDIUM_BADGE[m] || m}</span>)}
       </div>
       <StageActions card={card} href={href} />

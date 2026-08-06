@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BOARD_STAGES, STAGE_LABEL, GOAL_LABEL } from '@/lib/content/stages.mjs';
+import { BOARD_STAGES, STAGE_LABEL, GOAL_LABEL, BRAND_LABEL, FUNNEL_LABEL } from '@/lib/content/stages.mjs';
 
 // Horizontal pipeline indicator. `current` is the active stage (db normalizes
 // legacy statuses, so pieces always carry board-stage values).
@@ -33,6 +33,8 @@ export function PieceRow({ p }: { p: any }) {
         <Link href={action.href}><h3 style={{ margin: 0 }}>{p.title}</h3></Link>
         <span className={`badge ${p.status}`}>{p.status}</span>
         {p.goal ? <span className={`chip goal goal-${p.goal}`}>{GOAL_LABEL[p.goal]}</span> : null}
+        {p.brand ? <span className={`chip goal brand-${p.brand}`}>{BRAND_LABEL[p.brand]}</span> : null}
+        {p.funnel ? <span className={`chip goal funnel-${p.funnel}`}>{FUNNEL_LABEL[p.funnel]}</span> : null}
       </div>
       <div className="meta">
         {!p.builtAt
