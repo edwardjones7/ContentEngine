@@ -117,6 +117,21 @@ export async function saveMediumAction(formData: FormData) {
       onScreenText: String(formData.getAll('onScreenText')[i] || ''),
     })).filter((b) => b.beat.trim());
     saveMedium(pid, medium, { hook: String(formData.get('hook') || ''), beats, cta: String(formData.get('cta') || '') });
+  } else if (medium === 'youtube') {
+    const sections = formData.getAll('heading').map((h, i) => ({
+      heading: String(h),
+      talking: String(formData.getAll('talking')[i] || ''),
+    })).filter((s) => s.heading.trim() || s.talking.trim());
+    saveMedium(pid, medium, {
+      title: String(formData.get('title') || ''),
+      description: String(formData.get('description') || ''),
+      tags: String(formData.get('tags') || '').split(/[,\n]+/).map((t) => t.trim()).filter(Boolean).slice(0, 15),
+      script: {
+        hook: String(formData.get('hook') || ''),
+        sections,
+        outro: String(formData.get('outro') || ''),
+      },
+    });
   }
   revalidatePath(`/content/${pid}`);
 }

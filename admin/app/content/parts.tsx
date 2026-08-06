@@ -16,7 +16,7 @@ export function Stepper({ current }: { current: string }) {
   );
 }
 
-const MEDIUM_BADGE: Record<string, string> = { carousel: 'IG', blog: 'Blog', caption: 'Cap', xthread: 'X', linkedin: 'LI', video: '🎬' };
+const MEDIUM_BADGE: Record<string, string> = { carousel: 'IG', blog: 'Blog', caption: 'Cap', xthread: 'X', linkedin: 'LI', video: '🎬', youtube: 'YT' };
 
 // Flat list row for an accepted piece (used by /content/queue). Action + meta
 // adapt to the stage.

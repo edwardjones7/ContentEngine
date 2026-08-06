@@ -129,6 +129,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
             {mediums.xthread ? <XThreadSection p={p} m={mediums.xthread} /> : null}
             {mediums.linkedin ? <LinkedInSection p={p} m={mediums.linkedin} /> : null}
             {mediums.video ? <VideoSection p={p} m={mediums.video} /> : null}
+            {mediums.youtube ? <YouTubeSection p={p} m={mediums.youtube} /> : null}
           </div>
         </>
       ) : null}
@@ -207,6 +208,38 @@ function LinkedInSection({ p, m }: { p: any; m: any }) {
         <input type="hidden" name="pieceId" value={p.id} />
         <input type="hidden" name="medium" value="linkedin" />
         <textarea name="text" defaultValue={m.text} style={{ minHeight: 220 }} />
+        <div style={{ marginTop: 10 }}><SubmitButton className="primary" busy="saving…">Save</SubmitButton></div>
+      </form>
+    </div>
+  );
+}
+
+function YouTubeSection({ p, m }: { p: any; m: any }) {
+  if (m.status === 'error') return <MediumError p={p} medium="youtube" title="YouTube video" error={m.error} />;
+  const sections = m.script?.sections || [];
+  return (
+    <div className="card">
+      <MediumHead p={p} medium="youtube" title="YouTube video" note={`${sections.length} chapters · 4-8 min`} />
+      <form action={saveMediumAction}>
+        <input type="hidden" name="pieceId" value={p.id} />
+        <input type="hidden" name="medium" value="youtube" />
+        <label className="src">Title ({(m.title || '').length}/100)</label>
+        <input className="title" style={{ fontSize: 14 }} name="title" defaultValue={m.title} />
+        <label className="src">Description</label>
+        <textarea name="description" defaultValue={m.description} style={{ minHeight: 120 }} />
+        <label className="src" style={{ marginTop: 8, display: 'block' }}>Tags (comma-separated)</label>
+        <input className="title" style={{ fontSize: 13 }} name="tags" defaultValue={(m.tags || []).join(', ')} />
+        <label className="src" style={{ marginTop: 8, display: 'block' }}>Hook (first 30 seconds, spoken)</label>
+        <textarea name="hook" defaultValue={m.script?.hook} style={{ minHeight: 64 }} />
+        {sections.map((s: any, i: number) => (
+          <div key={i} style={{ margin: '10px 0' }}>
+            <label className="src">Chapter {i + 1}</label>
+            <input className="title" style={{ fontSize: 13, marginBottom: 6 }} name="heading" defaultValue={s.heading} placeholder="chapter title" />
+            <textarea name="talking" defaultValue={s.talking} style={{ minHeight: 72 }} />
+          </div>
+        ))}
+        <label className="src">Outro (closing CTA)</label>
+        <textarea name="outro" defaultValue={m.script?.outro} style={{ minHeight: 56 }} />
         <div style={{ marginTop: 10 }}><SubmitButton className="primary" busy="saving…">Save</SubmitButton></div>
       </form>
     </div>

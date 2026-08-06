@@ -24,7 +24,7 @@ await Promise.all([
 ]);
 const checkboxes = await page.locator('input[name="mediums"]').count();
 console.log('accepted ->', page.url(), '| medium checkboxes:', checkboxes);
-if (checkboxes !== 6) throw new Error(`expected 6 medium checkboxes, got ${checkboxes}`);
+if (checkboxes !== 7) throw new Error(`expected 7 medium checkboxes, got ${checkboxes}`);
 await page.screenshot({ path: `${shots}/admin-edit.png`, fullPage: true });
 
 // BUILD (uncheck blog — prove medium selection + publish guard)

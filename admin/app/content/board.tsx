@@ -59,7 +59,7 @@ const TAG_DIMS: { field: string; values: string[]; labels: Record<string, string
   { field: 'brand', values: BRANDS, labels: BRAND_LABEL, hint: 'site' },
   { field: 'funnel', values: FUNNELS, labels: FUNNEL_LABEL, hint: 'funnel' },
 ];
-const MEDIUM_BADGE: Record<string, string> = { carousel: 'IG', blog: 'Blog', caption: 'Cap', xthread: 'X', linkedin: 'LI', video: '🎬' };
+const MEDIUM_BADGE: Record<string, string> = { carousel: 'IG', blog: 'Blog', caption: 'Cap', xthread: 'X', linkedin: 'LI', video: '🎬', youtube: 'YT' };
 
 function canDrop(card: CardDTO | null, stage: string): boolean {
   if (!card || card.stage === stage) return false;

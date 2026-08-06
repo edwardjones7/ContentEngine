@@ -104,6 +104,10 @@ const MEDIUM_SPECS = {
     what: 'a 30-45s talking-head TikTok/Reels script',
     shape: '{"hook": "spoken opening line", "beats": [{"beat": "what to say", "onScreenText": "<=42 chars overlay"}], "cta": "closing line"} — 4-8 beats',
   },
+  youtube: {
+    what: 'a 4-8 minute talking-head YouTube video script with chapters',
+    shape: '{"title": "<=100 chars — curiosity + search keyword", "description": "2-4 short paragraphs with natural keywords, ends with a link to elenos.ai", "tags": ["<=15 search tags"], "script": {"hook": "the first 30 seconds, spoken — earn the click fast", "sections": [{"heading": "chapter title", "talking": "what to say in this chapter, spoken style with concrete specifics"}], "outro": "closing CTA, spoken"}} — 3-6 sections',
+  },
 };
 
 // ---- vision QA: critique rendered slides (images are attached by the transport) ----

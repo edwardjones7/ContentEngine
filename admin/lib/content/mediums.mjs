@@ -13,10 +13,11 @@ export const MEDIUM_LABEL = {
   xthread: 'X thread',
   linkedin: 'LinkedIn',
   video: 'Video script',
+  youtube: 'YouTube video',
 };
 export const ALL_MEDIUMS = Object.keys(MEDIUM_LABEL);
 // mediums stored under piece.mediums (carousel/blog keep their legacy homes)
-export const EXTRA_MEDIUMS = ['caption', 'xthread', 'linkedin', 'video'];
+export const EXTRA_MEDIUMS = ['caption', 'xthread', 'linkedin', 'video', 'youtube'];
 
 function slidePoints(spec) {
   return (spec?.slides || [])
@@ -63,7 +64,21 @@ export function validateVideo(v) {
   if (!v?.cta) errors.push('video: cta required');
   return errors;
 }
-export const VALIDATORS = { caption: validateCaption, xthread: validateXThread, linkedin: validateLinkedIn, video: validateVideo };
+export function validateYouTube(y) {
+  const errors = [];
+  if (!y?.title) errors.push('youtube: title required');
+  else if (y.title.length > 100) errors.push('youtube: title over 100 chars');
+  if (!y?.description) errors.push('youtube: description required');
+  else if (y.description.length > 5000) errors.push('youtube: description over 5000 chars');
+  if (!Array.isArray(y?.tags)) errors.push('youtube: tags[] required');
+  else if (y.tags.length > 15) errors.push('youtube: more than 15 tags');
+  if (!y?.script?.hook) errors.push('youtube: script.hook required');
+  if (!Array.isArray(y?.script?.sections) || y.script.sections.length < 3 || y.script.sections.length > 8) errors.push('youtube: needs 3-8 script sections');
+  (y?.script?.sections || []).forEach((s, i) => { if (!s?.heading || !s?.talking) errors.push(`youtube: section ${i + 1} needs heading + talking`); });
+  if (!y?.script?.outro) errors.push('youtube: script.outro required');
+  return errors;
+}
+export const VALIDATORS = { caption: validateCaption, xthread: validateXThread, linkedin: validateLinkedIn, video: validateVideo, youtube: validateYouTube };
 
 // --- offline template generators ---------------------------------------------
 
@@ -127,4 +142,24 @@ export function makeVideoScript(idea, spec) {
   };
 }
 
-export const TEMPLATES = { caption: makeCaption, xthread: makeXThread, linkedin: makeLinkedIn, video: makeVideoScript };
+export function makeYouTube(idea, spec) {
+  const points = slidePoints(spec);
+  const sections = points.slice(0, 5).map((p) => ({
+    heading: p.split(/[.—]/)[0].trim().slice(0, 60),
+    talking: p,
+  }));
+  while (sections.length < 3) sections.push({ heading: idea.title.slice(0, 60), talking: idea.angle });
+  const br = breakerLine(spec);
+  return {
+    title: idea.title.slice(0, 100),
+    description: [idea.hook, '', idea.angle, br ? `\n${br}` : '', '', 'Full breakdown: https://elenos.ai'].filter((l) => l !== '').join('\n').slice(0, 5000),
+    tags: ['contractor software', 'service business', 'hvac business', 'plumbing business', 'small business operations', 'elenos'],
+    script: {
+      hook: idea.hook,
+      sections,
+      outro: 'If this sounds like your operation, the full teardown is at elenos.ai — link in the description.',
+    },
+  };
+}
+
+export const TEMPLATES = { caption: makeCaption, xthread: makeXThread, linkedin: makeLinkedIn, video: makeVideoScript, youtube: makeYouTube };

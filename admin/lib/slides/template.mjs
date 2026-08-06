@@ -11,7 +11,7 @@ const FONTS =
 
 const BASE_CSS = `
   *{ margin:0; padding:0; box-sizing:border-box; }
-  .stage{ position:relative; overflow:hidden; padding:64px 72px; display:flex; flex-direction:column;
+  .stage{ position:relative; overflow:hidden; padding:64px 80px; display:flex; flex-direction:column;
     background:radial-gradient(125% 90% at 50% 46%, #0a0714 0%, #06040c 58%, #030208 100%);
     color:#f4f1fb; font-family:'Lora', Georgia, serif; }
   .vignette{ position:absolute; inset:0; z-index:1; pointer-events:none;

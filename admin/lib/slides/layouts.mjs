@@ -71,12 +71,16 @@ export function renderLayout(slide) {
   }
 
   // ---- body / explainer layouts ----
+  // Long headlines drop a size so they band across the top instead of
+  // stacking into a 6-line wall against the safe margin.
+  const bodyHeadClass = (slide) =>
+    (slide.headline || []).reduce((n, r) => n + (r.t || '').length, 0) > 30 ? 'h-md h-long' : 'h-md';
   if (L === 'right-text-left-art') {
     return `<div class="L lay-body lay-body-rtl">
-      <div class="ill ill-mid-left">${illHTML(slide)}</div>
-      <div class="body-col body-col-right">
-        <h1 class="headline h-md">${headlineHTML(slide)}</h1>
+      <h1 class="headline ${bodyHeadClass(slide)}">${headlineHTML(slide)}</h1>
+      <div class="body-row">
         <div class="blocks-wrap"><div class="blocks">${blocksHTML(slide)}</div></div>
+        <div class="ill ill-body">${illHTML(slide)}</div>
       </div>
     </div>`;
   }
@@ -96,11 +100,11 @@ export function renderLayout(slide) {
   }
   if (L === 'left-text-right-art') {
     return `<div class="L lay-body lay-body-ltr">
-      <div class="body-col body-col-left">
-        <h1 class="headline h-md">${headlineHTML(slide)}</h1>
+      <h1 class="headline ${bodyHeadClass(slide)}">${headlineHTML(slide)}</h1>
+      <div class="body-row">
         <div class="blocks-wrap"><div class="blocks">${blocksHTML(slide)}</div></div>
+        <div class="ill ill-body">${illHTML(slide)}</div>
       </div>
-      <div class="ill ill-mid-right">${illHTML(slide)}</div>
     </div>`;
   }
 
@@ -198,19 +202,20 @@ export const LAYOUT_CSS = `
   .ill-top{ position:relative; width:300px; height:300px; margin:6px 0 0 4px; }
   .bh-head{ max-width:13ch; }
 
-  /* body shared */
-  .lay-body{ display:flex; }
-  .body-col{ width:60%; display:flex; flex-direction:column; padding-top:22px; }
-  .body-col-right{ margin-left:auto; }
-  .lay-body .h-md{ margin-bottom:10px; max-width:9ch; }
+  /* body shared — headline bands full-width on top, then blocks + art share
+     one vertically-centered row so both columns read as a bounded unit */
+  .lay-body{ display:flex; flex-direction:column; padding-top:22px; }
+  .lay-body .h-md{ margin-bottom:28px; max-width:12ch; }
+  .lay-body .h-md.h-long{ font-size:62px; max-width:18ch; }
+  .body-row{ flex:1; display:flex; align-items:center; gap:48px; min-height:0; }
+  .body-row .blocks-wrap{ flex:none; width:56%; }
+  .lay-body-rtl .body-row{ flex-direction:row-reverse; }
   .blocks-wrap{ flex:1; display:flex; align-items:center; }
   .blocks{ display:flex; flex-direction:column; gap:30px; max-width:520px; }
   .block{ border-left:2px solid var(--accent); padding-left:24px; }
   .block p{ font-size:31px; line-height:1.4; color:#e7e2f5; }
   .rule{ height:1px; background:linear-gradient(90deg, var(--accent-glow), transparent 62%); }
-  .ill-mid-right{ width:44%; right:0; top:50%; transform:translateY(-50%); height:720px;
-    display:flex; align-items:center; justify-content:center; }
-  .ill-mid-left{ width:44%; left:0; top:50%; transform:translateY(-50%); height:720px;
+  .ill-body{ position:relative; flex:1; align-self:stretch; max-height:640px; margin:auto 0;
     display:flex; align-items:center; justify-content:center; }
 
   /* body: art-watermark */

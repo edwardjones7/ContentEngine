@@ -14,6 +14,7 @@ const MEDIUM_OPTIONS: [string, string, string][] = [
   ['xthread', 'X thread', 'hook + supporting posts'],
   ['linkedin', 'LinkedIn post', 'long-form single post'],
   ['video', 'Video script', 'TikTok/Reels talking head'],
+  ['youtube', 'YouTube video', '4-8 min chaptered script'],
 ];
 
 export default async function EditConceptPage({ params }: { params: Promise<{ pieceId: string }> }) {

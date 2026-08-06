@@ -557,18 +557,7 @@
               "score": 8.8
             }
           ],
-          "issues": [
-            {
-              "index": 2,
-              "kind": "spacing",
-              "note": "The large header text is extremely close to the left boundary edge."
-            },
-            {
-              "index": 5,
-              "kind": "spacing",
-              "note": "The two-column body text block has an uneven distribution of visual weight, with the right column looking slightly disconnected due to lack of a clear boundary alignment with the header."
-            }
-          ],
+          "issues": [],
           "fixes": [
             {
               "index": 2,
