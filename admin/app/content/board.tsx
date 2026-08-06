@@ -233,7 +233,7 @@ function TagPicker({ kind, id, field, value }: { kind: string; id: string; field
       <summary>
         {value
           ? <span className={`chip goal ${field}-${value}`}>{dim.labels[value]}</span>
-          : <span className="chip goal">＋ {dim.hint}</span>}
+          : <span className="chip goal unset">＋ {dim.hint}</span>}
       </summary>
       <form className="goal-menu" action={setTagAction} onClick={(e) => (e.currentTarget.closest('details') as HTMLDetailsElement)?.removeAttribute('open')}>
         <input type="hidden" name="kind" value={kind} />

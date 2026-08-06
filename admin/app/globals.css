@@ -146,21 +146,48 @@ form.inline{ display:inline; }
 .badge.draft, .badge.review{ color:var(--amber); border-color:#5c4413; background:rgba(255,194,77,.05); }
 .badge.building, .badge.production{ color:var(--accent2); border-color:#3a2a5e; background:var(--accent-soft); }
 .badge.ready{ color:var(--blue); border-color:#1e3a52; background:rgba(143,211,255,.05); }
-.badge.medium{ color:var(--blue); border-color:#1e3a52; background:rgba(143,211,255,.05); padding:4px 7px; }
+/* format badges stay neutral so the tag accents carry the color hierarchy */
+.badge.medium{ color:var(--dim); border-color:var(--line2); background:rgba(255,255,255,.02); padding:4px 7px; }
 
-/* ---------- goal tags ---------- */
-.chip.goal{ cursor:pointer; background:rgba(255,255,255,.02); }
-.goal-leads{ color:var(--green); border-color:#16623f; background:rgba(52,224,168,.06); }
-.goal-authority{ color:var(--accent2); border-color:#3a2a5e; background:var(--accent-soft); }
-.goal-nurture{ color:var(--blue); border-color:#1e3a52; background:rgba(143,211,255,.05); }
-.goal-story{ color:var(--amber); border-color:#5c4413; background:rgba(255,194,77,.05); }
-.goal-values{ color:var(--red); border-color:#5c1e1e; background:rgba(255,156,156,.05); }
-/* brand (destination site) + funnel-stage tag chips */
-.brand-elenos{ color:var(--accent2); border-color:#3a2a5e; background:var(--accent-soft); }
-.brand-edjones{ color:#ffd9a8; border-color:#5c4413; background:rgba(255,217,168,.05); }
-.funnel-tof{ color:var(--blue); border-color:#1e3a52; background:rgba(143,211,255,.05); }
-.funnel-mof{ color:var(--amber); border-color:#5c4413; background:rgba(255,194,77,.05); }
-.funnel-bof{ color:var(--green); border-color:#16623f; background:rgba(52,224,168,.06); }
+/* ---------- tag chips ----------
+   One constant anatomy (dark base, mono caps, glowing accent dot — the slide
+   "NN / LABEL" motif) with the accent color swapped per value, exactly how the
+   carousels swap themes over a constant dark identity. */
+.chip.goal{
+  --c:var(--faint);
+  display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+  font:10px/1 ui-monospace,monospace; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--c);
+  border:1px solid color-mix(in srgb, var(--c) 30%, transparent);
+  background:color-mix(in srgb, var(--c) 8%, transparent);
+  padding:5px 10px; border-radius:20px;
+  transition:border-color .12s, background .12s;
+}
+.chip.goal::before{
+  content:''; width:5px; height:5px; border-radius:50%; flex:0 0 auto;
+  background:var(--c); box-shadow:0 0 6px color-mix(in srgb, var(--c) 60%, transparent);
+}
+.chip.goal:hover{ border-color:color-mix(in srgb, var(--c) 55%, transparent); }
+.chip.goal.unset{ border-style:dashed; }
+.chip.goal.unset::before{ display:none; }
+.chip.goal.on{
+  color:color-mix(in srgb, var(--c) 80%, white);
+  background:color-mix(in srgb, var(--c) 18%, transparent);
+  border-color:color-mix(in srgb, var(--c) 60%, transparent);
+}
+/* goal wears the five carousel theme accents (themes.mjs --accent-bright) */
+.goal-leads{ --c:#34e0a8; }      /* emerald */
+.goal-authority{ --c:#a06bf5; }  /* violet — the signature */
+.goal-nurture{ --c:#4cc9ff; }    /* blue */
+.goal-story{ --c:#ff5fb0; }      /* magenta */
+.goal-values{ --c:#ffc24d; }     /* amber */
+/* brand: elenos.ai wears the signature violet, edjonesai plain ink */
+.brand-elenos{ --c:#a06bf5; }
+.brand-edjones{ --c:#ece8f7; }
+/* funnel: violet depth ramp — the deeper the funnel, the deeper the purple */
+.funnel-tof{ --c:#e2d5fc; }
+.funnel-mof{ --c:#b692f3; }
+.funnel-bof{ --c:#8b5cf6; }
 .chip.on{ color:var(--ink); border-color:var(--accent); background:var(--accent-soft); }
 .goal-pick{ position:relative; display:inline-block; }
 .goal-pick summary{ list-style:none; cursor:pointer; }
