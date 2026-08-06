@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getThread, getMessages, getIdeas, getPieces, getIdea } from '@/lib/db.mjs';
 import { provider } from '@/lib/mode.mjs';
 import { renameThreadAction } from '../actions';
+import { SubmitButton } from '../../content/pending';
 import Chat from './chat';
 
 export const dynamic = 'force-dynamic';
@@ -34,7 +35,7 @@ export default async function ThreadPage({ params, searchParams }: {
         <form action={renameThreadAction} className="row" style={{ flex: 1 }}>
           <input type="hidden" name="threadId" value={thread.id} />
           <input className="title" name="title" defaultValue={thread.title} style={{ flex: 1, margin: 0 }} />
-          <button type="submit">Rename</button>
+          <SubmitButton busy="renaming…">Rename</SubmitButton>
         </form>
         <span className="mode">{provider().label}</span>
       </div>

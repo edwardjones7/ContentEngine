@@ -2,6 +2,7 @@ import { ensureIdeas } from '@/lib/service.mjs';
 import { getPieces } from '@/lib/db.mjs';
 import { provider } from '@/lib/mode.mjs';
 import { Board, type CardDTO } from './board';
+import { SubmitButton } from './pending';
 import { researchAction } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -55,7 +56,7 @@ export default async function ContentPage() {
       <h1>Content OS</h1>
       <p className="lead">Idea → Production → Review → Ready to Post → Posted. Chat with <a href="/orbit" style={{ color: 'var(--accent2)' }}>Orbit</a> to develop ideas, drag cards through the pipeline, and let AI do the heavy lifting at each stage.</p>
       <div className="row">
-        <form action={researchAction}><button type="submit">↻ Refresh research</button></form>
+        <form action={researchAction}><SubmitButton busy="↻ researching…">↻ Refresh research</SubmitButton></form>
         <span className="src">{provider().kind === 'offline' ? 'offline: seeded ideas (add an API key in Settings to go live)' : `live research via ${provider().kind === 'free' ? 'Gemini + Google Search' : 'Claude + web search'}`}</span>
       </div>
 

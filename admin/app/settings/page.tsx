@@ -1,5 +1,6 @@
 import { getSettings, activeProvider } from '@/lib/settings.mjs';
 import { saveSettingsAction, testProviderAction } from './actions';
+import { SubmitButton } from '../content/pending';
 
 export const dynamic = 'force-dynamic';
 
@@ -59,13 +60,13 @@ export default async function SettingsPage() {
         </div>
 
         <div className="row">
-          <button className="primary" type="submit">Save settings</button>
+          <SubmitButton className="primary" busy="saving…">Save settings</SubmitButton>
           <span className="src">keys are stored in admin/settings.local.json (gitignored) — never committed</span>
         </div>
       </form>
 
       <form action={testProviderAction} className="row" style={{ marginTop: 14, maxWidth: 720 }}>
-        <button type="submit">Test connection</button>
+        <SubmitButton busy="testing…">Test connection</SubmitButton>
         {s.lastTest ? <span className="src">{s.lastTest}</span> : null}
       </form>
     </>

@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import { getPiece } from '@/lib/db.mjs';
 import { activeProvider } from '@/lib/settings.mjs';
 import { Stepper } from '../parts';
-import { SubmitButton } from '../pending';
+import { SubmitButton, ChipSubmit } from '../pending';
 import { saveAction, regenerateAction, rebuildCarouselAction, publishAction, regenerateMediumAction, saveMediumAction, editSlideAction, setTagAction } from '../actions';
 import { TAG_FIELDS } from '@/lib/content/stages.mjs';
 
@@ -32,9 +32,9 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
             <input type="hidden" name="id" value={p.id} />
             <input type="hidden" name="field" value={field} />
             {dim.values.map((v: string) => (
-              <button key={v} type="submit" name="value" value={v} style={{ padding: 0, border: 'none', background: 'none' }} title={`${field}: ${dim.labels[v]}`}>
-                <span className={`chip goal ${field}-${v} ${p[field] === v ? 'on' : ''}`}>{dim.labels[v]}</span>
-              </button>
+              <ChipSubmit key={v} value={v} chipClass={`chip goal ${field}-${v} ${p[field] === v ? 'on' : ''}`} title={`${field}: ${dim.labels[v]}`}>
+                {dim.labels[v]}
+              </ChipSubmit>
             ))}
           </form>
         ))}
@@ -60,7 +60,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
           <>
             <form action={publishAction}>
               <input type="hidden" name="pieceId" value={p.id} />
-              <button className={p.publishedAt ? '' : 'primary'} type="submit">{p.publishedAt ? '↻ Republish blog' : '✓ Publish blog'}</button>
+              <SubmitButton className={p.publishedAt ? '' : 'primary'} busy="publishing…">{p.publishedAt ? '↻ Republish blog' : '✓ Publish blog'}</SubmitButton>
             </form>
             {p.publishedAt ? <Link className="btn ghost" href={`/blog/${p.slug}`}>View published post →</Link> : null}
           </>
@@ -76,7 +76,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
               <input className="title" name="title" defaultValue={p.blog.title} />
               <textarea name="markdown" defaultValue={p.blog.markdown} />
               <div className="row" style={{ marginTop: 12 }}>
-                <button className="primary" type="submit">Save draft</button>
+                <SubmitButton className="primary" busy="saving…">Save draft</SubmitButton>
                 <span className="src">{p.blog.meta?.words || ''} words · markdown</span>
               </div>
             </form>
@@ -171,7 +171,7 @@ function CaptionSection({ p, m }: { p: any; m: any }) {
         <textarea name="text" defaultValue={m.text} style={{ minHeight: 160 }} />
         <label className="src" style={{ margin: '10px 0 4px', display: 'block' }}>Hashtags (space-separated)</label>
         <input className="title" style={{ fontSize: 13 }} name="hashtags" defaultValue={(m.hashtags || []).map((h: string) => `#${h}`).join(' ')} />
-        <button className="primary" type="submit">Save</button>
+        <SubmitButton className="primary" busy="saving…">Save</SubmitButton>
       </form>
     </div>
   );
@@ -192,7 +192,7 @@ function XThreadSection({ p, m }: { p: any; m: any }) {
             <textarea name="tweet" defaultValue={t.text} style={{ minHeight: 64 }} />
           </div>
         ))}
-        <button className="primary" type="submit">Save</button>
+        <SubmitButton className="primary" busy="saving…">Save</SubmitButton>
       </form>
     </div>
   );
@@ -207,7 +207,7 @@ function LinkedInSection({ p, m }: { p: any; m: any }) {
         <input type="hidden" name="pieceId" value={p.id} />
         <input type="hidden" name="medium" value="linkedin" />
         <textarea name="text" defaultValue={m.text} style={{ minHeight: 220 }} />
-        <button className="primary" type="submit" style={{ marginTop: 10 }}>Save</button>
+        <div style={{ marginTop: 10 }}><SubmitButton className="primary" busy="saving…">Save</SubmitButton></div>
       </form>
     </div>
   );
@@ -233,7 +233,7 @@ function VideoSection({ p, m }: { p: any; m: any }) {
         ))}
         <label className="src">CTA (closing line)</label>
         <textarea name="cta" defaultValue={m.cta} style={{ minHeight: 56 }} />
-        <button className="primary" type="submit" style={{ marginTop: 10 }}>Save</button>
+        <div style={{ marginTop: 10 }}><SubmitButton className="primary" busy="saving…">Save</SubmitButton></div>
       </form>
     </div>
   );

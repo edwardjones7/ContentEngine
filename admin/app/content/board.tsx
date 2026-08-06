@@ -8,7 +8,8 @@ import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { moveCardAction, setTagAction, setPostDateAction, buildCardAction, acceptAction, addIdeaAction, deletePieceAction } from './actions';
 import { ideateIdeaAction, dismissIdeaAction } from '../orbit/actions';
-import { SubmitButton } from './pending';
+import { useFormStatus } from 'react-dom';
+import { SubmitButton, ChipSubmit } from './pending';
 
 export type CardDTO = {
   kind: 'idea' | 'piece';
@@ -240,9 +241,9 @@ function TagPicker({ kind, id, field, value }: { kind: string; id: string; field
         <input type="hidden" name="id" value={id} />
         <input type="hidden" name="field" value={field} />
         {dim.values.map((v) => (
-          <button key={v} type="submit" name="value" value={v}>
-            <span className={`chip goal ${field}-${v} ${v === value ? 'on' : ''}`}>{dim.labels[v]}</span>
-          </button>
+          <ChipSubmit key={v} value={v} chipClass={`chip goal ${field}-${v} ${v === value ? 'on' : ''}`}>
+            {dim.labels[v]}
+          </ChipSubmit>
         ))}
       </form>
     </details>
@@ -260,12 +261,27 @@ function TagRow({ kind, card }: { kind: string; card: CardDTO }) {
   );
 }
 
+// Date input that greys out while its save is in flight.
+function PendingDateInput({ defaultValue }: { defaultValue: string }) {
+  const { pending } = useFormStatus();
+  return (
+    <input
+      type="date"
+      name="postAt"
+      defaultValue={defaultValue}
+      title="Target post date"
+      disabled={pending}
+      onChange={(e) => e.currentTarget.form?.requestSubmit()}
+    />
+  );
+}
+
 // A small confirm-guarded ✕ used on both card types.
 function DeleteButton({ action, name, id, prompt }: { action: (fd: FormData) => void; name: string; id: string; prompt: string }) {
   return (
     <form action={action} onSubmit={(e) => { if (!confirm(prompt)) e.preventDefault(); }}>
       <input type="hidden" name={name} value={id} />
-      <button type="submit" className="del" title={prompt.split('?')[0] + '?'}>✕</button>
+      <SubmitButton className="del" busy="…" title={prompt.split('?')[0] + '?'}>✕</SubmitButton>
     </form>
   );
 }
@@ -290,11 +306,11 @@ function IdeaCardC({ card, setDrag }: { card: CardDTO; setDrag: (c: CardDTO | nu
         <span className="sp" />
         <form action={ideateIdeaAction}>
           <input type="hidden" name="ideaId" value={card.id} />
-          <button type="submit" title="Riff on this idea with Orbit before committing it">💬</button>
+          <SubmitButton busy="💬…" title="Riff on this idea with Orbit before committing it">💬</SubmitButton>
         </form>
         <form action={acceptAction}>
           <input type="hidden" name="ideaId" value={card.id} />
-          <button className="primary" type="submit">Accept →</button>
+          <SubmitButton className="primary" busy="accepting…">Accept →</SubmitButton>
         </form>
       </div>
     </div>
@@ -346,13 +362,7 @@ function StageActions({ card, href }: { card: CardDTO; href: string }) {
       <div className="row" style={{ gap: 8 }}>
         <form action={setPostDateAction}>
           <input type="hidden" name="pieceId" value={card.id} />
-          <input
-            type="date"
-            name="postAt"
-            defaultValue={card.postAt || ''}
-            title="Target post date"
-            onChange={(e) => e.currentTarget.form?.requestSubmit()}
-          />
+          <PendingDateInput defaultValue={card.postAt || ''} />
         </form>
         <span className="sp" />
         <Link className="btn" href={href}>View →</Link>

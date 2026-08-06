@@ -22,3 +22,26 @@ export function SubmitButton({
     </button>
   );
 }
+
+// Tag-chip submit: disables its form while pending and pulses only the chip
+// that was actually clicked (the submitter's value rides in useFormStatus data).
+export function ChipSubmit({
+  value,
+  chipClass,
+  title,
+  children,
+}: {
+  value: string;
+  chipClass: string;
+  title?: string;
+  children: React.ReactNode;
+}) {
+  const { pending, data } = useFormStatus();
+  const mine = pending && data?.get('value') === value;
+  return (
+    <button type="submit" name="value" value={value} title={title} disabled={pending} aria-busy={mine}
+      style={{ padding: 0, border: 'none', background: 'none' }}>
+      <span className={chipClass + (mine ? ' busy-chip' : '')}>{children}</span>
+    </button>
+  );
+}

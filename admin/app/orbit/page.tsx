@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getThreads, getMessages, getIdeas, getPieces } from '@/lib/db.mjs';
 import { provider } from '@/lib/mode.mjs';
 import { createThreadAction, deleteThreadAction, developIdeaAction, suggestIdeasAction, dismissIdeaAction, ideateIdeaAction } from './actions';
+import { SubmitButton } from '../content/pending';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,7 @@ export default async function OrbitPage() {
       <div className="row">
         <form action={createThreadAction} className="row" style={{ flex: 1 }}>
           <input className="title" style={{ flex: 1, margin: 0, fontSize: 15 }} name="title" placeholder="What do you want to research?" />
-          <button className="primary" type="submit">New thread →</button>
+          <SubmitButton className="primary" busy="creating…">New thread →</SubmitButton>
         </form>
         <span className="src">{provider().kind === 'offline' ? 'offline — add an API key in Settings for live research' : provider().kind === 'free' ? 'live: Gemini (free tier)' : 'live: Claude + web search'}</span>
       </div>
@@ -27,7 +28,7 @@ export default async function OrbitPage() {
         <h2 className="sec" style={{ margin: 0 }}>Orbit's pitches</h2>
         <span className="sp" />
         <form action={suggestIdeasAction}>
-          <button type="submit">✨ Pitch me 3 ideas</button>
+          <SubmitButton busy="✨ pitching…">✨ Pitch me 3 ideas</SubmitButton>
         </form>
       </div>
       {pitches.length ? (
@@ -39,7 +40,7 @@ export default async function OrbitPage() {
                 <span className="sp" />
                 <form action={dismissIdeaAction}>
                   <input type="hidden" name="ideaId" value={i.id} />
-                  <button className="ghost" type="submit" title="Dismiss this pitch" style={{ padding: '4px 8px', fontSize: 12 }}>✕</button>
+                  <SubmitButton className="ghost" busy="…" title="Dismiss this pitch">✕</SubmitButton>
                 </form>
               </div>
               <h3>{i.title}</h3>
@@ -48,11 +49,11 @@ export default async function OrbitPage() {
               <div className="row" style={{ gap: 8 }}>
                 <form action={ideateIdeaAction}>
                   <input type="hidden" name="ideaId" value={i.id} />
-                  <button type="submit" title="Riff on this idea with Orbit before committing it">💬 Ideate</button>
+                  <SubmitButton busy="opening thread…" title="Riff on this idea with Orbit before committing it">💬 Ideate</SubmitButton>
                 </form>
                 <form action={developIdeaAction}>
                   <input type="hidden" name="ideaId" value={i.id} />
-                  <button className="primary" type="submit">Develop →</button>
+                  <SubmitButton className="primary" busy="accepting…">Develop →</SubmitButton>
                 </form>
               </div>
             </div>
@@ -79,7 +80,7 @@ export default async function OrbitPage() {
                   {spawned ? <span className="badge review">{spawned} idea{spawned > 1 ? 's' : ''}</span> : null}
                   <form action={deleteThreadAction}>
                     <input type="hidden" name="threadId" value={t.id} />
-                    <button className="ghost" type="submit" title="Delete this thread" style={{ padding: '4px 8px', fontSize: 12 }}>✕</button>
+                    <SubmitButton className="ghost" busy="…" title="Delete this thread">✕</SubmitButton>
                   </form>
                 </div>
                 <div className="meta" style={{ marginBottom: 0, marginTop: 6 }}>

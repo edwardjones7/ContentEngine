@@ -238,85 +238,87 @@
   ],
   "pieces": [
     {
-      "id": "pc_mshzcwbu2",
-      "ideaId": "idea-the-driveway-estimate",
+      "id": "pc_msi0z5of1",
+      "ideaId": "idea-stop-hiring-office-assistants-to-do-api-jobs",
       "status": "review",
-      "goal": "authority",
+      "goal": "values",
+      "brand": null,
+      "funnel": null,
       "seed": 3,
       "concept": {
-        "title": "The Driveway Estimate",
-        "angle": "The contractor who delivers a clean, digital estimate first wins seventy percent of the time. This is the precise automation architecture that moves an on-site diagnostic to client approval before you leave the driveway.",
-        "hook": "\"I’ll send you a quote tonight.\" The six words that kill residential service contracts.",
+        "title": "Stop Hiring Office Assistants to Do API Jobs",
+        "angle": "Scaling a mechanical contracting business by adding office headcount to copy-paste customer data between platforms is a structural failure. You do not need more people to manage the friction — you need to retire the manual handoffs.",
+        "hook": "Headcount is the loudest way to solve a quiet software problem.",
         "script": null,
-        "source": "brand",
+        "source": "web",
         "carouselFile": null
       },
-      "title": "The Driveway Estimate",
-      "createdAt": "2026-08-06T20:40:28.842Z",
+      "title": "Stop Hiring Office Assistants to Do API Jobs",
+      "createdAt": "2026-08-06T21:25:47.008Z",
       "spec": {
-        "slug": "driveway-estimate-architecture",
-        "title": "The Driveway Estimate",
-        "theme": "emerald",
-        "bg": "grid",
+        "slug": "stop-hiring-assistants-for-api-jobs",
+        "title": "Stop Hiring Office Assistants to Do API Jobs",
+        "theme": "blue",
+        "bg": "solid-grain",
         "slides": [
           {
             "type": "cover",
             "index": 1,
-            "label": "01 / THE ARCHITECTURE",
+            "label": "01 / PERSPECTIVE",
             "headline": [
               {
-                "t": "The driveway "
+                "t": "Stop hiring office assistants to do "
               },
               {
-                "t": "leak",
+                "t": "API",
                 "em": true
               },
               {
-                "t": "."
+                "t": " jobs."
               }
             ],
             "illustration": {
-              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><g fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"60,320 300,320 230,160 130,160\" opacity=\"0.35\"/><line x1=\"180\" y1=\"160\" x2=\"180\" y2=\"320\" stroke-dasharray=\"6,8\" opacity=\"0.5\"/><path d=\"M180,110 C170,135 155,150 180,175 C205,150 190,135 180,110 Z\" stroke-width=\"2.5\"/><ellipse cx=\"180\" cy=\"185\" rx=\"24\" ry=\"6\" opacity=\"0.7\"/><ellipse cx=\"180\" cy=\"195\" rx=\"45\" ry=\"11\" opacity=\"0.4\"/><ellipse cx=\"180\" cy=\"205\" rx=\"70\" ry=\"16\" opacity=\"0.2\"/><path d=\"M130,160 L230,160 M60,320 L300,320\" opacity=\"0.3\"/></g></svg>"
+              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><g stroke=\"var(--accent-bright)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"60\" y1=\"190\" x2=\"300\" y2=\"190\" stroke-dasharray=\"4 4\" opacity=\"0.3\"/><rect x=\"80\" y=\"110\" width=\"120\" height=\"160\" rx=\"6\" opacity=\"0.4\"/><line x1=\"110\" y1=\"150\" x2=\"170\" y2=\"150\" opacity=\"0.4\"/><line x1=\"110\" y1=\"180\" x2=\"150\" y2=\"180\" opacity=\"0.4\"/><rect x=\"160\" y=\"140\" width=\"120\" height=\"100\" rx=\"8\" fill=\"none\"/><circle cx=\"220\" cy=\"190\" r=\"16\"/><line x1=\"190\" y1=\"190\" x2=\"204\" y2=\"190\"/><line x1=\"236\" y1=\"190\" x2=\"250\" y2=\"190\"/><line x1=\"220\" y1=\"160\" x2=\"220\" y2=\"174\"/><line x1=\"220\" y1=\"206\" x2=\"220\" y2=\"220\"/></g></svg>"
             }
           },
           {
             "type": "body",
             "index": 2,
-            "label": "02 / THE DIAGNOSTIC",
+            "label": "02 / THE FRACTURE",
             "headline": [
               {
-                "t": "Six words that "
+                "t": "Headcount is the "
               },
               {
-                "t": "kill contracts",
+                "t": "loudest",
                 "em": true
               },
               {
-                "t": "."
+                "t": " way to solve a quiet software problem."
               }
             ],
             "blocks": [
               {
                 "body": [
                   {
-                    "t": "“I’ll send you a quote tonight.” — "
+                    "t": "Scaling a contracting business by adding office headcount to copy-paste data is a structural failure. You do not need more people to manage "
                   },
                   {
-                    "t": "the friction begins",
+                    "t": "friction",
                     "em": true
                   },
                   {
-                    "t": " the moment you start your engine."
+                    "t": "."
                   }
                 ]
               },
               {
                 "body": [
                   {
-                    "t": "Homeowners want clarity, not homework. Delay introduces doubt. You are no longer competing on capability; you are competing on "
+                    "t": "Manual handoffs. Buried data. Spreadsheets acting as load-bearing infrastructure. Every hire to manage this is a symptom of a "
                   },
                   {
-                    "t": "operational speed",
+                    "t": "quiet leak",
                     "em": true
                   },
                   {
@@ -326,19 +328,20 @@
               }
             ],
             "illustration": {
-              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><g fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"90\" y=\"70\" width=\"180\" height=\"240\" rx=\"8\" opacity=\"0.4\"/><line x1=\"120\" y1=\"120\" x2=\"240\" y2=\"120\" opacity=\"0.3\"/><line x1=\"120\" y1=\"155\" x2=\"200\" y2=\"155\" opacity=\"0.3\"/><line x1=\"120\" y1=\"190\" x2=\"240\" y2=\"190\" opacity=\"0.3\"/><line x1=\"120\" y1=\"225\" x2=\"170\" y2=\"225\" opacity=\"0.3\"/><g opacity=\"0.95\"><line x1=\"70\" y1=\"260\" x2=\"290\" y2=\"120\" stroke-width=\"3\"/><circle cx=\"180\" cy=\"190\" r=\"32\" fill=\"none\" stroke-width=\"2\"/><line x1=\"165\" y1=\"175\" x2=\"195\" y2=\"205\" stroke-width=\"2.5\"/><line x1=\"195\" y1=\"175\" x2=\"165\" y2=\"205\" stroke-width=\"2.5\"/></g></g></svg>"
-            }
+              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><g stroke=\"var(--accent-bright)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"110\" cy=\"150\" r=\"20\" opacity=\"0.3\"/><path d=\"M80 210 A 30 30 0 0 1 140 210\" opacity=\"0.3\"/><circle cx=\"250\" cy=\"150\" r=\"20\" opacity=\"0.3\"/><path d=\"M220 210 A 30 30 0 0 1 280 210\" opacity=\"0.3\"/><circle cx=\"180\" cy=\"120\" r=\"20\" opacity=\"0.3\"/><path d=\"M150 180 A 30 30 0 0 1 210 180\" opacity=\"0.3\"/><path d=\"M 180,60 L 180,140 L 140,220 L 220,300 L 180,350\"/></g></svg>"
+            },
+            "layout": "left-text-right-art"
           },
           {
             "type": "compare",
             "index": 3,
-            "label": "03 / THE OPERATIONAL SHIFT",
+            "label": "03 / THE ARCHITECTURE",
             "headline": [
               {
-                "t": "From delayed to "
+                "t": "The real cost of "
               },
               {
-                "t": "instant",
+                "t": "broken plumbing",
                 "em": true
               },
               {
@@ -346,13 +349,13 @@
               }
             ],
             "left": {
-              "tag": "The Manual Path",
+              "tag": "The Handoff Stack",
               "body": [
                 {
-                  "t": "On-site measure. Drive home. Open the spreadsheet. Write the proposal. Email a PDF the next morning. "
+                  "t": "Three operators manually moving service tickets to accounting. Slow. Prone to drift. A fragile "
                 },
                 {
-                  "t": "The lead goes cold",
+                  "t": "human bridge",
                   "em": true
                 },
                 {
@@ -361,62 +364,77 @@
               ]
             },
             "right": {
-              "tag": "The Driveway Stack",
+              "tag": "The Integrated Pipe",
               "body": [
                 {
-                  "t": "Tap diagnostic inputs. Pipeline triggers calculations. PDF generates in memory. "
+                  "t": "One automated API sync. Real-time translation from dispatch to the general ledger. "
                 },
                 {
-                  "t": "Client signs on glass",
+                  "t": "Zero drift",
                   "em": true
                 },
                 {
-                  "t": " before you leave."
+                  "t": "."
                 }
               ]
             }
           },
           {
-            "type": "body",
+            "type": "quote",
             "index": 4,
             "label": "04 / THE SYSTEM",
-            "headline": [
+            "quote": [
               {
-                "t": "Anatomy of the "
+                "t": "Software must replace the "
               },
               {
-                "t": "seven-minute",
+                "t": "recurring manual task",
                 "em": true
               },
               {
-                "t": " quote."
+                "t": " — not the human."
               }
             ],
-            "illustration": {
-              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><g fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"180\" cy=\"195\" r=\"80\"/><circle cx=\"180\" cy=\"195\" r=\"92\" stroke-dasharray=\"4,12\" opacity=\"0.5\"/><circle cx=\"180\" cy=\"195\" r=\"4\" fill=\"var(--accent-bright)\"/><line x1=\"180\" y1=\"115\" x2=\"180\" y2=\"130\"/><line x1=\"260\" y1=\"195\" x2=\"245\" y2=\"195\" opacity=\"0.5\"/><line x1=\"180\" y1=\"275\" x2=\"180\" y2=\"260\" opacity=\"0.5\"/><line x1=\"100\" y1=\"195\" x2=\"115\" y2=\"195\" opacity=\"0.5\"/><path d=\"M180,195 L215,140\" stroke-width=\"3\"/><path d=\"M180,195 L145,215\" opacity=\"0.4\"/><path d=\"M165,75 L195,75\" stroke-width=\"3\"/><line x1=\"180\" y1=\"75\" x2=\"180\" y2=\"95\" stroke-width=\"2.5\"/><path d=\"M215,110 A 75 75 0 0 0 180,120\" stroke-width=\"3\"/></g></svg>"
-            },
+            "cite": "ELENOS / OPERATIONAL DISCIPLINE"
+          },
+          {
+            "type": "body",
+            "index": 5,
+            "label": "05 / THE TRAJECTORY",
+            "headline": [
+              {
+                "t": "Build once. "
+              },
+              {
+                "t": "Compound",
+                "em": true
+              },
+              {
+                "t": " forever."
+              }
+            ],
             "blocks": [
               {
                 "body": [
                   {
-                    "t": "A custom database interface built for operators in the field. Inputs map directly to "
+                    "t": "We retire the manual handoffs. We build the programmatic bridges that connect your "
                   },
                   {
-                    "t": "dynamic pricing tables",
+                    "t": "field operations",
                     "em": true
                   },
                   {
-                    "t": "."
+                    "t": " directly to your back office."
                   }
                 ]
               },
               {
                 "body": [
                   {
-                    "t": "No spreadsheets. No manual handoffs. A clean, digital engine that generates the contract "
+                    "t": "Let your team focus on high-value coordination. Move from administrative overhead to a lean, "
                   },
                   {
-                    "t": "before you shift into reverse",
+                    "t": "engineered system",
                     "em": true
                   },
                   {
@@ -424,126 +442,111 @@
                   }
                 ]
               }
-            ]
-          },
-          {
-            "type": "stat",
-            "index": 5,
-            "label": "05 / THE LEVERAGE",
-            "stat": "70%",
-            "caption": [
-              {
-                "t": "Of residential contracts are won by the operator who delivers a "
-              },
-              {
-                "t": "clean, digital estimate first",
-                "em": true
-              },
-              {
-                "t": "."
-              }
-            ]
+            ],
+            "illustration": {
+              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><g stroke=\"var(--accent-bright)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"60\" y1=\"300\" x2=\"300\" y2=\"300\" opacity=\"0.4\"/><line x1=\"60\" y1=\"100\" x2=\"60\" y2=\"300\" opacity=\"0.4\"/><rect x=\"60\" y=\"260\" width=\"40\" height=\"40\"/><line x1=\"100\" y1=\"260\" x2=\"100\" y2=\"300\" stroke-dasharray=\"4 4\" opacity=\"0.5\"/><path d=\"M 80,280 Q 160,270 280,100\"/><polyline points=\"260,100 280,100 280,120\"/><line x1=\"160\" y1=\"300\" x2=\"160\" y2=\"245\" stroke-dasharray=\"4 4\" opacity=\"0.4\"/><line x1=\"240\" y1=\"300\" x2=\"240\" y2=\"160\" stroke-dasharray=\"4 4\" opacity=\"0.4\"/></g></svg>"
+            },
+            "layout": "left-text-right-art"
           },
           {
             "type": "cta",
             "index": 6,
-            "label": "06 / SYSTEM DESIGN",
+            "label": "06 / PARTNERSHIP",
             "headline": [
               {
-                "t": "Build the engine. "
+                "t": "Close the leaks in your "
               },
               {
-                "t": "Close the leaks",
+                "t": "operational stack",
                 "em": true
               },
               {
                 "t": "."
               }
             ],
-            "sub": [
-              {
-                "t": "Retire the evening spreadsheet stack."
-              }
-            ],
+            "sub": "The portal is where the partnership lives.",
             "ctaBody": [
               {
-                "t": "We deploy custom pipelines for elite operators."
+                "t": "Let us diagnose your workflows and build the software that closes the leaks. "
+              },
+              {
+                "t": "Get out of your own way",
+                "em": true
+              },
+              {
+                "t": "."
               }
             ],
-            "footer": [
-              {
-                "t": "ELENOS / Software Studio"
-              }
-            ]
+            "footer": "ELENOS / Software Studio"
           }
         ]
       },
       "blog": {
-        "title": "The driveway estimate",
-        "slug": "the-driveway-estimate",
-        "dek": "The contractor who delivers a clean, digital estimate first wins seventy percent of the time. This is the precise automation architecture that moves an on-site diagnostic to client approval before you leave the driveway.",
-        "markdown": "# The driveway estimate\n\n*The contractor who delivers a clean, digital estimate first wins seventy percent of the time. This is the precise automation architecture that moves an on-site diagnostic to client approval before you leave the driveway.*\n\n\"I’ll send you a quote tonight.\"\n\nThe six words that kill residential service contracts.\n\nIt sounds like a promise. To the homeowner, it feels like a delay. To the business, it is a quiet leak.\n\nBy evening, the urgency has cooled. The competitor has already knocked on the door. The momentum is gone. \n\nManual handoffs. Buried data. Tools that don't talk. \n\nThis is the administrative drag that caps your growth.\n\n---\n\n## The anatomy of the lag\n\nThe problem is not a lack of effort. It is the friction of the toolchain.\n\nOn-site diagnostics are scribbled on clipboards. Photographed on personal devices. Sent via group chats. \n\nThen comes the evening shift. The operator sits at a desk. Transcribing handwriting. Checking outdated spreadsheets. Formatting PDFs. \n\nBy the time the email is sent, the lead is cold.\n\nThis is a structural leak. To close it, you must replace the spreadsheet stack with a system that compounds.\n\n---\n\n## The driveway architecture\n\nSpeed is the ultimate differentiator. But speed without structure is a liability. \n\nThe driveway architecture is a closed system. It turns field inputs into client approvals in under four minutes — while the truck is still idling.\n\n```\n[Field Input] ──> [Structured Data] ──> [Automated Render] ──> [SMS Gateway]\n```\n\nFirst, the technician inputs precise diagnostic codes into a mobile interface. \n\nNo free-form text blocks. No ambiguous pricing. \n\nThe system validates the inputs instantly. It queries the inventory API. It calculates localized margins. It renders a clean, digital estimate.\n\nThis is not a generic email attachment. It is a cinematic, interactive web portal optimized for mobile signatures. \n\n---\n\n## Real-time transmission\n\nThe system delivers the proposal via SMS before the technician shifts into drive.\n\nThe homeowner receives a text. They tap the link. They review the structured options — good, better, best. They sign with a thumbprint.\n\n> The operator who controls the driveway controls the contract. Speed is not just a metric — it is the ultimate customer experience.\n\nThe signed PDF writes back to the CRM instantly. The scheduling pipeline queues the dispatch. The invoice is generated automatically.\n\nZero manual handoffs. Zero transcription errors.\n\nThis is agentic execution. If the estimate remains unsigned after twelve hours, the system triggers a polite, structured follow-up sequence. \n\nNo manual typing. Not the human. \n\n---\n\n## Systems that *compound*\n\nThis is how operators build leverage.\n\nWe do not replace the technician on the doorstep. We replace the administrative friction that slows them down. \n\nBuild once. Compound forever.\n\nThe data captured in the driveway does not stop at the signature. It populates the lifetime value ledger. It maps the regional demand. It prepares the business for its next trajectory.\n\nThe system works while you sleep.\n\n---\n\n## Build the system\n\nELENOS builds the software that closes the leaks. We design and ship the precise automation pipelines that turn manual field operations into scalable systems. \n\nThe tech department you can't afford to hire — functioning as your dedicated software studio.\n\nDiagnose before you build.\n\nLet us design your driveway architecture at [elenos.ai](https://elenos.ai).",
+        "title": "Stop Hiring Office Assistants to Do API Jobs",
+        "slug": "stop-hiring-office-assistants-to-do-api-jobs",
+        "dek": "Scaling a mechanical contracting business by adding office headcount to copy-paste customer data between platforms is a structural failure. You do not need more people to manage the friction — you need to retire the manual handoffs.",
+        "markdown": "# Stop Hiring Office Assistants to Do API Jobs\n\n*Headcount is the loudest way to solve a quiet software problem. Scaling requires retiring manual handoffs — not adding more seats to the spreadsheet.*\n\n## 01 / PERSPECTIVE\n\nHeadcount is the loudest way to solve a quiet software problem. \n\nIn mechanical contracting, scale often looks like a crowded front office. More people to bridge the gap between the field and the ledger. More hands to move data from a PDF to a CRM. \n\nEvery new hire brought on to manage data entry is a signal. A signal that the architecture is leaking. \n\nWe see operators hiring \"coordinators\" to solve technical debt. It is a recurring manual expense to solve a one-time engineering flaw. \n\n## 02 / THE FRACTURE\n\nThe fracture starts small. \n\nA field report that doesn't sync. A quote that needs manual re-entry. A spreadsheet that lives on a single desktop. \n\nWe call these manual handoffs. They are the friction points that slow the momentum. \n\nHiring an assistant to manage these handoffs does not solve the problem. It subsidizes the leak. It turns a temporary bridge into a permanent expense. \n\nBuried data. Manual handoffs. Tools that don't talk. \n\n## 03 / THE ARCHITECTURE\n\nSystems should speak to each other. Directly. Without a translator. \n\nELENOS builds the pipelines that make this possible. We look at the trajectory of the data — from the first paint to the final conversion. \n\nThe architecture must be rigid enough to hold the data. It must be fluid enough to move it. \n\nThis is not about a single app. It is about the stack. We replace the spreadsheet stack with a living system. \n\n> \"Scaling a business by adding headcount to manage software friction is a structural failure. You do not need more people to manage the leak — you need to close it.\"\n\n## 04 / THE SYSTEM\n\nBuild once. Compound forever. \n\nA robust API integration replaces the recurring manual task. It closes the leaks. \n\nIt allows your operators to focus on high-leverage work. Not copy-paste. Not verification. Not the mundane. \n\nThe system becomes the engine of the business. It operates with a quiet precision. \n\nThe software works while the shop is closed. \n\n## 05 / THE TRAJECTORY\n\nWhen the manual handoffs are retired, the trajectory changes. \n\nOverhead flattens while volume climbs. This is how a mechanical contractor out-scales the competition. \n\nThey do not have the largest office staff. They have the most efficient transmissions. \n\nThey ship more work with fewer errors. The signal remains clear from the field to the portal. \n\nDiagnose before you build. Quantify the friction. Retire the manual handoff. \n\n## 06 / PARTNERSHIP\n\nELENOS is the tech department for operators who have outgrown their spreadsheets. \n\nWe are the architects of the systems that compound. We diagnose the leaks before we ship the code. \n\nThe portal is where the partnership lives. It is where the strategy meets the execution. \n\nWe build the software that closes the leaks. \n\n[Build the system at elenos.ai](https://elenos.ai)",
         "meta": {
-          "description": "The contractor who delivers a clean, digital estimate first wins seventy percent of the time. This is the precise automation architecture that moves an on-site diagnostic to client approval before you leave the driveway.",
-          "source": "brand"
+          "description": "Scaling a mechanical contracting business by adding office headcount to copy-paste customer data between platforms is a structural failure. You do not need more people to manage the friction — you need to retire the manual handoffs.",
+          "source": "web"
         }
       },
-      "slug": "the-driveway-estimate",
+      "slug": "stop-hiring-office-assistants-to-do-api-jobs",
       "render": {
-        "theme": "emerald",
-        "bg": "grid",
+        "theme": "blue",
+        "bg": "solid-grain",
         "slides": [
           {
             "index": 1,
-            "label": "01 / THE ARCHITECTURE",
+            "label": "01 / PERSPECTIVE",
             "type": "cover",
-            "layout": "centered",
-            "file": "01-01-the-architecture.png",
-            "url": "/renders/pc_mshzcwbu2/01-01-the-architecture.png"
+            "layout": "fullbleed",
+            "file": "01-01-perspective.png",
+            "url": "/renders/pc_msi0z5of1/01-01-perspective.png"
           },
           {
             "index": 2,
-            "label": "02 / THE DIAGNOSTIC",
+            "label": "02 / THE FRACTURE",
             "type": "body",
-            "layout": "art-watermark",
-            "file": "02-02-the-diagnostic.png",
-            "url": "/renders/pc_mshzcwbu2/02-02-the-diagnostic.png"
+            "layout": "left-text-right-art",
+            "file": "02-02-the-fracture.png",
+            "url": "/renders/pc_msi0z5of1/02-02-the-fracture.png"
           },
           {
             "index": 3,
-            "label": "03 / THE OPERATIONAL SHIFT",
+            "label": "03 / THE ARCHITECTURE",
             "type": "compare",
             "layout": "compare-cols",
-            "file": "03-03-the-operational-shift.png",
-            "url": "/renders/pc_mshzcwbu2/03-03-the-operational-shift.png"
+            "file": "03-03-the-architecture.png",
+            "url": "/renders/pc_msi0z5of1/03-03-the-architecture.png"
           },
           {
             "index": 4,
             "label": "04 / THE SYSTEM",
-            "type": "body",
-            "layout": "right-text-left-art",
+            "type": "quote",
+            "layout": "quote-center",
             "file": "04-04-the-system.png",
-            "url": "/renders/pc_mshzcwbu2/04-04-the-system.png"
+            "url": "/renders/pc_msi0z5of1/04-04-the-system.png"
           },
           {
             "index": 5,
-            "label": "05 / THE LEVERAGE",
-            "type": "stat",
-            "layout": "stat-center",
-            "file": "05-05-the-leverage.png",
-            "url": "/renders/pc_mshzcwbu2/05-05-the-leverage.png"
+            "label": "05 / THE TRAJECTORY",
+            "type": "body",
+            "layout": "left-text-right-art",
+            "file": "05-05-the-trajectory.png",
+            "url": "/renders/pc_msi0z5of1/05-05-the-trajectory.png"
           },
           {
             "index": 6,
-            "label": "06 / SYSTEM DESIGN",
+            "label": "06 / PARTNERSHIP",
             "type": "cta",
-            "layout": "cta-centered",
-            "file": "06-06-system-design.png",
-            "url": "/renders/pc_mshzcwbu2/06-06-system-design.png"
+            "layout": "cta-left",
+            "file": "06-06-partnership.png",
+            "url": "/renders/pc_msi0z5of1/06-06-partnership.png"
           }
         ],
         "qa": {
-          "overall": 8.6,
+          "overall": 8.8,
           "candidates": [
             {
               "seed": 0,
@@ -551,14 +554,31 @@
             },
             {
               "seed": 3,
-              "score": 8.6
+              "score": 8.8
             }
           ],
-          "issues": [],
+          "issues": [
+            {
+              "index": 2,
+              "kind": "spacing",
+              "note": "The large header text is extremely close to the left boundary edge."
+            },
+            {
+              "index": 5,
+              "kind": "spacing",
+              "note": "The two-column body text block has an uneven distribution of visual weight, with the right column looking slightly disconnected due to lack of a clear boundary alignment with the header."
+            }
+          ],
           "fixes": [
             {
-              "index": 6,
-              "fix": "shorten-copy"
+              "index": 2,
+              "fix": "change-layout",
+              "to": "left-text-right-art"
+            },
+            {
+              "index": 5,
+              "fix": "change-layout",
+              "to": "left-text-right-art"
             }
           ]
         }
@@ -566,65 +586,66 @@
       "mediums": {
         "video": {
           "status": "ready",
-          "hook": "\"I’ll send you a quote tonight.\" The six words that kill residential service contracts.",
+          "hook": "Headcount is the loudest way to solve a quiet software problem.",
           "beats": [
             {
-              "beat": "You do the diagnostics. You write the notes on a clipboard. Then you drive home, open a spreadsheet, and hope they haven't hired your competitor yet. That is a quiet leak in your pipeline.",
-              "onScreenText": "Clipboard diagnostics are a leak"
+              "beat": "You do not need another assistant to copy-paste customer data between platforms. That is a structural failure.",
+              "onScreenText": "A structural failure."
             },
             {
-              "beat": "The contractor who delivers a clean, digital estimate first wins seventy percent of the time. This is not about speed. It is about systems.",
-              "onScreenText": "First to deliver wins 70%"
+              "beat": "Manual handoffs. Buried data. The spreadsheet stack. Your people are currently acting as the API.",
+              "onScreenText": "Your people are the API."
             },
             {
-              "beat": "We built an automation architecture that closes this leak. One input on a mobile interface. Instantly mapped to line items, material costs, and margin rules.",
-              "onScreenText": "One input. Real-time pricing."
+              "beat": "We build the software that closes the leaks. One clean system — from first dispatch to final invoice.",
+              "onScreenText": "First dispatch to final invoice."
             },
             {
-              "beat": "A polished estimate lands in the client's inbox — complete with sign-off portals — before you even put your truck in reverse.",
-              "onScreenText": "From diagnostic to sign-off"
-            },
-            {
-              "beat": "No manual handoffs. No evening admin fatigue. Just a clean system that compounds.",
-              "onScreenText": "No manual handoffs. No evening admin."
+              "beat": "No manual entry. No lost work orders. Just quiet, compounding operations.",
+              "onScreenText": "No manual entry. No lost work."
             }
           ],
-          "cta": "Build once. Compound forever. We are ELENOS. Let us design your system."
+          "cta": "Build once. Compound forever. Let us map your new trajectory."
         },
         "caption": {
           "status": "ready",
-          "text": "\"I’ll send you a quote tonight.\"\n\nThe six words that kill residential service contracts.\n\nThe delay is a quiet leak. While the operator drives to the next site, the lead goes cold. Trust decays in the gap between the diagnostic and the document.\n\nSpeed is not about rushing — it is about system design.\n\nWe mapped the field workflow to a clean automation architecture. Diagnose on-site. Select the line items. Push to the client portal.\n\nA complete, digital estimate lands in their inbox before you put the truck in drive.\n\nNo manual handoffs. No evening admin. No spreadsheet stacks.\n\nThe operators who build systems win seventy percent of the time.\n\nBuild once. Compound forever.\n\nLet's design your pipeline. Link in bio to book an engineering diagnostic.",
+          "text": "Headcount is the loudest way to solve a quiet software problem.\n\nScaling a mechanical contracting firm does not require more administrative volume. Yet, the default response to growth is hiring. More screens. More copy-paste.\n\nMoving data between dispatch and accounting is an API job. Not a human career. Manual handoffs are quiet leaks — draining margin while operators manage the friction.\n\nWe build systems that compound. We retire the spreadsheet stack to let your team focus on high-value delivery — not data entry.\n\nElenos / Software Studio. The portal is where the partnership lives. Explore our engineering process at the link in bio.",
           "hashtags": [
-            "systemdesign",
+            "systemsengineering",
+            "workflowautomation",
             "operations",
-            "automation",
-            "workflow",
-            "engineering",
-            "contractorsoftware",
-            "architecture"
+            "systemsthatchange",
+            "softwarestudio",
+            "integration"
           ]
         },
         "linkedin": {
           "status": "ready",
-          "text": "\"I’ll send you a quote tonight.\"\n\nThe six words that kill residential service contracts.\n\nBy evening, the homeowner's urgency cools. A competitor arrives. The lead decays. It is a quiet leak — but fatal.\n\nThe contractor who delivers a clean, digital estimate first wins seventy percent of the time.\n\nTo capture this, you need a precise automation architecture. One that moves an on-site diagnostic to client approval before the technician leaves the driveway.\n\nWe design these systems to run in three movements:\n\n→ The Diagnostic: Field operators log equipment specs, photos, and line-item issues into a structured mobile interface. No paper. No memory-reliance.\n\n→ The Compilation: The system automatically maps those inputs to real-time inventory pricing and labor models — eliminating manual spreadsheets.\n\n→ The Transmission: A clean, high-fidelity web portal link delivered via SMS while the truck is still idling. \n\nThe customer reviews. The customer signs. The job is scheduled.\n\nNo evening admin block. No manual handoffs.\n\nBuild once. Compound forever."
+          "text": "Headcount is the loudest way to solve a quiet software problem.\n\nIn mechanical contracting, scaling often looks like hiring. Not just for the field, but for the desk. More office assistants to manage the spreadsheet stack. More coordinators to move data from the CRM to the field service app. More bodies to bridge the gap between the intake and the invoice.\n\nThis is a structural failure disguised as growth.\n\nAdding headcount to copy-paste data is an expensive way to patch a leak. You are hiring humans to act as APIs. It is slow. It is prone to error. It is a recurring manual task that drains the margin of every ticket. \n\nRetire the manual handoffs. \n\nWe look at the fracture — the point where information stops flowing and starts being carried by hand. We build the architecture that closes those leaks. \n\n→ CRM data flows to the job site without a middleman.\n→ Field logs update the back office in real-time.\n→ Invoices generate from the work order, not from a memory.\n\nSystems that compound. \n\nWhen the software handles the friction, your team handles the strategy. You do not need a larger office. You need a more precise system. One that moves data at the speed of the transmission — from first paint to final conversion.\n\nBuild once. Compound forever. \n\nElenos / Software Studio"
         },
         "xthread": {
           "status": "ready",
           "tweets": [
             {
-              "text": "\"I’ll send you a quote tonight.\"\n\nThe six words that kill residential service contracts.\n\nThe contractor who delivers a clean, digital estimate first wins seventy percent of the time.\n\nBefore you leave the driveway. That is the operational benchmark."
+              "text": "Headcount is the loudest way to solve a quiet software problem.\n\nScaling a contracting business by adding office staff to move data between platforms is a structural failure. \n\nYou do not need more people to manage the friction — you need to retire the manual handoffs."
             },
             {
-              "text": "The traditional workflow is a sequence of quiet leaks. Pen and paper. Photos in a chaotic camera roll. Manual transcription back at the office.\n\nWe build the software that closes these leaks — converting on-site diagnostics into structured data."
+              "text": "01 / PERSPECTIVE\n\nMost operations are a patchwork of legacy tools. Field data that stays in the field. CRM entries that never reach the ledger. \n\nThe solution is usually another hire. A human bridge for a digital gap. This is how technical debt becomes payroll debt."
             },
             {
-              "text": "01 / THE ARCHITECTURE\n\nThe technician inputs specs into a mobile-first portal. The system instantly parses the data, applies margin logic, and compiles a polished web proposal.\n\nNo drafting. No delays. Built once to execute flawlessly."
+              "text": "02 / THE FRACTURE\n\nManual handoffs. Buried data. Spreadsheets that require constant supervision. \n\nWhen a human spends four hours a day copy-pasting customer details, the error rate is not the problem. The architecture is. You are paying for a human API."
             },
             {
-              "text": "The client receives a text before the technician leaves the property. A clean interface with tiered options. One tap to approve. One tap to pay the deposit.\n\nSpeed is the ultimate signal of competence."
+              "text": "03 / THE ARCHITECTURE\n\nBuild once. Compound forever. \n\nElenos replaces the spreadsheet stack with agentic systems. We map the workflow. We quantify the leaks. We build the software that closes them. No more manual syncs. Only clean transmission."
             },
             {
-              "text": "Stop losing contracts to administrative lag. Replace the spreadsheet stack with systems that compound.\n\nElenos designs and ships custom software for operators ready to scale their trajectory.\n\nExplore the system design at elenos.ai"
+              "text": "04 / THE SYSTEM\n\nReal operators need guardrails — not chatbots. \n\nWe develop custom portals where the data flows from first contact to final conversion without friction. The software handles the recurring manual task. The human handles the strategy."
+            },
+            {
+              "text": "05 / THE TRAJECTORY\n\nGet out of your own way. \n\nWhen you remove the friction of the handoff, the business moves into its next trajectory. Efficiency is not about working harder. It is about removing the work that should not exist."
+            },
+            {
+              "text": "06 / PARTNERSHIP\n\nWe are the tech department you can't afford to hire. \n\nDiagnose before you build. Ship systems that compound. Retire the manual stack.\n\nELENOS / Software Studio\nhttps://elenos.ai"
             }
           ]
         }
@@ -637,8 +658,7 @@
         "linkedin",
         "video"
       ],
-      "builtAt": "2026-08-06T20:41:47.032Z",
-      "brand": "edjones"
+      "builtAt": "2026-08-06T21:27:38.766Z"
     }
   ],
   "published": []

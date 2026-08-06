@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { getPiece } from '@/lib/db.mjs';
 import { Stepper } from '../../parts';
+import { SubmitButton } from '../../pending';
 import { updateConceptAction, buildAction } from '../../actions';
 
 export const dynamic = 'force-dynamic';
@@ -45,7 +46,7 @@ export default async function EditConceptPage({ params }: { params: Promise<{ pi
             <label className="src" style={{ marginTop: 10, display: 'block' }}>Script — draft copy or notes; guides the AI build (optional)</label>
             <textarea name="script" defaultValue={p.concept.script || ''} style={{ minHeight: 140 }} />
             <div className="row" style={{ marginTop: 12 }}>
-              <button className="primary" type="submit">Save concept</button>
+              <SubmitButton className="primary" busy="saving…">Save concept</SubmitButton>
               <span className="src">{p.concept.source || 'idea'}</span>
             </div>
           </form>
@@ -64,7 +65,9 @@ export default async function EditConceptPage({ params }: { params: Promise<{ pi
                   </label>
                 ))}
               </div>
-              <button className="primary" type="submit" style={{ marginTop: 14 }}>{p.builtAt ? 'Rebuild piece →' : 'Build piece →'}</button>
+              <div style={{ marginTop: 14 }}>
+                <SubmitButton className="primary" busy="⚙ building — brief → slides → renders → mediums…">{p.builtAt ? 'Rebuild piece →' : 'Build piece →'}</SubmitButton>
+              </div>
             </form>
           </div>
         </div>

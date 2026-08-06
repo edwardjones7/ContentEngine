@@ -116,6 +116,8 @@ button:hover,.btn:hover{ border-color:var(--accent); background:#221740; }
 button:active,.btn:active{ transform:translateY(1px); }
 button[disabled]{ cursor:progress; opacity:.75; }
 .busy{ color:var(--accent2); animation:pulse 1.2s infinite; white-space:nowrap; }
+.busy-chip{ animation:pulse 1.2s infinite; }
+input[disabled]{ cursor:progress; opacity:.6; }
 .btn.primary, button.primary{
   background:linear-gradient(180deg,var(--accent2),#6d28d9); border-color:transparent; font-weight:600;
   box-shadow:0 2px 14px rgba(139,92,246,.28);
