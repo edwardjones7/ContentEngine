@@ -207,6 +207,18 @@ form.inline{ display:inline; }
 .column .card .meta{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:8px; }
 @media(max-width:560px){ .board{ grid-template-columns:1fr; overflow-x:visible; } }
 
+/* manual "+ New idea" affordance at the foot of the Idea column */
+.add-card{
+  width:100%; justify-content:center; margin-top:10px;
+  background:none; border:1px dashed var(--line2); color:var(--dim); font-size:13px;
+}
+.add-card:hover{ color:var(--ink); border-color:var(--accent); background:rgba(139,92,246,.05); }
+select{
+  background:#0d0918; color:var(--ink); border:1px solid var(--line); border-radius:8px;
+  padding:8px 10px; font:13px/1 inherit;
+}
+select:focus{ outline:none; border-color:var(--accent); }
+
 /* drag-and-drop affordances */
 .card[draggable="true"]{ cursor:grab; }
 .card.dragging{ opacity:.4; }

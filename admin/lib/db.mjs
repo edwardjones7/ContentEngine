@@ -65,6 +65,13 @@ export function saveThread(thread) {
   if (i >= 0) db.threads[i] = thread; else db.threads.unshift(thread);
   write(db); return thread;
 }
+export function deleteThread(tid) {
+  const db = read();
+  db.threads = db.threads.filter((t) => t.id !== tid);
+  db.messages = db.messages.filter((m) => m.threadId !== tid);
+  for (const i of db.ideas) if (i.threadId === tid) i.threadId = null;
+  write(db);
+}
 export const getMessages = (tid) => read().messages.filter((m) => m.threadId === tid);
 export function addMessage(message) {
   const db = read();

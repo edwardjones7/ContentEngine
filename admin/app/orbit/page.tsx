@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getThreads, getMessages, getIdeas, getPieces } from '@/lib/db.mjs';
 import { provider } from '@/lib/mode.mjs';
-import { createThreadAction, developIdeaAction, suggestIdeasAction, dismissIdeaAction, ideateIdeaAction } from './actions';
+import { createThreadAction, deleteThreadAction, developIdeaAction, suggestIdeasAction, dismissIdeaAction, ideateIdeaAction } from './actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -71,16 +71,21 @@ export default async function OrbitPage() {
             const msgs = getMessages(t.id);
             const spawned = ideas.filter((i: any) => i.threadId === t.id).length;
             return (
-              <Link key={t.id} href={`/orbit/${t.id}`} className="card">
+              <div key={t.id} className="card">
                 <div className="row">
-                  <h3 style={{ margin: 0 }}>{t.title}</h3>
-                  <span className="sp" />
+                  <Link href={`/orbit/${t.id}`} style={{ textDecoration: 'none', color: 'inherit', flex: 1 }}>
+                    <h3 style={{ margin: 0 }}>{t.title}</h3>
+                  </Link>
                   {spawned ? <span className="badge review">{spawned} idea{spawned > 1 ? 's' : ''}</span> : null}
+                  <form action={deleteThreadAction}>
+                    <input type="hidden" name="threadId" value={t.id} />
+                    <button className="ghost" type="submit" title="Delete this thread" style={{ padding: '4px 8px', fontSize: 12 }}>✕</button>
+                  </form>
                 </div>
                 <div className="meta" style={{ marginBottom: 0, marginTop: 6 }}>
                   {msgs.length} message{msgs.length === 1 ? '' : 's'} · updated {new Date(t.updatedAt).toLocaleDateString()}
                 </div>
-              </Link>
+              </div>
             );
           })
         )}

@@ -1,7 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { id, saveThread, getThread, getIdea, addIdea } from '@/lib/db.mjs';
+import { id, saveThread, getThread, deleteThread, getIdea, addIdea } from '@/lib/db.mjs';
 import { acceptIdea, suggestIdeas, dismissIdea } from '@/lib/service.mjs';
 
 // Orbit pitches a few starter post ideas on its own.
@@ -23,6 +23,11 @@ export async function createThreadAction(formData: FormData) {
   const thread = saveThread({ id: id('th'), title, createdAt: now, updatedAt: now });
   revalidatePath('/orbit');
   redirect(`/orbit/${thread.id}`);
+}
+
+export async function deleteThreadAction(formData: FormData) {
+  deleteThread(String(formData.get('threadId')));
+  revalidatePath('/orbit');
 }
 
 export async function renameThreadAction(formData: FormData) {

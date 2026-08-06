@@ -6,7 +6,7 @@
 import Link from 'next/link';
 import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { moveCardAction, setGoalAction, setPostDateAction, buildCardAction, acceptAction } from './actions';
+import { moveCardAction, setGoalAction, setPostDateAction, buildCardAction, acceptAction, addIdeaAction } from './actions';
 import { ideateIdeaAction } from '../orbit/actions';
 import { SubmitButton } from './pending';
 
@@ -20,6 +20,7 @@ export type CardDTO = {
   source?: string;
   angle?: string;
   hook?: string;
+  hasScript?: boolean;
   thumb?: string | null;
   built?: boolean;
   hasBlog?: boolean;
@@ -119,6 +120,7 @@ export function Board({ columns }: { columns: Columns }) {
                   : <PieceCardC key={card.id} card={card} setDrag={setDrag} />
               )}
               {cards.length === 0 ? <div className="empty">{STAGE_EMPTY[stage]}</div> : null}
+              {stage === 'idea' ? <NewIdeaCard /> : null}
             </BoardColumn>
           );
         })}
@@ -170,6 +172,34 @@ function dragProps(card: CardDTO, setDrag: (c: CardDTO | null) => void) {
   };
 }
 
+// Manual idea entry, Notion-style "+ New" at the foot of the Idea column.
+function NewIdeaCard() {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  if (!open) {
+    return <button type="button" className="add-card" onClick={() => setOpen(true)}>＋ New idea</button>;
+  }
+  return (
+    <div className="card" style={{ marginTop: 10 }}>
+      <form action={async (fd: FormData) => { await addIdeaAction(fd); setOpen(false); router.refresh(); }}>
+        <input className="title" name="title" placeholder="Title" required autoFocus style={{ fontSize: 14, marginBottom: 8 }} />
+        <textarea name="angle" placeholder="Angle — the argument this post makes (optional)" style={{ minHeight: 60, marginBottom: 8 }} />
+        <textarea name="hook" placeholder="Hook — the opening line (optional)" style={{ minHeight: 48, marginBottom: 8 }} />
+        <textarea name="script" placeholder="Script — draft copy or notes; guides the AI build (optional)" style={{ minHeight: 90, marginBottom: 8 }} />
+        <div className="row" style={{ gap: 8 }}>
+          <select name="goal" defaultValue="" title="Goal tag">
+            <option value="">goal…</option>
+            {GOALS.map((g) => <option key={g} value={g}>{GOAL_LABEL[g]}</option>)}
+          </select>
+          <span className="sp" />
+          <button type="button" onClick={() => setOpen(false)}>Cancel</button>
+          <SubmitButton className="primary" busy="adding…">Add</SubmitButton>
+        </div>
+      </form>
+    </div>
+  );
+}
+
 function GoalPicker({ kind, id, goal }: { kind: string; id: string; goal: string | null }) {
   return (
     <details className="goal-pick">
@@ -206,6 +236,7 @@ function IdeaCardC({ card, setDrag }: { card: CardDTO; setDrag: (c: CardDTO | nu
       {card.hook ? <div className="meta" style={{ color: '#cfc7e6' }}>“{card.hook}”</div> : null}
       <div className="row" style={{ gap: 8 }}>
         <GoalPicker kind="idea" id={card.id} goal={card.goal} />
+        {card.hasScript ? <span className="badge medium" title="Has a draft script — it guides the AI build">📝 script</span> : null}
         <span className="sp" />
         <form action={ideateIdeaAction}>
           <input type="hidden" name="ideaId" value={card.id} />

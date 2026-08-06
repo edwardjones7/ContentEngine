@@ -25,7 +25,8 @@ export const extractJson = (s) => {
 };
 
 export const SPEC_SUMMARY = `Carousel JSON: { slug, title, theme?(violet|magenta|blue|amber|emerald), bg?(starfield|grid|aurora|solid-grain), slides:[...] }.
-Each slide: { type, index, label, ... }. Text fields are run arrays: [{t:"plain "},{t:"emphasis",em:true}].
+Each slide: { type, index, label, ... }. Rich text fields are run arrays: [{t:"plain "},{t:"emphasis",em:true}] — that's headline, blocks[].body, ctaBody, caption, quote, items[].text, left/right.body ONLY.
+label, sub, footer, cite, stat, and tag are PLAIN STRINGS, never run arrays.
 type=cover{headline,illustration?}; body{headline,blocks:[{body}],illustration?}; cta{headline,sub?,ctaBody?,footer?,arrow?};
 stat{stat,caption}; quote{quote,cite?}; list{headline?,items:[{text}]}; compare{headline?,left:{tag?,body},right:{tag?,body}}.
 illustration is one of: magnifier phone bubble card clock bolt nodes hex. 5-7 slides, cover first, cta last, 1-2 rhythm-breakers.`;
@@ -49,13 +50,17 @@ export const postIdeate = (out) => {
   return ideas.map((i) => ({ ...i, goal: normalizeGoal(i.goal) }));
 };
 
+const scriptNote = (idea) => idea.script
+  ? `\nThe "script" is the author's own draft — treat it as the source of truth for the argument and keep its strongest phrasing.`
+  : '';
+
 export function briefPrompt(idea) {
   return {
     tier: 'text',
     maxTokens: 4000,
     json: true,
     system: `You design Elenos carousels. Output ONLY valid carousel JSON per this contract.\n${SPEC_SUMMARY}\nVoice: ${voice()}`,
-    user: `Idea: ${JSON.stringify(idea)}\nWrite a 5-7 slide carousel. One emphasis (em:true) per headline/block. Real specifics. Return JSON only.`,
+    user: `Idea: ${JSON.stringify(idea)}${scriptNote(idea)}\nWrite a 5-7 slide carousel. One emphasis (em:true) per headline/block. Real specifics. Return JSON only.`,
   };
 }
 export function postBrief(out, idea) {
@@ -73,7 +78,7 @@ export function blogPrompt(idea, spec) {
     maxTokens: 3000,
     json: false,
     system: `You write Elenos blog posts — the long-form lead magnet. Voice: ${voice()}`,
-    user: `Idea: ${JSON.stringify(idea)}\nThe carousel distills this post: ${JSON.stringify(spec.slides.map((s) => s.label))}.\nWrite a 500-800 word markdown post (# title, *dek*, ## sections, one pull-quote, a closing CTA to elenos.ai). Elenos voice. Markdown only.`,
+    user: `Idea: ${JSON.stringify(idea)}${scriptNote(idea)}\nThe carousel distills this post: ${JSON.stringify(spec.slides.map((s) => s.label))}.\nWrite a 500-800 word markdown post (# title, *dek*, ## sections, one pull-quote, a closing CTA to elenos.ai). Elenos voice. Markdown only.`,
   };
 }
 export function postBlog(out, idea) {

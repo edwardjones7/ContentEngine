@@ -2,7 +2,7 @@
 // layout), it builds the full HTML document: constant base + theme vars +
 // background treatment + grain/vignette + the `NN / LABEL` index + the chosen
 // layout + optional footer. Becomes the `/internal/slide` route in the engine.
-import { esc, pad2 } from './util.mjs';
+import { esc, pad2, text } from './util.mjs';
 import { themeStyleAttr, backgroundLayer, BG_CSS } from './themes.mjs';
 import { renderLayout, LAYOUT_CSS } from './layouts.mjs';
 
@@ -47,8 +47,8 @@ export function renderSlideHTML(slide, { width = 1080, height = 1350 } = {}) {
   const bgKind = slide._bg || 'starfield';
   const seed = (slide.index || 1) * 101 + 7;
   const bg = backgroundLayer(bgKind, { width, height, seed });
-  const label = `<div class="label"><span class="dot"></span>${pad2(slide.index)} / ${esc(slide.label || '')}</div>`;
-  const footer = slide.footer ? `<div class="footer">${esc(slide.footer)}</div>` : '';
+  const label = `<div class="label"><span class="dot"></span>${pad2(slide.index)} / ${esc(text(slide.label))}</div>`;
+  const footer = slide.footer ? `<div class="footer">${esc(text(slide.footer))}</div>` : '';
   const grain = `<svg class="grain"><filter id="g${slide.index}"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#g${slide.index})"/></svg>`;
 
   return `<!doctype html><html><head><meta charset="utf-8"/>

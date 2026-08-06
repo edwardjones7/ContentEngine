@@ -12,7 +12,7 @@ function toIdeaCard(i: any): CardDTO {
   return {
     kind: 'idea', id: i.id, stage: 'idea',
     title: i.title, goal: i.goal || null, formats: [],
-    source: i.source, angle: i.angle, hook: i.hook,
+    source: i.source, angle: i.angle, hook: i.hook, hasScript: !!i.script,
     threadId: i.threadId || null, suggested: !!i.suggested,
   };
 }

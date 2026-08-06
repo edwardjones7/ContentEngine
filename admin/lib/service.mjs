@@ -18,10 +18,29 @@ export async function ensureIdeas() {
 export async function refreshIdeas() {
   const ideas = await ideate();
   // batch refresh replaces generated ideas but must not wipe thread-spawned
-  // ideas or Orbit's own pitches
-  const merged = [...getIdeas().filter((i) => i.threadId || i.suggested), ...ideas];
+  // ideas, Orbit's own pitches, or manually filed ones
+  const merged = [...getIdeas().filter((i) => i.threadId || i.suggested || i.manual), ...ideas];
   setIdeas(merged);
   return merged;
+}
+
+// Manually filed idea from the board — no AI involved. `script` is optional
+// draft copy/notes that ride along into the build brief.
+export function createIdea({ title, angle, hook, goal, script }) {
+  if (!title || !title.trim()) return null;
+  const idea = {
+    id: slugifyIdeaId(title.trim()),
+    title: title.trim(),
+    angle: (angle || '').trim(),
+    hook: (hook || '').trim(),
+    script: (script || '').trim() || null,
+    goal: normalizeGoal(goal),
+    source: 'manual',
+    manual: true,
+    createdAt: new Date().toISOString(),
+  };
+  addIdea(idea);
+  return idea;
 }
 
 function slugifyIdeaId(title) {
@@ -68,7 +87,7 @@ export function acceptIdea(ideaId) {
     status: 'production',
     goal: normalizeGoal(idea.goal),
     seed: 0,
-    concept: { title: idea.title, angle: idea.angle, hook: idea.hook, source: idea.source, carouselFile: idea.carouselFile || null },
+    concept: { title: idea.title, angle: idea.angle, hook: idea.hook, script: idea.script || null, source: idea.source, carouselFile: idea.carouselFile || null },
     title: idea.title,
     createdAt: new Date().toISOString(),
   };
@@ -122,12 +141,13 @@ function pieceIdea(p) {
 }
 
 // Refine the concept before building. Only valid while in 'production'.
-export function updateConcept(pid, { title, angle, hook }) {
+export function updateConcept(pid, { title, angle, hook, script }) {
   const p = getPiece(pid);
   if (!p || p.status !== 'production') return null;
   if (title != null) p.concept.title = title;
   if (angle != null) p.concept.angle = angle;
   if (hook != null) p.concept.hook = hook;
+  if (script != null) p.concept.script = script.trim() || null;
   p.title = p.concept.title; // keep the display mirror in sync
   savePiece(p);
   return p;

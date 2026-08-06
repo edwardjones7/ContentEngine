@@ -1,7 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, editPieceSlide, setPieceStage, setGoal, setPostDate, ALL_MEDIUMS } from '@/lib/service.mjs';
+import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, createIdea, editPieceSlide, setPieceStage, setGoal, setPostDate, ALL_MEDIUMS } from '@/lib/service.mjs';
 
 export async function researchAction() {
   await refreshIdeas();
@@ -13,6 +13,17 @@ export async function acceptAction(formData: FormData) {
   const piece = acceptIdea(String(formData.get('ideaId')));
   revalidatePath('/content');
   redirect(`/content/${piece.id}/edit`);
+}
+
+export async function addIdeaAction(formData: FormData) {
+  createIdea({
+    title: String(formData.get('title') || ''),
+    angle: String(formData.get('angle') || ''),
+    hook: String(formData.get('hook') || ''),
+    script: String(formData.get('script') || ''),
+    goal: String(formData.get('goal') || ''),
+  });
+  revalidatePath('/content');
 }
 
 // Board drag handler. Plain args (not a form) — the client board calls it
@@ -56,6 +67,7 @@ export async function updateConceptAction(formData: FormData) {
     title: String(formData.get('title') || ''),
     angle: String(formData.get('angle') || ''),
     hook: String(formData.get('hook') || ''),
+    script: String(formData.get('script') || ''),
   });
   revalidatePath(`/content/${pid}/edit`);
   revalidatePath('/content');

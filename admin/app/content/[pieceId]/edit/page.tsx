@@ -42,6 +42,8 @@ export default async function EditConceptPage({ params }: { params: Promise<{ pi
             <textarea name="angle" defaultValue={p.concept.angle} style={{ minHeight: 90 }} />
             <label className="src" style={{ marginTop: 10, display: 'block' }}>Hook</label>
             <textarea name="hook" defaultValue={p.concept.hook} style={{ minHeight: 90 }} />
+            <label className="src" style={{ marginTop: 10, display: 'block' }}>Script — draft copy or notes; guides the AI build (optional)</label>
+            <textarea name="script" defaultValue={p.concept.script || ''} style={{ minHeight: 140 }} />
             <div className="row" style={{ marginTop: 12 }}>
               <button className="primary" type="submit">Save concept</button>
               <span className="src">{p.concept.source || 'idea'}</span>

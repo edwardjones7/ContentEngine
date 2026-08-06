@@ -2,7 +2,7 @@
 // list/compare). renderLayout(slide) returns the content that fills `.content`
 // (the region under the constant `NN / LABEL` index). The art-director picks the
 // `layout` token; this module just renders whatever it's handed.
-import { runs, esc, pad2 } from './util.mjs';
+import { runs, esc, pad2, text } from './util.mjs';
 import { illustrationSVG } from './illustrations.mjs';
 
 // Which layouts are valid for each archetype (art-director rotates within these).
@@ -111,7 +111,7 @@ export function renderLayout(slide) {
       <div class="cta-block">
         <h1 class="headline h-lg cta-h">${headlineHTML(slide, 'ink')}</h1>
         <div class="streak"></div>
-        ${slide.sub ? `<div class="cta-sub">${esc(slide.sub)}</div>` : ''}
+        ${slide.sub ? `<div class="cta-sub">${esc(text(slide.sub))}</div>` : ''}
         ${slide.ctaBody ? `<div class="block cta-body"><p>${runs(slide.ctaBody, 'accent')}</p></div>` : ''}
       </div>
     </div>`;
@@ -120,7 +120,7 @@ export function renderLayout(slide) {
   // ---- rhythm-breakers ----
   if (L === 'stat-center') {
     return `<div class="L lay-stat">
-      <div class="stat-num">${esc(slide.stat)}</div>
+      <div class="stat-num">${esc(text(slide.stat))}</div>
       <div class="stat-cap">${runs(slide.caption, 'accent')}</div>
     </div>`;
   }
@@ -128,7 +128,7 @@ export function renderLayout(slide) {
     return `<div class="L lay-quote">
       <div class="q-mark">&ldquo;</div>
       <blockquote class="q-text">${runs(slide.quote, 'accent')}</blockquote>
-      ${slide.cite ? `<div class="q-cite">${esc(slide.cite)}</div>` : ''}
+      ${slide.cite ? `<div class="q-cite">${esc(text(slide.cite))}</div>` : ''}
     </div>`;
   }
   if (L === 'list-rows') {
