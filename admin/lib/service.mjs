@@ -161,10 +161,11 @@ function pieceIdea(p) {
   return { ...original, ...p.concept, id: p.ideaId };
 }
 
-// Refine the concept before building. Only valid while in 'production'.
+// Refine the concept. Valid at any stage — post-build edits take effect on the
+// next rebuild (the concept is the source the brief re-runs from).
 export function updateConcept(pid, { title, angle, hook, script }) {
   const p = getPiece(pid);
-  if (!p || p.status !== 'production') return null;
+  if (!p) return null;
   if (title != null) p.concept.title = title;
   if (angle != null) p.concept.angle = angle;
   if (hook != null) p.concept.hook = hook;

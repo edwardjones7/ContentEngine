@@ -331,6 +331,18 @@ input[type="date"]{
 .composer textarea{ min-height:58px; flex:1; }
 .composer button{ padding:14px 20px; }
 
+/* collapsible concept panel on the review page */
+.concept-fold{ margin-bottom:22px; }
+.concept-fold summary{
+  cursor:pointer; list-style:none; display:flex; align-items:center; gap:12px;
+  padding:10px 14px; border:1px dashed var(--line2); border-radius:12px;
+  transition:border-color .12s;
+}
+.concept-fold summary::-webkit-details-marker{ display:none; }
+.concept-fold summary::before{ content:'▸'; color:var(--faint); font-size:12px; }
+.concept-fold[open] summary::before{ content:'▾'; }
+.concept-fold summary:hover{ border-color:var(--accent); }
+
 /* ---------- content calendar ---------- */
 .wrap:has(.cal){ max-width:1480px; }
 .cal-month{ font-size:18px; margin:0; letter-spacing:-.01em; min-width:180px; text-align:center; }

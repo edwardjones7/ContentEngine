@@ -4,7 +4,7 @@ import { getPiece } from '@/lib/db.mjs';
 import { activeProvider } from '@/lib/settings.mjs';
 import { Stepper } from '../parts';
 import { SubmitButton, ChipSubmit } from '../pending';
-import { saveAction, regenerateAction, rebuildCarouselAction, publishAction, regenerateMediumAction, saveMediumAction, editSlideAction, setTagAction } from '../actions';
+import { saveAction, regenerateAction, rebuildCarouselAction, publishAction, regenerateMediumAction, saveMediumAction, editSlideAction, setTagAction, updateConceptAction } from '../actions';
 import { TAG_FIELDS } from '@/lib/content/stages.mjs';
 
 export const dynamic = 'force-dynamic';
@@ -66,6 +66,27 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
           </>
         ) : <span className="src">no blog in this build — nothing to publish</span>}
       </div>
+
+      <details className="concept-fold">
+        <summary>
+          <span className="label">Concept</span>
+          <span className="src">the original angle, hook{p.concept?.script ? ', and script' : ''} this piece was built from — edits apply on the next rebuild</span>
+        </summary>
+        <form action={updateConceptAction} className="card" style={{ marginTop: 10 }}>
+          <input type="hidden" name="pieceId" value={p.id} />
+          <input className="title" name="title" defaultValue={p.concept?.title || p.title} />
+          <label className="src">Angle</label>
+          <textarea name="angle" defaultValue={p.concept?.angle || ''} style={{ minHeight: 70 }} />
+          <label className="src" style={{ marginTop: 8, display: 'block' }}>Hook</label>
+          <textarea name="hook" defaultValue={p.concept?.hook || ''} style={{ minHeight: 60 }} />
+          <label className="src" style={{ marginTop: 8, display: 'block' }}>Script</label>
+          <textarea name="script" defaultValue={p.concept?.script || ''} placeholder="draft copy or notes — guides the AI on rebuild" style={{ minHeight: 110 }} />
+          <div className="row" style={{ marginTop: 10 }}>
+            <SubmitButton className="primary" busy="saving…">Save concept</SubmitButton>
+            <span className="src">rebuild with ✦ Refresh carousel (or Rebuild on the concept page) to apply</span>
+          </div>
+        </form>
+      </details>
 
       <div className="split">
         {p.blog ? (

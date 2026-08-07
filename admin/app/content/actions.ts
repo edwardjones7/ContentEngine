@@ -88,6 +88,7 @@ export async function updateConceptAction(formData: FormData) {
     script: String(formData.get('script') || ''),
   });
   revalidatePath(`/content/${pid}/edit`);
+  revalidatePath(`/content/${pid}`);
   revalidatePath('/content');
 }
 
