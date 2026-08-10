@@ -4,6 +4,7 @@ import { getPiece } from '@/lib/db.mjs';
 import { Stepper } from '../../parts';
 import { SubmitButton } from '../../pending';
 import { updateConceptAction, buildAction } from '../../actions';
+import { canRenderSlides } from '@/lib/render.mjs';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,6 +23,7 @@ export default async function EditConceptPage({ params }: { params: Promise<{ pi
   const p: any = await getPiece(pieceId);
   if (!p) notFound();
   if (p.status !== 'production') redirect(`/content/${pieceId}`);
+  const canBuild = canRenderSlides();
 
   return (
     <>
@@ -67,7 +69,16 @@ export default async function EditConceptPage({ params }: { params: Promise<{ pi
                 ))}
               </div>
               <div style={{ marginTop: 14 }}>
-                <SubmitButton className="primary" busy="⚙ building — brief → slides → renders → mediums…">{p.builtAt ? 'Rebuild piece →' : 'Build piece →'}</SubmitButton>
+                {canBuild ? (
+                  <SubmitButton className="primary" busy="⚙ building — brief → slides → renders → mediums…">{p.builtAt ? 'Rebuild piece →' : 'Build piece →'}</SubmitButton>
+                ) : (
+                  <>
+                    <span className="btn disabled">⚡ Build on your Mac</span>
+                    <div className="meta" style={{ marginTop: 10, marginBottom: 0, color: 'var(--amber)' }}>
+                      Rendering needs a real browser and outruns the serverless time limit. Open this piece at localhost:4050 and build there — it lands back here automatically.
+                    </div>
+                  </>
+                )}
               </div>
             </form>
           </div>

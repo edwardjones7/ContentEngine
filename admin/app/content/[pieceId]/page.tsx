@@ -6,6 +6,7 @@ import { Stepper } from '../parts';
 import { SubmitButton, ChipSubmit } from '../pending';
 import { saveAction, regenerateAction, rebuildCarouselAction, publishAction, regenerateMediumAction, saveMediumAction, editSlideAction, setTagAction, updateConceptAction } from '../actions';
 import { TAG_FIELDS } from '@/lib/content/stages.mjs';
+import { canRenderSlides } from '@/lib/render.mjs';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
   const mediums = p.mediums || {};
   const qa = p.render?.qa || null;
   const live = activeProvider().kind !== 'offline';
+  const canRender = canRenderSlides();
 
   return (
     <>
@@ -43,7 +45,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
       </div>
 
       <div className="row" style={{ marginBottom: 20 }}>
-        {p.render ? (
+        {p.render && canRender ? (
           <>
             <form action={regenerateAction}>
               <input type="hidden" name="pieceId" value={p.id} />
@@ -53,9 +55,9 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
               <input type="hidden" name="pieceId" value={p.id} />
               <SubmitButton busy="✦ rewriting & rendering…" title="Rewrite the carousel from the concept — new copy, new illustrations, fresh AI QA pass">✦ Refresh carousel</SubmitButton>
             </form>
-            <a className="btn" href={`/content/${p.id}/download`}>⤓ Download slides (.zip)</a>
           </>
         ) : null}
+        {p.render ? <a className="btn" href={`/content/${p.id}/download`}>⤓ Download slides (.zip)</a> : null}
         {p.blog ? (
           <>
             <form action={publishAction}>
@@ -130,7 +132,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
                         <span key={n} className="src" style={{ display: 'block', color: '#d9b64e' }} title={i.note}>⚠ {i.kind}: {i.note}</span>
                       ))}
                     </figcaption>
-                    {live ? (
+                    {live && canRender ? (
                       <form action={editSlideAction} className="row" style={{ gap: 6, marginTop: 6 }}>
                         <input type="hidden" name="pieceId" value={p.id} />
                         <input type="hidden" name="index" value={s.index} />

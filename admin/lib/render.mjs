@@ -21,6 +21,14 @@ import { critique, editSlide } from './content/pipeline.mjs';
 import { activeProvider } from './settings.mjs';
 import { putRenders } from './blob.mjs';
 
+// Slide rendering screenshots real Chromium, which isn't installed on the
+// serverless host (playwright is a devDependency and a build would blow the
+// function timeout anyway). Callers use this to offer the action only where it
+// can actually succeed, instead of failing at request time.
+export const canRenderSlides = () => !process.env.VERCEL;
+export const RENDER_UNAVAILABLE =
+  'Slide rendering needs a local browser — run this from the app on your Mac and it will show up here.';
+
 const MAX_COPY_FIXES = 3; // per fix round — bounds LLM spend
 const MAX_FIX_ROUNDS = 2; // fix → re-render → re-critique cycles after best-of-N
 const PASS_SCORE = 8; // slides at/above this need no fixing

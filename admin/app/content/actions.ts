@@ -2,6 +2,12 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, createIdea, editPieceSlide, setPieceStage, setTag, setPostDate, deletePiece, ALL_MEDIUMS } from '@/lib/service.mjs';
+import { canRenderSlides, RENDER_UNAVAILABLE } from '@/lib/render.mjs';
+
+// Actions that screenshot slides only work where Chromium exists.
+function requireRenderer() {
+  if (!canRenderSlides()) throw new Error(RENDER_UNAVAILABLE);
+}
 
 export async function researchAction() {
   await refreshIdeas();
@@ -74,6 +80,7 @@ export async function schedulePieceAction(pieceId: string, postAt: string): Prom
 
 // Build button on a Production card: full build, stay on the board.
 export async function buildCardAction(formData: FormData) {
+  requireRenderer();
   await buildPiece(String(formData.get('pieceId')), { mediums: ALL_MEDIUMS });
   revalidatePath('/content');
   revalidatePath('/content/queue');
@@ -94,6 +101,7 @@ export async function updateConceptAction(formData: FormData) {
 
 // Stage 2 → 3: run brief + the selected mediums, then land on Review.
 export async function buildAction(formData: FormData) {
+  requireRenderer();
   const pid = String(formData.get('pieceId'));
   const picked = formData.getAll('mediums').map(String);
   await buildPiece(pid, { mediums: picked.length ? picked : ALL_MEDIUMS });
@@ -147,18 +155,21 @@ export async function saveMediumAction(formData: FormData) {
 }
 
 export async function rebuildCarouselAction(formData: FormData) {
+  requireRenderer();
   const pid = String(formData.get('pieceId'));
   await rebuildCarousel(pid);
   revalidatePath(`/content/${pid}`);
 }
 
 export async function editSlideAction(formData: FormData) {
+  requireRenderer();
   const pid = String(formData.get('pieceId'));
   await editPieceSlide(pid, Number(formData.get('index')), String(formData.get('instruction') || ''));
   revalidatePath(`/content/${pid}`);
 }
 
 export async function regenerateAction(formData: FormData) {
+  requireRenderer();
   const pid = String(formData.get('pieceId'));
   await regeneratePiece(pid);
   revalidatePath(`/content/${pid}`);

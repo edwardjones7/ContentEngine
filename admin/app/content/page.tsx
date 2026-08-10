@@ -1,6 +1,7 @@
 import { ensureIdeas } from '@/lib/service.mjs';
 import { getPieces } from '@/lib/db.mjs';
 import { provider } from '@/lib/mode.mjs';
+import { canRenderSlides } from '@/lib/render.mjs';
 import { Board, type CardDTO } from './board';
 import { SubmitButton } from './pending';
 import { researchAction } from './actions';
@@ -60,7 +61,7 @@ export default async function ContentPage() {
         <span className="src">{provider().kind === 'offline' ? 'offline: seeded ideas (add an API key in Settings to go live)' : `live research via ${provider().kind === 'free' ? 'Gemini + Google Search' : 'Claude + web search'}`}</span>
       </div>
 
-      <Board columns={columns} />
+      <Board columns={columns} canBuild={canRenderSlides()} />
     </>
   );
 }

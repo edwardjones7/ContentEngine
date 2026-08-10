@@ -124,6 +124,8 @@ input[disabled]{ cursor:progress; opacity:.6; }
 }
 .btn.primary:hover, button.primary:hover{ filter:brightness(1.08); background:linear-gradient(180deg,var(--accent2),#6d28d9); }
 .btn.ghost{ background:transparent; }
+.btn.disabled{ opacity:.5; cursor:not-allowed; border-style:dashed; }
+.btn.disabled:hover{ border-color:var(--line2); background:var(--raise); }
 
 textarea{
   width:100%; min-height:340px; background:#0d0918; color:var(--ink);
