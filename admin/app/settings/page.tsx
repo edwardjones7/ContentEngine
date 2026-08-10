@@ -1,4 +1,4 @@
-import { getSettings, activeProvider } from '@/lib/settings.mjs';
+import { getSettings, activeProvider, settingsWritable } from '@/lib/settings.mjs';
 import { saveSettingsAction, testProviderAction } from './actions';
 import { SubmitButton } from '../content/pending';
 
@@ -14,6 +14,18 @@ export default async function SettingsPage() {
     <>
       <h1>Settings</h1>
       <p className="lead">Pick Orbit's engine. Free runs on Google Gemini's free tier (no card needed); Paid runs on the Claude API. Either way, no key = offline mode with deterministic templates.</p>
+      {!settingsWritable() ? (
+        <div className="card" style={{ marginBottom: 18, borderColor: '#5c4413' }}>
+          <div className="row" style={{ marginBottom: 6 }}>
+            <span className="label" style={{ color: 'var(--amber)' }}>Read-only deployment</span>
+          </div>
+          <div className="meta" style={{ marginBottom: 0 }}>
+            This host has a read-only filesystem, so keys saved here last only until the server restarts.
+            Set <code>GEMINI_API_KEY</code> or <code>ANTHROPIC_API_KEY</code> (and optionally <code>ORBIT_PROVIDER</code>=free|paid|offline)
+            as environment variables on the host instead — they take effect on the next deploy.
+          </div>
+        </div>
+      ) : null}
       <div className="row" style={{ marginBottom: 18 }}>
         <span className="mode">{active.label}</span>
         {active.kind === 'offline' && s.provider !== 'offline' ? (

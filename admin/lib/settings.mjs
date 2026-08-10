@@ -14,17 +14,30 @@ const DEFAULTS = {
   anthropicKey: '',
 };
 
+// Serverless deploys (Vercel) mount a read-only filesystem, so settings can't
+// be persisted there — keys come from env vars instead. Saving still works
+// in-memory for the life of the instance rather than 500-ing the page.
+export const settingsWritable = () => !process.env.VERCEL;
+
+let _mem = null;
+
 export function getSettings() {
+  if (_mem) return { ...DEFAULTS, ..._mem };
   try {
     return { ...DEFAULTS, ...JSON.parse(readFileSync(FILE, 'utf8')) };
   } catch {
-    return { ...DEFAULTS };
+    return { ...DEFAULTS, ...(process.env.ORBIT_PROVIDER ? { provider: process.env.ORBIT_PROVIDER } : {}) };
   }
 }
 
 export function saveSettings(patch) {
   const next = { ...getSettings(), ...patch };
-  writeFileSync(FILE, JSON.stringify(next, null, 2));
+  try {
+    writeFileSync(FILE, JSON.stringify(next, null, 2));
+  } catch (e) {
+    _mem = next; // read-only deploy — keep it for this instance only
+    console.warn('[settings] could not persist, keeping in memory:', e.code || e.message);
+  }
   return next;
 }
 
