@@ -9,7 +9,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const FILE = resolve(here, '..', 'settings.local.json');
 
 const DEFAULTS = {
-  provider: 'free', // 'free' (Gemini free tier) | 'paid' (Claude API) | 'offline'
+  provider: 'free', // 'free' (Gemini) | 'paid' (Claude) | 'local' (Ollama) | 'offline'
   geminiKey: '',
   anthropicKey: '',
 };
@@ -50,5 +50,7 @@ export function activeProvider() {
   const s = getSettings();
   if (s.provider === 'paid' && anthropicKey()) return { kind: 'paid', key: anthropicKey(), label: '● paid · claude' };
   if (s.provider === 'free' && geminiKey()) return { kind: 'free', key: geminiKey(), label: '● free · gemini' };
+  // local needs no key — availability is probed at call time
+  if (s.provider === 'local') return { kind: 'local', key: '', label: '● local · ollama' };
   return { kind: 'offline', key: '', label: '○ offline' };
 }

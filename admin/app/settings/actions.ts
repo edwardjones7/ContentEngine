@@ -26,6 +26,9 @@ export async function testProviderAction() {
     } else if (s.provider === 'paid') {
       const { ping } = await import('@/lib/content/providers.mjs');
       result = await ping();
+    } else if (s.provider === 'local') {
+      const { ping } = await import('@/lib/content/ollama.mjs');
+      result = await ping();
     } else {
       result = 'Offline mode — nothing to test.';
     }

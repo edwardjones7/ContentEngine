@@ -47,6 +47,11 @@ export default async function SettingsPage() {
               <span className="src">sonnet chat + opus builds · pay-as-you-go</span>
             </label>
             <label className="pick">
+              <input type="radio" name="provider" value="local" defaultChecked={s.provider === 'local'} />
+              <span>Local — Ollama</span>
+              <span className="src">runs on this Mac · free, no rate limits, no key</span>
+            </label>
+            <label className="pick">
               <input type="radio" name="provider" value="offline" defaultChecked={s.provider === 'offline'} />
               <span>Offline</span>
               <span className="src">deterministic templates, no AI calls</span>
@@ -54,6 +59,11 @@ export default async function SettingsPage() {
           </div>
           <div className="meta" style={{ marginTop: 12, marginBottom: 0 }}>
             Free-tier note: Google may use free-tier prompts to improve its products, and rate limits apply (~10 requests/min). Fine for research; switch to Paid if that ever matters.
+          </div>
+          <div className="meta" style={{ marginTop: 8, marginBottom: 0 }}>
+            Whichever cloud engine you pick, a local Ollama model is used automatically as a backup when a call fails or gets
+            rate-limited — so a build degrades to the local model before it degrades to a template. Local can't do web-grounded
+            research or vision QA on slides.
           </div>
         </div>
 
