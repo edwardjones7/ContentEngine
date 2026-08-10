@@ -1,12 +1,17 @@
 // Programmatic entry point for the slide system — used by the engine.
 // (render.mjs is the CLI; this is the importable library surface.)
-import { chromium } from 'playwright';
 import { artDirect } from './art-director.mjs';
 import { renderSlideHTML } from './template.mjs';
 
 let _browser = null;
+// Playwright is imported lazily so merely loading this module (which every page
+// does, via service.mjs) never pulls in the browser bundle — it isn't installed
+// in serverless production, where only the non-rendering routes need to work.
 async function getBrowser() {
-  if (!_browser) _browser = await chromium.launch();
+  if (!_browser) {
+    const { chromium } = await import('playwright');
+    _browser = await chromium.launch();
+  }
   return _browser;
 }
 export async function closeBrowser() {

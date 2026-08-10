@@ -12,14 +12,40 @@ export const DATA_DIR = resolve(here, '..', 'data');
 export const RENDER_DIR = resolve(here, '..', 'public', 'renders');
 const DB = resolve(DATA_DIR, 'db.json');
 
+const EMPTY = () => ({ threads: [], messages: [], ideas: [], pieces: [], published: [] });
+
+// Serverless (Vercel) mounts a read-only filesystem, so the JSON store can't be
+// created or written there. Rather than 500 the whole app, fall back to a
+// per-instance in-memory copy: reads work off the bundled db.json, writes stay
+// in memory for the life of the instance. Swapping this module for Postgres +
+// Blob is the real fix — see README.
+let _mem = null;
+let _ro = false;
+
 function ensure() {
-  if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
-  if (!existsSync(RENDER_DIR)) mkdirSync(RENDER_DIR, { recursive: true });
-  if (!existsSync(DB)) writeFileSync(DB, JSON.stringify({ threads: [], messages: [], ideas: [], pieces: [], published: [] }, null, 2));
+  if (_ro) return;
+  try {
+    if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
+    if (!existsSync(RENDER_DIR)) mkdirSync(RENDER_DIR, { recursive: true });
+    if (!existsSync(DB)) writeFileSync(DB, JSON.stringify(EMPTY(), null, 2));
+  } catch (e) {
+    _ro = true;
+    console.warn('[db] read-only filesystem — using in-memory store:', e.code || e.message);
+  }
 }
 export function read() {
   ensure();
+  if (_ro) {
+    if (!_mem) {
+      try { _mem = JSON.parse(readFileSync(DB, 'utf8')); } catch { _mem = EMPTY(); }
+    }
+    return normalize(_mem);
+  }
   const db = JSON.parse(readFileSync(DB, 'utf8'));
+  return normalize(db);
+}
+
+function normalize(db) {
   // backfill collections added after a db.json was first written
   db.threads ||= []; db.messages ||= []; db.ideas ||= []; db.pieces ||= []; db.published ||= [];
   // legacy piece statuses (building/draft/published) normalize to board stages;
@@ -31,7 +57,12 @@ export function read() {
   }
   return db;
 }
-export function write(db) { ensure(); writeFileSync(DB, JSON.stringify(db, null, 2)); }
+
+export function write(db) {
+  ensure();
+  if (_ro) { _mem = db; return; }
+  writeFileSync(DB, JSON.stringify(db, null, 2));
+}
 
 let _seq = 0;
 export function id(prefix = 'x') { _seq += 1; return `${prefix}_${Date.now().toString(36)}${_seq}`; }
