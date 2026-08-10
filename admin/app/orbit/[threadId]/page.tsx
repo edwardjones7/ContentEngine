@@ -13,20 +13,20 @@ export default async function ThreadPage({ params, searchParams }: {
   searchParams: Promise<{ ideate?: string }>;
 }) {
   const { threadId } = await params;
-  const thread: any = getThread(threadId);
+  const thread: any = await getThread(threadId);
   if (!thread) notFound();
 
-  const messages = getMessages(threadId);
+  const messages = await getMessages(threadId);
 
   // Arriving via "Ideate" on a pitched idea: seed the chat with a kickoff
   // message (auto-sent client-side) — but only if the thread is still empty.
   const { ideate } = await searchParams;
-  const ideaToIdeate: any = ideate && messages.length === 0 ? getIdea(ideate) : null;
+  const ideaToIdeate: any = ideate && messages.length === 0 ? await getIdea(ideate) : null;
   const seed = ideaToIdeate
     ? `Let's ideate on this idea you pitched: “${ideaToIdeate.title}” — angle: ${ideaToIdeate.angle}. Current hook: “${ideaToIdeate.hook}”. Pressure-test the angle, suggest sharper hooks, and sketch 2–3 directions this could go. If we land somewhere stronger, file the refined idea.`
     : null;
-  const threadIdeas = getIdeas().filter((i: any) => i.threadId === threadId);
-  const accepted = new Set<string>(getPieces().map((p: any) => String(p.ideaId)));
+  const threadIdeas = (await getIdeas()).filter((i: any) => i.threadId === threadId);
+  const accepted = new Set<string>((await getPieces()).map((p: any) => String(p.ideaId)));
 
   return (
     <>

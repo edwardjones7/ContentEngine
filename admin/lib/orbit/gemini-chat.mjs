@@ -30,14 +30,14 @@ const WEB_SEARCH_FN = {
 const MAX_TURNS = 8;
 const now = () => new Date().toISOString();
 
-function persist(threadId, role, content, raw) {
-  return addMessage({ id: id('msg'), threadId, role, content, raw, provider: 'gemini', createdAt: now() });
+async function persist(threadId, role, content, raw) {
+  return await addMessage({ id: id('msg'), threadId, role, content, raw, provider: 'gemini', createdAt: now() });
 }
 
-function slugifyIdeaId(title) {
+async function slugifyIdeaId(title) {
   const base = 'idea-' + String(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 48);
   let iid = base, n = 2;
-  while (getIdea(iid)) iid = `${base}-${n++}`;
+  while (await getIdea(iid)) iid = `${base}-${n++}`;
   return iid;
 }
 
@@ -135,7 +135,7 @@ async function* readStream(res) {
 }
 
 export async function* geminiChatTurn(threadId) {
-  const contents = toContents(getMessages(threadId));
+  const contents = toContents(await getMessages(threadId));
 
   const body = {
     systemInstruction: { parts: [{ text: orbitSystem() }] },
@@ -215,7 +215,7 @@ export async function* geminiChatTurn(threadId) {
     const callBlocks = calls.map((p) => ({ type: 'tool_use', id: id('fc'), name: p.functionCall.name, input: p.functionCall.args || {} }));
     blocks.push(...callBlocks);
 
-    persist(threadId, 'assistant', blocks, rawParts);
+    await persist(threadId, 'assistant', blocks, rawParts);
     contents.push({ role: 'model', parts: rawParts });
 
     if (!calls.length) { yield { type: 'done' }; return; }
@@ -255,8 +255,8 @@ export async function* geminiChatTurn(threadId) {
         if (!title || !angle || !hook) {
           result = 'Rejected: title, angle, and hook are all required.';
         } else {
-          const idea = addIdea({
-            id: slugifyIdeaId(title),
+          const idea = await addIdea({
+            id: await slugifyIdeaId(title),
             title, angle, hook,
             goal: normalizeGoal(goal),
             funnel: normalizeFunnel(funnel),
@@ -273,7 +273,7 @@ export async function* geminiChatTurn(threadId) {
       resultBlocks.push({ type: 'tool_result', tool_use_id: toolUse.id, content: result });
       responseParts.push({ functionResponse: { name: call.name, response: { result } } });
     }
-    persist(threadId, 'user', resultBlocks, responseParts);
+    await persist(threadId, 'user', resultBlocks, responseParts);
     contents.push({ role: 'user', parts: responseParts });
   }
   yield { type: 'error', message: 'Orbit stopped after too many tool rounds in one turn.' };

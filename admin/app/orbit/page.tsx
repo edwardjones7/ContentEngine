@@ -7,10 +7,14 @@ import { SubmitButton } from '../content/pending';
 export const dynamic = 'force-dynamic';
 
 export default async function OrbitPage() {
-  const threads = getThreads();
-  const ideas = getIdeas();
-  const accepted = new Set(getPieces().map((p: any) => String(p.ideaId)));
+  const threads = await getThreads();
+  const ideas = await getIdeas();
+  const accepted = new Set((await getPieces()).map((p: any) => String(p.ideaId)));
   const pitches = ideas.filter((i: any) => i.suggested && !accepted.has(i.id));
+  // message counts are per-thread reads — resolve them before rendering
+  const threadCards = await Promise.all(
+    threads.map(async (t: any) => ({ t, msgs: await getMessages(t.id) }))
+  );
 
   return (
     <>
@@ -68,8 +72,7 @@ export default async function OrbitPage() {
         {threads.length === 0 ? (
           <div className="empty">No research threads yet — start one above.</div>
         ) : (
-          threads.map((t: any) => {
-            const msgs = getMessages(t.id);
+          threadCards.map(({ t, msgs }: any) => {
             const spawned = ideas.filter((i: any) => i.threadId === t.id).length;
             return (
               <div key={t.id} className="card">

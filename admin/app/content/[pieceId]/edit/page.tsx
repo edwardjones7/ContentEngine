@@ -19,7 +19,7 @@ const MEDIUM_OPTIONS: [string, string, string][] = [
 
 export default async function EditConceptPage({ params }: { params: Promise<{ pieceId: string }> }) {
   const { pieceId } = await params;
-  const p: any = getPiece(pieceId);
+  const p: any = await getPiece(pieceId);
   if (!p) notFound();
   if (p.status !== 'production') redirect(`/content/${pieceId}`);
 

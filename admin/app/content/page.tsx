@@ -36,7 +36,7 @@ function toPieceCard(p: any): CardDTO {
 
 export default async function ContentPage() {
   const ideas = await ensureIdeas();
-  const pieces = getPieces();
+  const pieces = await getPieces();
   const accepted = new Set(pieces.map((p: any) => p.ideaId));
 
   const byStage = (s: string) => pieces.filter((p: any) => p.status === s).map(toPieceCard);

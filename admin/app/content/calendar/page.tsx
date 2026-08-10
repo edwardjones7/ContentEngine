@@ -23,7 +23,7 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
   const { m } = await searchParams;
   const month = /^\d{4}-\d{2}$/.test(m || '') ? (m as string) : new Date().toISOString().slice(0, 7);
 
-  const pieces = getPieces().filter((p: any) => p.builtAt);
+  const pieces = (await getPieces()).filter((p: any) => p.builtAt);
   const cards = pieces.map(toCard);
 
   return (

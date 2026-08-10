@@ -18,14 +18,14 @@ const MAX_TURNS = 8;
 
 const now = () => new Date().toISOString();
 
-function persist(threadId, role, content) {
-  return addMessage({ id: id('msg'), threadId, role, content, createdAt: now() });
+async function persist(threadId, role, content) {
+  return await addMessage({ id: id('msg'), threadId, role, content, createdAt: now() });
 }
 
-function slugifyIdeaId(title) {
+async function slugifyIdeaId(title) {
   const base = 'idea-' + String(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 48);
   let iid = base, n = 2;
-  while (getIdea(iid)) iid = `${base}-${n++}`;
+  while (await getIdea(iid)) iid = `${base}-${n++}`;
   return iid;
 }
 
@@ -41,7 +41,7 @@ function sanitizeForAnthropic(m) {
 }
 
 export async function* chatTurn(threadId, userText) {
-  persist(threadId, 'user', [{ type: 'text', text: userText }]);
+  await persist(threadId, 'user', [{ type: 'text', text: userText }]);
 
   const p = activeProvider();
 
@@ -54,13 +54,13 @@ export async function* chatTurn(threadId, userText) {
     const canned =
       "I'm running offline — Orbit's live research chat needs an API key. Open Settings (top right) and add a free Gemini key or a paid Claude key, and I can dig into the web, cite sources, and file ideas straight to your board. (This exchange was still saved to the thread.)";
     for (const word of canned.split(/(?<= )/)) yield { type: 'text', delta: word };
-    persist(threadId, 'assistant', [{ type: 'text', text: canned }]);
+    await persist(threadId, 'assistant', [{ type: 'text', text: canned }]);
     yield { type: 'done' };
     return;
   }
 
   // Replay is verbatim: every API-level message (including tool turns) is a db row.
-  const messages = getMessages(threadId).map(sanitizeForAnthropic).filter(Boolean);
+  const messages = (await getMessages(threadId)).map(sanitizeForAnthropic).filter(Boolean);
 
   for (let turn = 0; turn < MAX_TURNS; turn++) {
     const acc = createAccumulator();
@@ -84,7 +84,7 @@ export async function* chatTurn(threadId, userText) {
     }
 
     const blocks = acc.blocks.filter(Boolean);
-    const assistantRow = persist(threadId, 'assistant', blocks);
+    const assistantRow = await persist(threadId, 'assistant', blocks);
     messages.push({ role: 'assistant', content: blocks });
 
     if (acc.stopReason === 'pause_turn') continue; // server tool still running — re-request
@@ -98,8 +98,8 @@ export async function* chatTurn(threadId, userText) {
           results.push({ type: 'tool_result', tool_use_id: b.id, is_error: true, content: 'Rejected: title, angle, and hook are all required.' });
           continue;
         }
-        const idea = addIdea({
-          id: slugifyIdeaId(title),
+        const idea = await addIdea({
+          id: await slugifyIdeaId(title),
           title, angle, hook,
           goal: normalizeGoal(goal),
           funnel: normalizeFunnel(funnel),
@@ -114,7 +114,7 @@ export async function* chatTurn(threadId, userText) {
         results.push({ type: 'tool_result', tool_use_id: b.id, content: `Saved as ${idea.id}. It now appears in the Research column and as a card in this thread.` });
       }
       const userRow = { role: 'user', content: results };
-      persist(threadId, 'user', results);
+      await persist(threadId, 'user', results);
       messages.push(userRow);
       continue;
     }

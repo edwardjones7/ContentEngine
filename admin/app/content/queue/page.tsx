@@ -3,8 +3,8 @@ import { PieceRow } from '../parts';
 
 export const dynamic = 'force-dynamic';
 
-export default function QueuePage() {
-  const pieces = getPieces();
+export default async function QueuePage() {
+  const pieces = await getPieces();
   return (
     <>
       <h1>Review queue</h1>

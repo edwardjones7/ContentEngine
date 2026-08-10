@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(_req: Request, { params }: { params: Promise<{ pieceId: string; index: string }> }) {
   const { pieceId, index } = await params;
-  const p: any = getPiece(pieceId);
+  const p: any = await getPiece(pieceId);
   if (!p) return new Response('piece not found', { status: 404 });
   const carousel = artDirect(p.spec, p.seed || 0);
   const slide = carousel.slides[Number(index) - 1];

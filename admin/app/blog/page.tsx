@@ -3,8 +3,8 @@ import { getPublished } from '@/lib/db.mjs';
 
 export const dynamic = 'force-dynamic';
 
-export default function BlogList() {
-  const posts = getPublished();
+export default async function BlogList() {
+  const posts = await getPublished();
   return (
     <>
       <h1>Published</h1>

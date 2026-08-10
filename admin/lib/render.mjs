@@ -15,13 +15,11 @@
 // NOTE: this function may mutate `piece.seed` (winning candidate) and
 // `piece.spec` (layout overrides / copy fixes). All callers save the piece
 // right after rendering, so the improvements persist and stay reproducible.
-import { writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
-import { resolve } from 'node:path';
 import { renderCarousel, validateCarousel } from './slides/api.mjs';
 import { LAYOUTS_FOR } from './slides/layouts.mjs';
 import { critique, editSlide } from './content/pipeline.mjs';
 import { activeProvider } from './settings.mjs';
-import { RENDER_DIR } from './db.mjs';
+import { putRenders } from './blob.mjs';
 
 const MAX_COPY_FIXES = 3; // per fix round — bounds LLM spend
 const MAX_FIX_ROUNDS = 2; // fix → re-render → re-critique cycles after best-of-N
@@ -45,14 +43,11 @@ export async function renderPieceSlides(piece, { seed = 0, qa: runQa = true } = 
     }
   }
 
-  const dir = resolve(RENDER_DIR, piece.id);
-  if (existsSync(dir)) rmSync(dir, { recursive: true });
-  mkdirSync(dir, { recursive: true });
-  const out = rendered.slides.map((s) => {
-    const name = fileName(s);
-    writeFileSync(resolve(dir, name), s.png);
-    return { index: s.index, label: s.label, type: s.type, layout: s.layout, file: name, url: `/renders/${piece.id}/${name}` };
-  });
+  const stored = await putRenders(piece.id, rendered.slides.map((s) => ({ file: fileName(s), png: s.png })));
+  const out = rendered.slides.map((s, i) => ({
+    index: s.index, label: s.label, type: s.type, layout: s.layout,
+    file: stored[i].file, url: stored[i].url,
+  }));
   return { theme: rendered.carousel.theme, bg: rendered.carousel.bg, slides: out, qa };
 }
 

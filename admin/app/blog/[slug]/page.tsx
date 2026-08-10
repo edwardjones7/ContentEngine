@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post: any = getPublishedBySlug(slug);
+  const post: any = await getPublishedBySlug(slug);
   if (!post) notFound();
   return (
     <>

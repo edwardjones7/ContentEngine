@@ -14,7 +14,7 @@ export { ALL_MEDIUMS };
 // An empty Research column stays empty — ideas come from Orbit threads or an
 // explicit "Refresh research" click, never auto-seeded on page load.
 export async function ensureIdeas() {
-  return getIdeas();
+  return await getIdeas();
 }
 
 export async function refreshIdeas() {
@@ -23,16 +23,16 @@ export async function refreshIdeas() {
   // ideas, Orbit's own pitches, or manually filed ones
   // batch research is Elenos-grounded, so those ideas default to the elenos.ai brand
   const merged = [...getIdeas().filter((i) => i.threadId || i.suggested || i.manual), ...ideas.map((i) => ({ ...i, brand: normalizeBrand(i.brand) || 'elenos' }))];
-  setIdeas(merged);
+  await setIdeas(merged);
   return merged;
 }
 
 // Manually filed idea from the board — no AI involved. `script` is optional
 // draft copy/notes that ride along into the build brief.
-export function createIdea({ title, angle, hook, goal, brand, funnel, script }) {
+export async function createIdea({ title, angle, hook, goal, brand, funnel, script }) {
   if (!title || !title.trim()) return null;
   const idea = {
-    id: slugifyIdeaId(title.trim()),
+    id: await slugifyIdeaId(title.trim()),
     title: title.trim(),
     angle: (angle || '').trim(),
     hook: (hook || '').trim(),
@@ -44,14 +44,14 @@ export function createIdea({ title, angle, hook, goal, brand, funnel, script }) 
     manual: true,
     createdAt: new Date().toISOString(),
   };
-  addIdea(idea);
+  await addIdea(idea);
   return idea;
 }
 
-function slugifyIdeaId(title) {
+async function slugifyIdeaId(title) {
   const base = 'idea-' + String(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 48);
   let iid = base, n = 2;
-  while (getIdeas().some((i) => i.id === iid)) iid = `${base}-${n++}`;
+  while ((await getIdeas()).some((i) => i.id === iid)) iid = `${base}-${n++}`;
   return iid;
 }
 
@@ -60,32 +60,32 @@ function slugifyIdeaId(title) {
 // seed ideas. Pitches land in db.ideas tagged `suggested` so they render on
 // the Orbit page and survive a board-level research refresh.
 export async function suggestIdeas(count = 3) {
-  const existing = getIdeas();
+  const existing = await getIdeas();
   const avoid = existing.map((i) => i.title);
   const generated = await ideate({ count, avoid });
-  const fresh = generated
-    .filter((g) => !existing.some((i) => i.title === g.title))
-    .slice(0, count)
-    .map((g) => ({
+  const fresh = [];
+  for (const g of generated.filter((g) => !existing.some((i) => i.title === g.title)).slice(0, count)) {
+    fresh.push({
       ...g,
-      id: slugifyIdeaId(g.title),
+      id: await slugifyIdeaId(g.title),
       source: g.source || 'orbit',
       brand: normalizeBrand(g.brand) || 'elenos',
       suggested: true,
       suggestedAt: new Date().toISOString(),
-    }));
-  for (const idea of fresh) addIdea(idea);
+    });
+  }
+  for (const idea of fresh) await addIdea(idea);
   return fresh;
 }
 
-export function dismissIdea(ideaId) {
-  setIdeas(getIdeas().filter((i) => i.id !== ideaId));
+export async function dismissIdea(ideaId) {
+  await setIdeas((await getIdeas()).filter((i) => i.id !== ideaId));
 }
 
 // Stage 1 → 2: accept an idea into a 'production' piece. Snapshots the idea as
 // an editable concept; runs nothing expensive (no brief/blog/render yet).
-export function acceptIdea(ideaId) {
-  const idea = getIdeas().find((i) => i.id === ideaId) || SEED_IDEAS.find((i) => i.id === ideaId);
+export async function acceptIdea(ideaId) {
+  const idea = (await getIdeas()).find((i) => i.id === ideaId) || SEED_IDEAS.find((i) => i.id === ideaId);
   if (!idea) throw new Error('idea not found');
   const piece = {
     id: id('pc'),
@@ -99,79 +99,79 @@ export function acceptIdea(ideaId) {
     title: idea.title,
     createdAt: new Date().toISOString(),
   };
-  savePiece(piece);
+  await savePiece(piece);
   return piece;
 }
 
 // Pure board move — never touches spec/render/blog/mediums, so backward drags
 // are lossless. An unbuilt piece can only sit in Production.
-export function setPieceStage(pid, stage) {
-  const p = getPiece(pid);
+export async function setPieceStage(pid, stage) {
+  const p = await getPiece(pid);
   if (!p) return { ok: false, error: 'piece not found' };
   if (!PIECE_STAGES.includes(stage)) return { ok: false, error: 'invalid stage' };
   if (stage !== 'production' && !p.builtAt) return { ok: false, error: 'Build the piece first' };
   if (stage === 'posted' && !p.postedAt) p.postedAt = new Date().toISOString();
   if (stage !== 'posted' && p.status === 'posted') p.postedAt = null; // re-posting re-stamps
   p.status = stage;
-  savePiece(p);
+  await savePiece(p);
   return { ok: true };
 }
 
 // Set one of the card tag dimensions (goal / brand / funnel) on an idea or piece.
-export function setTag(kind, targetId, field, value) {
+export async function setTag(kind, targetId, field, value) {
   const dim = TAG_FIELDS[field];
   if (!dim) return null;
   const v = dim.normalize(value);
   if (kind === 'idea') {
-    const idea = getIdeas().find((i) => i.id === targetId);
+    const idea = (await getIdeas()).find((i) => i.id === targetId);
     if (!idea) return null;
-    return addIdea({ ...idea, [field]: v });
+    return await addIdea({ ...idea, [field]: v });
   }
-  const p = getPiece(targetId);
+  const p = await getPiece(targetId);
   if (!p) return null;
   p[field] = v;
-  savePiece(p);
+  await savePiece(p);
   return p;
 }
 
 // Delete a piece and its rendered PNGs. The source idea (if still in db.ideas)
 // reappears in the Idea column, so this un-does an accept rather than losing work.
-export function deletePiece(pid) {
-  const p = getPiece(pid);
+export async function deletePiece(pid) {
+  const p = await getPiece(pid);
   if (!p) return null;
-  removePiece(pid);
+  await removePiece(pid);
   rmSync(join(RENDER_DIR, pid), { recursive: true, force: true });
   return p;
 }
 
 // Target post date for the Ready to Post column. '' clears it.
-export function setPostDate(pid, postAt) {
-  const p = getPiece(pid);
+export async function setPostDate(pid, postAt) {
+  const p = await getPiece(pid);
   if (!p) return null;
   p.postAt = postAt || null;
-  savePiece(p);
+  await savePiece(p);
   return p;
 }
 
 // The concept snapshots only the editable fields; templated ideas carry extra
 // slide-template fields (blocks/breaker/fix/cta/theme…) that brief() needs, so
 // rebuild the full idea by layering the concept over the original.
-function pieceIdea(p) {
-  const original = getIdeas().find((i) => i.id === p.ideaId) || SEED_IDEAS.find((i) => i.id === p.ideaId) || {};
+async function pieceIdea(p) {
+  const original = (await getIdeas()).find((i) => i.id === p.ideaId) || SEED_IDEAS.find((i) => i.id === p.ideaId) || {};
   return { ...original, ...p.concept, id: p.ideaId };
 }
 
 // Refine the concept. Valid at any stage — post-build edits take effect on the
 // next rebuild (the concept is the source the brief re-runs from).
-export function updateConcept(pid, { title, angle, hook, script }) {
-  const p = getPiece(pid);
+export async function updateConcept(pid, { title, angle, hook, script }) {
+  const p = await getPiece(pid);
   if (!p) return null;
   if (title != null) p.concept.title = title;
   if (angle != null) p.concept.angle = angle;
   if (hook != null) p.concept.hook = hook;
   if (script != null) p.concept.script = script.trim() || null;
   p.title = p.concept.title; // keep the display mirror in sync
-  savePiece(p);
+  await savePiece(p);
   return p;
 }
 
@@ -181,9 +181,9 @@ export function updateConcept(pid, { title, angle, hook, script }) {
 // (caption/xthread/linkedin/video) fail independently without failing the
 // build. Throws on brief/render failure, leaving the piece in 'production'.
 export async function buildPiece(pid, { mediums = ALL_MEDIUMS } = {}) {
-  const p = getPiece(pid);
+  const p = await getPiece(pid);
   if (!p) throw new Error('piece not found');
-  const idea = pieceIdea(p);
+  const idea = await pieceIdea(p);
   const spec = await brief(idea);
   p.spec = mediums.includes('carousel') ? await enrichIllustrations(spec) : spec;
   if (mediums.includes('blog')) {
@@ -198,7 +198,7 @@ export async function buildPiece(pid, { mediums = ALL_MEDIUMS } = {}) {
   p.mediumsRequested = mediums;
   p.status = 'review';
   p.builtAt = new Date().toISOString();
-  savePiece(p);
+  await savePiece(p);
   return p;
 }
 
@@ -221,9 +221,9 @@ async function enrichIllustrations(spec) {
 
 // Re-run a single medium's generator (or re-render/rewrite for carousel/blog).
 export async function regenerateMedium(pid, medium) {
-  const p = getPiece(pid);
+  const p = await getPiece(pid);
   if (!p || !p.spec) return null;
-  const idea = pieceIdea(p);
+  const idea = await pieceIdea(p);
   if (medium === 'carousel') {
     p.seed = Math.floor(Math.random() * 1e6);
     p.render = await renderPieceSlides(p, { seed: p.seed });
@@ -234,16 +234,16 @@ export async function regenerateMedium(pid, medium) {
     const out = await mediumsGen(idea, p.spec, [medium]);
     p.mediums = { ...(p.mediums || {}), ...out };
   }
-  savePiece(p);
+  await savePiece(p);
   return p;
 }
 
 // Manual edits to a medium from the review page.
-export function saveMedium(pid, medium, data) {
-  const p = getPiece(pid);
+export async function saveMedium(pid, medium, data) {
+  const p = await getPiece(pid);
   if (!p || !EXTRA_MEDIUMS.includes(medium)) return null;
   p.mediums = { ...(p.mediums || {}), [medium]: { status: 'ready', ...data } };
-  savePiece(p);
+  await savePiece(p);
   return p;
 }
 
@@ -252,7 +252,7 @@ export function saveMedium(pid, medium, data) {
 // contract-validated before adoption, then just that composition re-renders
 // (same seed, no best-of-N pass — the user is iterating, not re-rolling).
 export async function editPieceSlide(pid, index, instruction) {
-  const p = getPiece(pid);
+  const p = await getPiece(pid);
   if (!p || !p.spec || !instruction.trim()) return null;
   const idx = p.spec.slides.findIndex((s) => (s.index ?? 0) === Number(index));
   if (idx < 0) return null;
@@ -267,7 +267,7 @@ export async function editPieceSlide(pid, index, instruction) {
   const prevQa = p.render?.qa || null;
   p.render = await renderPieceSlides(p, { seed: p.seed || 0, qa: false });
   p.render.qa = prevQa;
-  savePiece(p);
+  await savePiece(p);
   return p;
 }
 
@@ -275,44 +275,44 @@ export async function editPieceSlide(pid, index, instruction) {
 // redraw the illustrations, and re-render with the full QA pass. Contrast with
 // regeneratePiece, which keeps the copy and only reshuffles the composition.
 export async function rebuildCarousel(pid) {
-  const p = getPiece(pid);
+  const p = await getPiece(pid);
   if (!p) return null;
-  const idea = pieceIdea(p);
+  const idea = await pieceIdea(p);
   p.spec = await enrichIllustrations(await brief(idea));
   p.seed = Math.floor(Math.random() * 1e6);
   p.render = await renderPieceSlides(p, { seed: p.seed });
-  savePiece(p);
+  await savePiece(p);
   return p;
 }
 
 export async function regeneratePiece(pid) {
-  const p = getPiece(pid);
+  const p = await getPiece(pid);
   if (!p) return null;
   p.seed = Math.floor(Math.random() * 1e6);
   p.render = await renderPieceSlides(p, { seed: p.seed });
-  savePiece(p);
+  await savePiece(p);
   return p;
 }
 
-export function saveBlog(pid, { title, markdown }) {
-  const p = getPiece(pid);
+export async function saveBlog(pid, { title, markdown }) {
+  const p = await getPiece(pid);
   if (!p) return null;
   if (title) p.blog.title = title;
   if (markdown != null) p.blog.markdown = markdown;
-  if (p.publishedAt) addPublished({ title: p.blog.title, slug: p.slug, dek: p.blog.dek, markdown: p.blog.markdown, meta: p.blog.meta });
-  savePiece(p);
+  if (p.publishedAt) await addPublished({ title: p.blog.title, slug: p.slug, dek: p.blog.dek, markdown: p.blog.markdown, meta: p.blog.meta });
+  await savePiece(p);
   return p;
 }
 
 // Publishing the blog is orthogonal to board stage: it copies the blog into
 // db.published (visible at /blog) and stamps publishedAt. Stage stays put.
-export function publishPiece(pid) {
-  const p = getPiece(pid);
+export async function publishPiece(pid) {
+  const p = await getPiece(pid);
   if (!p) return null;
   if (!p.blog) return null; // publish is the blog step; blog-less pieces have nothing to publish
   p.publishedAt = new Date().toISOString();
   // In the monorepo this becomes: insert blog_posts row + revalidatePath('/blog/[slug]').
-  addPublished({ title: p.blog.title, slug: p.slug, dek: p.blog.dek, markdown: p.blog.markdown, meta: p.blog.meta });
-  savePiece(p);
+  await addPublished({ title: p.blog.title, slug: p.slug, dek: p.blog.dek, markdown: p.blog.markdown, meta: p.blog.meta });
+  await savePiece(p);
   return p;
 }

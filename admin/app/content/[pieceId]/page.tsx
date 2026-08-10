@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function ReviewPage({ params }: { params: Promise<{ pieceId: string }> }) {
   const { pieceId } = await params;
-  const p: any = getPiece(pieceId);
+  const p: any = await getPiece(pieceId);
   if (!p) notFound();
   if (!p.builtAt) redirect(`/content/${pieceId}/edit`);
   const slides = p.render?.slides || [];

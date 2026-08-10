@@ -10,13 +10,13 @@ export async function researchAction() {
 
 // Stage 1 → 2: accept an idea, then go refine the concept before building.
 export async function acceptAction(formData: FormData) {
-  const piece = acceptIdea(String(formData.get('ideaId')));
+  const piece = await acceptIdea(String(formData.get('ideaId')));
   revalidatePath('/content');
   redirect(`/content/${piece.id}/edit`);
 }
 
 export async function addIdeaAction(formData: FormData) {
-  createIdea({
+  await createIdea({
     title: String(formData.get('title') || ''),
     angle: String(formData.get('angle') || ''),
     hook: String(formData.get('hook') || ''),
@@ -29,7 +29,7 @@ export async function addIdeaAction(formData: FormData) {
 }
 
 export async function deletePieceAction(formData: FormData) {
-  deletePiece(String(formData.get('pieceId')));
+  await deletePiece(String(formData.get('pieceId')));
   revalidatePath('/content');
   revalidatePath('/content/queue');
 }
@@ -39,9 +39,9 @@ export async function deletePieceAction(formData: FormData) {
 export async function moveCardAction(kind: 'idea' | 'piece', id: string, toStage: string): Promise<{ ok: boolean; error?: string }> {
   if (kind === 'idea') {
     if (toStage !== 'production') return { ok: false, error: 'Ideas can only move to Production' };
-    try { acceptIdea(id); } catch (e) { return { ok: false, error: (e as Error).message }; }
+    try { await acceptIdea(id); } catch (e) { return { ok: false, error: (e as Error).message }; }
   } else {
-    const res = setPieceStage(id, toStage);
+    const res = await setPieceStage(id, toStage);
     if (!res.ok) return res;
   }
   revalidatePath('/content');
@@ -53,20 +53,20 @@ export async function moveCardAction(kind: 'idea' | 'piece', id: string, toStage
 export async function setTagAction(formData: FormData) {
   const kind = String(formData.get('kind')) as 'idea' | 'piece';
   const id = String(formData.get('id'));
-  setTag(kind, id, String(formData.get('field')), String(formData.get('value') || ''));
+  await setTag(kind, id, String(formData.get('field')), String(formData.get('value') || ''));
   revalidatePath('/content');
   if (kind === 'piece') revalidatePath(`/content/${id}`);
 }
 
 export async function setPostDateAction(formData: FormData) {
-  setPostDate(String(formData.get('pieceId')), String(formData.get('postAt') || ''));
+  await setPostDate(String(formData.get('pieceId')), String(formData.get('postAt') || ''));
   revalidatePath('/content');
   revalidatePath('/content/calendar');
 }
 
 // Calendar drag handler — plain args, the client owns navigation.
 export async function schedulePieceAction(pieceId: string, postAt: string): Promise<{ ok: boolean }> {
-  setPostDate(pieceId, postAt);
+  await setPostDate(pieceId, postAt);
   revalidatePath('/content');
   revalidatePath('/content/calendar');
   return { ok: true };
@@ -81,7 +81,7 @@ export async function buildCardAction(formData: FormData) {
 
 export async function updateConceptAction(formData: FormData) {
   const pid = String(formData.get('pieceId'));
-  updateConcept(pid, {
+  await updateConcept(pid, {
     title: String(formData.get('title') || ''),
     angle: String(formData.get('angle') || ''),
     hook: String(formData.get('hook') || ''),
@@ -112,27 +112,27 @@ export async function saveMediumAction(formData: FormData) {
   const pid = String(formData.get('pieceId'));
   const medium = String(formData.get('medium'));
   if (medium === 'caption') {
-    saveMedium(pid, medium, {
+    await saveMedium(pid, medium, {
       text: String(formData.get('text') || ''),
       hashtags: String(formData.get('hashtags') || '').split(/[\s,#]+/).filter(Boolean).slice(0, 10),
     });
   } else if (medium === 'xthread') {
     const tweets = formData.getAll('tweet').map((t) => ({ text: String(t) })).filter((t) => t.text.trim());
-    saveMedium(pid, medium, { tweets });
+    await saveMedium(pid, medium, { tweets });
   } else if (medium === 'linkedin') {
-    saveMedium(pid, medium, { text: String(formData.get('text') || '') });
+    await saveMedium(pid, medium, { text: String(formData.get('text') || '') });
   } else if (medium === 'video') {
     const beats = formData.getAll('beat').map((b, i) => ({
       beat: String(b),
       onScreenText: String(formData.getAll('onScreenText')[i] || ''),
     })).filter((b) => b.beat.trim());
-    saveMedium(pid, medium, { hook: String(formData.get('hook') || ''), beats, cta: String(formData.get('cta') || '') });
+    await saveMedium(pid, medium, { hook: String(formData.get('hook') || ''), beats, cta: String(formData.get('cta') || '') });
   } else if (medium === 'youtube') {
     const sections = formData.getAll('heading').map((h, i) => ({
       heading: String(h),
       talking: String(formData.getAll('talking')[i] || ''),
     })).filter((s) => s.heading.trim() || s.talking.trim());
-    saveMedium(pid, medium, {
+    await saveMedium(pid, medium, {
       title: String(formData.get('title') || ''),
       description: String(formData.get('description') || ''),
       tags: String(formData.get('tags') || '').split(/[,\n]+/).map((t) => t.trim()).filter(Boolean).slice(0, 15),
@@ -166,7 +166,7 @@ export async function regenerateAction(formData: FormData) {
 
 export async function publishAction(formData: FormData) {
   const pid = String(formData.get('pieceId'));
-  const p = publishPiece(pid);
+  const p = await publishPiece(pid);
   revalidatePath(`/content/${pid}`);
   revalidatePath('/content');
   revalidatePath('/blog');
@@ -175,6 +175,6 @@ export async function publishAction(formData: FormData) {
 
 export async function saveAction(formData: FormData) {
   const pid = String(formData.get('pieceId'));
-  saveBlog(pid, { title: String(formData.get('title') || ''), markdown: String(formData.get('markdown') || '') });
+  await saveBlog(pid, { title: String(formData.get('title') || ''), markdown: String(formData.get('markdown') || '') });
   revalidatePath(`/content/${pid}`);
 }
