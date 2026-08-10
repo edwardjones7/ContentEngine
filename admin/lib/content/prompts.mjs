@@ -64,8 +64,62 @@ export function briefPrompt(idea) {
     user: `Idea: ${JSON.stringify(idea)}${scriptNote(idea)}\nWrite a 5-7 slide carousel. One emphasis (em:true) per headline/block. Real specifics. Return JSON only.`,
   };
 }
+// Models routinely get the contract's *shape* right but its *types* wrong —
+// a plain string where a run array belongs, 0-based indexes, a missing label.
+// Repairing those mechanically is strictly better than throwing the whole
+// carousel away and falling back to a template; anything still broken after
+// this is a real failure and validation catches it.
+const asRuns = (v) => {
+  if (Array.isArray(v)) {
+    const runs = v.map((r) => (typeof r === 'string' ? { t: r } : r))
+      .filter((r) => r && typeof r.t === 'string' && r.t.length)
+      .map((r) => (r.em === undefined ? { t: r.t } : { t: r.t, em: !!r.em }));
+    return runs.length ? runs : undefined;
+  }
+  if (typeof v === 'string' && v.trim()) return [{ t: v }];
+  return undefined;
+};
+const asText = (v) => (Array.isArray(v) ? v.map((r) => (typeof r === 'string' ? r : r?.t || '')).join('') : v);
+
+function repairSpec(spec) {
+  let slides = Array.isArray(spec.slides) ? spec.slides : [];
+  // the deck's spine is fixed: cover opens, cta closes, breakers sit between
+  const cover = slides.find((s) => s.type === 'cover');
+  const cta = [...slides].reverse().find((s) => s.type === 'cta');
+  slides = [
+    ...(cover ? [cover] : []),
+    ...slides.filter((s) => s !== cover && s !== cta),
+    ...(cta ? [cta] : []),
+  ];
+  spec.slides = slides.map((s, i) => {
+    const out = { ...s };
+    out.index = i + 1;                                    // always 1..n, in order
+    out.label = (asText(out.label) || out.type || 'FIELD NOTES').toString().slice(0, 40);
+    for (const f of ['headline', 'caption', 'quote', 'ctaBody']) {
+      if (out[f] !== undefined) out[f] = asRuns(out[f]);
+    }
+    for (const f of ['sub', 'cite', 'stat', 'footer']) {   // plain-string fields
+      if (out[f] !== undefined) out[f] = asText(out[f]);
+    }
+    if (Array.isArray(out.blocks)) {
+      out.blocks = out.blocks
+        .map((b) => ({ ...b, body: asRuns(typeof b === 'string' ? b : b?.body) }))
+        .filter((b) => b.body);
+    }
+    if (Array.isArray(out.items)) {
+      out.items = out.items.map((it) => (typeof it === 'string' ? { text: [{ t: it }] } : { ...it, text: asRuns(it?.text) }))
+        .filter((it) => it.text);
+    }
+    for (const side of ['left', 'right']) {
+      if (out[side]) out[side] = { ...out[side], tag: asText(out[side].tag), body: asRuns(out[side].body) };
+    }
+    return out;
+  });
+  return spec;
+}
+
 export function postBrief(out, idea) {
-  const spec = extractJson(out);
+  const spec = repairSpec(extractJson(out));
   spec.slug = spec.slug || idea.id.replace(/^idea-/, '');
   const errors = [];
   validateCarousel(spec.slug, spec, errors, []);
