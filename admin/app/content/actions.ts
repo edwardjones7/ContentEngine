@@ -1,7 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, createIdea, editPieceSlide, setPieceStage, setTag, setPostDate, deletePiece, ALL_MEDIUMS } from '@/lib/service.mjs';
+import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, createIdea, editPieceSlide, setPieceStage, setTag, setPostDate, setIdeaDate, deletePiece, ALL_MEDIUMS } from '@/lib/service.mjs';
 import { canRenderSlides, RENDER_UNAVAILABLE } from '@/lib/render.mjs';
 
 // Actions that screenshot slides only work where Chromium exists.
@@ -73,6 +73,14 @@ export async function setPostDateAction(formData: FormData) {
 // Calendar drag handler — plain args, the client owns navigation.
 export async function schedulePieceAction(pieceId: string, postAt: string): Promise<{ ok: boolean }> {
   await setPostDate(pieceId, postAt);
+  revalidatePath('/content');
+  revalidatePath('/content/calendar');
+  return { ok: true };
+}
+
+// Same for planning an unaccepted idea onto a calendar date.
+export async function scheduleIdeaAction(ideaId: string, postAt: string): Promise<{ ok: boolean }> {
+  await setIdeaDate(ideaId, postAt);
   revalidatePath('/content');
   revalidatePath('/content/calendar');
   return { ok: true };

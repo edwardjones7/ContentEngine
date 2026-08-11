@@ -216,7 +216,8 @@
       "funnel": "bof",
       "brand": "elenos",
       "suggested": true,
-      "suggestedAt": "2026-08-06T22:20:30.672Z"
+      "suggestedAt": "2026-08-06T22:20:30.672Z",
+      "postAt": null
     },
     {
       "id": "idea-ad-spend-is-the-wrong-lever",

@@ -97,6 +97,7 @@ export async function acceptIdea(ideaId) {
     seed: 0,
     concept: { title: idea.title, angle: idea.angle, hook: idea.hook, script: idea.script || null, source: idea.source, carouselFile: idea.carouselFile || null },
     title: idea.title,
+    postAt: idea.postAt || null,
     createdAt: new Date().toISOString(),
   };
   await savePiece(piece);
@@ -151,6 +152,13 @@ export async function setPostDate(pid, postAt) {
   p.postAt = postAt || null;
   await savePiece(p);
   return p;
+}
+
+// Planned date on an unaccepted idea — acceptIdea carries it onto the piece.
+export async function setIdeaDate(ideaId, postAt) {
+  const idea = (await getIdeas()).find((i) => i.id === ideaId);
+  if (!idea) return null;
+  return await addIdea({ ...idea, postAt: postAt || null });
 }
 
 // The concept snapshots only the editable fields; templated ideas carry extra

@@ -1,4 +1,4 @@
-import { getPieces } from '@/lib/db.mjs';
+import { getPieces, getIdeas } from '@/lib/db.mjs';
 import { Calendar, type CalCard } from './calendar';
 
 export const dynamic = 'force-dynamic';
@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic';
 function toCard(p: any): CalCard {
   return {
     id: p.id,
+    kind: 'piece',
     title: p.title,
     stage: p.status,
     goal: p.goal || null,
@@ -19,17 +20,34 @@ function toCard(p: any): CalCard {
   };
 }
 
+// Unaccepted ideas can be planned onto a date too; accepting the idea later
+// carries the date onto the piece, so the pill just changes flavor.
+function toIdeaCard(i: any): CalCard {
+  return {
+    id: i.id,
+    kind: 'idea',
+    title: i.title,
+    stage: 'idea',
+    goal: i.goal || null,
+    brand: i.brand || null,
+    date: i.postAt || null,
+    posted: false,
+  };
+}
+
 export default async function CalendarPage({ searchParams }: { searchParams: Promise<{ m?: string }> }) {
   const { m } = await searchParams;
   const month = /^\d{4}-\d{2}$/.test(m || '') ? (m as string) : new Date().toISOString().slice(0, 7);
 
-  const pieces = (await getPieces()).filter((p: any) => p.builtAt);
-  const cards = pieces.map(toCard);
+  const allPieces = await getPieces();
+  const accepted = new Set(allPieces.map((p: any) => String(p.ideaId)));
+  const ideas = (await getIdeas()).filter((i: any) => !accepted.has(i.id));
+  const cards = [...allPieces.filter((p: any) => p.builtAt).map(toCard), ...ideas.map(toIdeaCard)];
 
   return (
     <>
       <h1>Content calendar</h1>
-      <p className="lead">Scheduled and posted pieces by date. Drag a card between days to reschedule — unscheduled Ready pieces wait in the tray below.</p>
+      <p className="lead">Scheduled and posted pieces by date — plus planned ideas. Click a day's + (or drag from a tray below) to place an idea; drag any card between days to reschedule.</p>
       <Calendar month={month} cards={cards} />
     </>
   );

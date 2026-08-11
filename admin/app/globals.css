@@ -355,8 +355,29 @@ input[type="date"]{
 .cal-day{
   min-height:118px; border:1px solid var(--line); border-radius:12px; padding:8px;
   background:rgba(19,13,33,.45); display:flex; flex-direction:column; gap:5px;
-  transition:border-color .12s, background .12s;
+  transition:border-color .12s, background .12s; position:relative;
 }
+.cal-add{
+  position:absolute; top:5px; right:6px; width:20px; height:20px; padding:0;
+  border:1px solid var(--line2); border-radius:6px; background:var(--raise);
+  color:var(--dim); font:13px/1 ui-monospace,monospace; cursor:pointer;
+  opacity:0; transition:opacity .12s, border-color .12s;
+}
+.cal-day:hover .cal-add, .cal-day:focus-within .cal-add{ opacity:1; }
+.cal-add:hover{ border-color:var(--amber); color:var(--ink); }
+.cal-pick{
+  position:absolute; top:28px; right:6px; left:6px; z-index:20;
+  display:flex; flex-direction:column; gap:2px; padding:6px;
+  background:var(--panel2); border:1px solid var(--line2); border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.45); max-height:200px; overflow-y:auto;
+}
+.cal-pick-row{
+  display:flex; align-items:center; gap:6px; padding:5px 8px; border:0;
+  border-radius:7px; background:transparent; color:var(--ink); font-size:11.5px;
+  line-height:1.25; text-align:left; cursor:pointer;
+}
+.cal-pick-row:hover{ background:var(--accent-soft); }
+.cal-pick-empty{ font-size:11px; color:var(--faint); padding:5px 8px; }
 .cal-day.out{ opacity:.38; background:transparent; }
 .cal-day.today{ border-color:var(--accent); box-shadow:0 0 0 1px var(--accent-soft) inset; }
 .cal-day.drop, .cal-tray.drop{ border-color:var(--accent); background:rgba(139,92,246,.08); }
@@ -371,11 +392,14 @@ input[type="date"]{
 .cal-pill[draggable="true"]{ cursor:grab; }
 .cal-pill.sched{ border-left:3px solid var(--accent2); }
 .cal-pill.posted{ border-left:3px solid var(--green); opacity:.85; }
+.cal-pill.idea{ border:1px dashed var(--line2); border-left:3px solid var(--amber); color:var(--dim); }
+.cal-pill.idea:hover{ border-color:var(--amber); }
 .cal-pill-t{ overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
 .cal-dot{ width:6px; height:6px; border-radius:50%; flex:0 0 auto; }
 .cal-key{ display:inline-block; width:10px; height:10px; border-radius:3px; vertical-align:-1px; }
 .cal-key-sched{ background:var(--accent2); }
 .cal-key-posted{ background:var(--green); }
+.cal-key-idea{ background:var(--amber); }
 .cal-tray{
   display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; padding:12px;
   border:1px dashed var(--line2); border-radius:12px; min-height:52px; align-items:center;

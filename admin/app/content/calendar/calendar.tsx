@@ -2,13 +2,16 @@
 // Month-grid content calendar. Server page hands slim card DTOs; this owns the
 // grid math, drag-to-reschedule (native HTML5, same pattern as the board), and
 // optimistic updates. Posted pieces are pinned — only scheduled ones drag.
+// Ideas ride along as plannable pills: place via each day's + picker or by
+// dragging from the tray; they stay ideas until accepted from the board.
 import Link from 'next/link';
 import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { schedulePieceAction } from '../actions';
+import { schedulePieceAction, scheduleIdeaAction } from '../actions';
 
 export type CalCard = {
   id: string;
+  kind: 'idea' | 'piece';
   title: string;
   stage: string;
   goal: string | null;
@@ -42,22 +45,39 @@ function shiftMonth(month: string, by: number): string {
 const MONTH_NAME = (month: string) =>
   new Date(month + '-01T12:00:00Z').toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 
+function Dot({ goal }: { goal: string | null }) {
+  return goal ? <span className="cal-dot" style={{ background: GOAL_DOT[goal] }} /> : null;
+}
+
 export function Calendar({ month, cards }: { month: string; cards: CalCard[] }) {
   const router = useRouter();
   const [items, setItems] = useState(cards);
   const [drag, setDrag] = useState<CalCard | null>(null);
+  const [pick, setPick] = useState<string | null>(null); // date whose idea picker is open
   const [, startTransition] = useTransition();
   useEffect(() => setItems(cards), [cards]);
 
+  // any click outside the open picker (or its + button) closes it
+  useEffect(() => {
+    if (!pick) return;
+    const close = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest('.cal-pick, .cal-add')) setPick(null);
+    };
+    window.addEventListener('mousedown', close);
+    return () => window.removeEventListener('mousedown', close);
+  }, [pick]);
+
   const today = new Date().toISOString().slice(0, 10);
   const days = gridDays(month);
-  const unscheduled = items.filter((c) => !c.date && c.stage === 'ready');
+  const unscheduled = items.filter((c) => !c.date && c.kind === 'piece' && c.stage === 'ready');
+  const looseIdeas = items.filter((c) => !c.date && c.kind === 'idea');
 
   function drop(card: CalCard, date: string | null) {
     if (card.posted) return;
     setItems((all) => all.map((c) => (c.id === card.id ? { ...c, date } : c)));
     startTransition(async () => {
-      await schedulePieceAction(card.id, date || '');
+      if (card.kind === 'idea') await scheduleIdeaAction(card.id, date || '');
+      else await schedulePieceAction(card.id, date || '');
       router.refresh();
     });
   }
@@ -75,6 +95,12 @@ export function Calendar({ month, cards }: { month: string; cards: CalCard[] }) 
     },
   });
 
+  const dragProps = (c: CalCard) => ({
+    draggable: !c.posted,
+    onDragStart: (e: React.DragEvent) => { e.dataTransfer.setData('text/plain', c.id); e.dataTransfer.effectAllowed = 'move'; setDrag(c); },
+    onDragEnd: () => setDrag(null),
+  });
+
   return (
     <>
       <div className="row" style={{ marginTop: 18 }}>
@@ -83,6 +109,7 @@ export function Calendar({ month, cards }: { month: string; cards: CalCard[] }) 
         <Link className="btn ghost" href={`/content/calendar?m=${shiftMonth(month, 1)}`}>→</Link>
         <span className="sp" />
         <span className="src">
+          <span className="cal-key cal-key-idea" /> idea&nbsp;&nbsp;
           <span className="cal-key cal-key-sched" /> scheduled&nbsp;&nbsp;
           <span className="cal-key cal-key-posted" /> posted
         </span>
@@ -95,17 +122,41 @@ export function Calendar({ month, cards }: { month: string; cards: CalCard[] }) 
           return (
             <div key={date} className={`cal-day${inMonth ? '' : ' out'}${date === today ? ' today' : ''}`} {...cellProps(date)}>
               <span className="cal-num">{Number(date.slice(8))}</span>
-              {dayCards.map((c) => (
+              <button
+                type="button"
+                className="cal-add"
+                title="Place an idea on this day"
+                onClick={() => setPick(pick === date ? null : date)}
+              >+</button>
+              {pick === date ? (
+                <div className="cal-pick">
+                  {looseIdeas.length ? looseIdeas.map((c) => (
+                    <button key={c.id} type="button" className="cal-pick-row" onClick={() => { drop(c, date); setPick(null); }}>
+                      <Dot goal={c.goal} />
+                      <span className="cal-pill-t">{c.title}</span>
+                    </button>
+                  )) : <span className="cal-pick-empty">No unscheduled ideas</span>}
+                </div>
+              ) : null}
+              {dayCards.map((c) => c.kind === 'idea' ? (
+                <span
+                  key={c.id}
+                  className="cal-pill idea"
+                  {...dragProps(c)}
+                  title={`${c.title} · planned idea — drag to move, drop on a tray to unschedule`}
+                >
+                  <Dot goal={c.goal} />
+                  <span className="cal-pill-t">{c.title}</span>
+                </span>
+              ) : (
                 <Link
                   key={c.id}
                   href={`/content/${c.id}`}
                   className={`cal-pill ${c.posted ? 'posted' : 'sched'}`}
-                  draggable={!c.posted}
-                  onDragStart={(e) => { e.dataTransfer.setData('text/plain', c.id); e.dataTransfer.effectAllowed = 'move'; setDrag(c); }}
-                  onDragEnd={() => setDrag(null)}
+                  {...dragProps(c)}
                   title={`${c.title}${c.posted ? ' · posted' : ' · scheduled — drag to reschedule'}`}
                 >
-                  {c.goal ? <span className="cal-dot" style={{ background: GOAL_DOT[c.goal] }} /> : null}
+                  <Dot goal={c.goal} />
                   <span className="cal-pill-t">{c.title}</span>
                 </Link>
               ))}
@@ -123,15 +174,30 @@ export function Calendar({ month, cards }: { month: string; cards: CalCard[] }) 
             key={c.id}
             href={`/content/${c.id}`}
             className="cal-pill sched"
-            draggable
-            onDragStart={(e) => { e.dataTransfer.setData('text/plain', c.id); e.dataTransfer.effectAllowed = 'move'; setDrag(c); }}
-            onDragEnd={() => setDrag(null)}
+            {...dragProps(c)}
             title={`${c.title} — drag onto a day to schedule`}
           >
-            {c.goal ? <span className="cal-dot" style={{ background: GOAL_DOT[c.goal] }} /> : null}
+            <Dot goal={c.goal} />
             <span className="cal-pill-t">{c.title}</span>
           </Link>
         )) : <span className="src">Nothing waiting — pieces in Ready to Post without a date land here. Drop a scheduled card here to unschedule it.</span>}
+      </div>
+
+      <div className="row" style={{ marginTop: 16 }}>
+        <h2 className="sec" style={{ margin: 0 }}>Ideas — not yet planned</h2>
+      </div>
+      <div className="cal-tray" {...cellProps(null)}>
+        {looseIdeas.length ? looseIdeas.map((c) => (
+          <span
+            key={c.id}
+            className="cal-pill idea"
+            {...dragProps(c)}
+            title={`${c.title} — drag onto a day to plan it`}
+          >
+            <Dot goal={c.goal} />
+            <span className="cal-pill-t">{c.title}</span>
+          </span>
+        )) : <span className="src">No unplanned ideas — everything on the board is either placed on a day or already in production.</span>}
       </div>
     </>
   );
