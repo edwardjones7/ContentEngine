@@ -5,9 +5,10 @@
 // Ideas ride along as plannable pills: place via each day's + picker or by
 // dragging from the tray; they stay ideas until accepted from the board.
 import Link from 'next/link';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { schedulePieceAction, scheduleIdeaAction } from '../actions';
+import { STAGE_LABEL } from '@/lib/content/stages.mjs';
+import { schedulePieceAction, scheduleIdeaAction, addIdeaOnDateAction, setCalNoteAction } from '../actions';
 
 export type CalCard = {
   id: string;
@@ -49,28 +50,47 @@ function Dot({ goal }: { goal: string | null }) {
   return goal ? <span className="cal-dot" style={{ background: GOAL_DOT[goal] }} /> : null;
 }
 
-export function Calendar({ month, cards }: { month: string; cards: CalCard[] }) {
+export function Calendar({ month, cards, notes }: { month: string; cards: CalCard[]; notes: Record<string, string> }) {
   const router = useRouter();
   const [items, setItems] = useState(cards);
   const [drag, setDrag] = useState<CalCard | null>(null);
-  const [pick, setPick] = useState<string | null>(null); // date whose idea picker is open
+  const [pick, setPick] = useState<string | null>(null); // date whose day picker is open
+  const [noteMap, setNoteMap] = useState(notes);
+  const [newTitle, setNewTitle] = useState('');
+  const [adding, setAdding] = useState(false);
   const [, startTransition] = useTransition();
   useEffect(() => setItems(cards), [cards]);
+  useEffect(() => setNoteMap(notes), [notes]);
+
+  // unsaved note text — mousedown-outside closes the picker before the
+  // textarea's blur can fire, so the draft is flushed on close instead
+  const noteDraft = useRef<{ date: string; text: string } | null>(null);
+
+  function closePick() {
+    if (noteDraft.current) { saveNote(noteDraft.current.date, noteDraft.current.text); noteDraft.current = null; }
+    setPick(null);
+  }
 
   // any click outside the open picker (or its + button) closes it
   useEffect(() => {
     if (!pick) return;
     const close = (e: MouseEvent) => {
-      if (!(e.target as HTMLElement).closest('.cal-pick, .cal-add')) setPick(null);
+      if (!(e.target as HTMLElement).closest('.cal-pick, .cal-add')) closePick();
     };
     window.addEventListener('mousedown', close);
     return () => window.removeEventListener('mousedown', close);
-  }, [pick]);
+  });
 
   const today = new Date().toISOString().slice(0, 10);
   const days = gridDays(month);
   const unscheduled = items.filter((c) => !c.date && c.kind === 'piece' && c.stage === 'ready');
   const looseIdeas = items.filter((c) => !c.date && c.kind === 'idea');
+  // the day picker offers everything in the pipeline that isn't already on a
+  // date — ideas and pieces at any stage (posted pieces are pinned)
+  const STAGE_ORDER: Record<string, number> = { idea: 0, production: 1, review: 2, ready: 3 };
+  const pickable = items
+    .filter((c) => !c.date && !c.posted)
+    .sort((a, b) => (STAGE_ORDER[a.stage] ?? 9) - (STAGE_ORDER[b.stage] ?? 9) || a.title.localeCompare(b.title));
 
   function drop(card: CalCard, date: string | null) {
     if (card.posted) return;
@@ -80,6 +100,31 @@ export function Calendar({ month, cards }: { month: string; cards: CalCard[] }) 
       else await schedulePieceAction(card.id, date || '');
       router.refresh();
     });
+  }
+
+  // no router.refresh() here — noteMap already shows the text, and a refresh
+  // could race a concurrent add/drop refresh and resync items from a stale
+  // server snapshot
+  function saveNote(date: string, text: string) {
+    if ((noteMap[date] || '') === text.trim()) return;
+    setNoteMap((m) => ({ ...m, [date]: text.trim() }));
+    startTransition(async () => { await setCalNoteAction(date, text); });
+  }
+
+  async function addNewIdea(date: string) {
+    const title = newTitle.trim();
+    if (!title || adding) return;
+    setAdding(true);
+    try {
+      // optimistic pill; the refreshed server payload replaces it with the real id
+      setItems((all) => [...all, { id: `tmp-${Date.now()}`, kind: 'idea', title, stage: 'idea', goal: null, brand: null, date, posted: false }]);
+      await addIdeaOnDateAction(title, date);
+      setNewTitle('');
+      closePick();
+      router.refresh();
+    } finally {
+      setAdding(false);
+    }
   }
 
   const cellProps = (date: string | null) => ({
@@ -125,19 +170,45 @@ export function Calendar({ month, cards }: { month: string; cards: CalCard[] }) 
               <button
                 type="button"
                 className="cal-add"
-                title="Place an idea on this day"
-                onClick={() => setPick(pick === date ? null : date)}
+                title="Place content or a note on this day"
+                onClick={() => {
+                  if (pick === date) closePick();
+                  else { setNewTitle(''); noteDraft.current = null; setPick(date); }
+                }}
               >+</button>
               {pick === date ? (
                 <div className="cal-pick">
-                  {looseIdeas.length ? looseIdeas.map((c) => (
-                    <button key={c.id} type="button" className="cal-pick-row" onClick={() => { drop(c, date); setPick(null); }}>
-                      <Dot goal={c.goal} />
-                      <span className="cal-pill-t">{c.title}</span>
-                    </button>
-                  )) : <span className="cal-pick-empty">No unscheduled ideas</span>}
+                  <span className="cal-pick-sec">Place on this day</span>
+                  <div className="cal-pick-list">
+                    {pickable.length ? pickable.map((c) => (
+                      <button key={c.id} type="button" className="cal-pick-row" onClick={() => { drop(c, date); closePick(); }}>
+                        <Dot goal={c.goal} />
+                        <span className="cal-pill-t">{c.title}</span>
+                        <span className={`cal-pick-stage ${c.stage}`}>{STAGE_LABEL[c.stage as keyof typeof STAGE_LABEL] || c.stage}</span>
+                      </button>
+                    )) : <span className="cal-pick-empty">Nothing unscheduled in the pipeline</span>}
+                  </div>
+                  <form className="cal-pick-add" onSubmit={(e) => { e.preventDefault(); addNewIdea(date); }}>
+                    <input
+                      value={newTitle}
+                      onChange={(e) => setNewTitle(e.target.value)}
+                      placeholder="New idea…"
+                      disabled={adding}
+                    />
+                    <button type="submit" className="btn" disabled={adding || !newTitle.trim()}>{adding ? '…' : 'Add'}</button>
+                  </form>
+                  <span className="cal-pick-sec">Notes</span>
+                  <textarea
+                    key={date}
+                    className="cal-pick-note"
+                    defaultValue={noteMap[date] || ''}
+                    placeholder="Type anything — themes, reminders…"
+                    onChange={(e) => { noteDraft.current = { date, text: e.target.value }; }}
+                    onBlur={(e) => { saveNote(date, e.target.value); noteDraft.current = null; }}
+                  />
                 </div>
               ) : null}
+              {noteMap[date] ? <span className="cal-note" title={noteMap[date]}>{noteMap[date]}</span> : null}
               {dayCards.map((c) => c.kind === 'idea' ? (
                 <span
                   key={c.id}

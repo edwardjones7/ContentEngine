@@ -16,7 +16,7 @@ export const DATA_DIR = resolve(here, '..', 'data');
 export const RENDER_DIR = resolve(here, '..', 'public', 'renders');
 const DB = resolve(DATA_DIR, 'db.json');
 
-const EMPTY = () => ({ threads: [], messages: [], ideas: [], pieces: [], published: [] });
+const EMPTY = () => ({ threads: [], messages: [], ideas: [], pieces: [], published: [], calNotes: {} });
 const CONN = () => process.env.POSTGRES_URL || process.env.DATABASE_URL || '';
 export const usingPostgres = () => !!CONN();
 
@@ -92,7 +92,7 @@ function saveFile(doc) {
 // ---- shared ----------------------------------------------------------------
 
 function normalize(db) {
-  db.threads ||= []; db.messages ||= []; db.ideas ||= []; db.pieces ||= []; db.published ||= [];
+  db.threads ||= []; db.messages ||= []; db.ideas ||= []; db.pieces ||= []; db.published ||= []; db.calNotes ||= {};
   // legacy piece statuses (building/draft/published) normalize to board stages
   for (const p of db.pieces) {
     const s = normalizeStatus(p.status);
@@ -177,6 +177,14 @@ export const addMessage = (message) => mutate((db) => {
   const t = db.threads.find((x) => x.id === message.threadId);
   if (t) t.updatedAt = message.createdAt;
   return message;
+});
+
+// ---- calendar day notes ----------------------------------------------------
+// Free-form scribbles keyed by YYYY-MM-DD; empty text deletes the key.
+
+export const getCalNotes = async () => (await read()).calNotes;
+export const setCalNote = (date, text) => mutate((db) => {
+  if (text && text.trim()) db.calNotes[date] = text.trim(); else delete db.calNotes[date];
 });
 
 // ---- published -------------------------------------------------------------

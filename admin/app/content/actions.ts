@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel, regenerateMedium, saveMedium, publishPiece, saveBlog, refreshIdeas, createIdea, editPieceSlide, setPieceStage, setTag, setPostDate, setIdeaDate, deletePiece, ALL_MEDIUMS } from '@/lib/service.mjs';
 import { canRenderSlides, RENDER_UNAVAILABLE } from '@/lib/render.mjs';
+import { setCalNote } from '@/lib/db.mjs';
 
 // Actions that screenshot slides only work where Chromium exists.
 function requireRenderer() {
@@ -82,6 +83,24 @@ export async function schedulePieceAction(pieceId: string, postAt: string): Prom
 export async function scheduleIdeaAction(ideaId: string, postAt: string): Promise<{ ok: boolean }> {
   await setIdeaDate(ideaId, postAt);
   revalidatePath('/content');
+  revalidatePath('/content/calendar');
+  return { ok: true };
+}
+
+// File a brand-new idea straight onto a calendar date from the day picker.
+export async function addIdeaOnDateAction(title: string, postAt: string): Promise<{ ok: boolean }> {
+  const idea = await createIdea({ title, angle: '', hook: '', script: '', goal: '', brand: '', funnel: '' });
+  if (!idea) return { ok: false };
+  await setIdeaDate(idea.id, postAt);
+  revalidatePath('/content');
+  revalidatePath('/content/calendar');
+  return { ok: true };
+}
+
+// Free-form note on a calendar day. Empty text clears it.
+export async function setCalNoteAction(date: string, text: string): Promise<{ ok: boolean }> {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { ok: false };
+  await setCalNote(date, text);
   revalidatePath('/content/calendar');
   return { ok: true };
 }

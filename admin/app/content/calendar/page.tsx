@@ -1,4 +1,4 @@
-import { getPieces, getIdeas } from '@/lib/db.mjs';
+import { getPieces, getIdeas, getCalNotes } from '@/lib/db.mjs';
 import { Calendar, type CalCard } from './calendar';
 
 export const dynamic = 'force-dynamic';
@@ -42,13 +42,14 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
   const allPieces = await getPieces();
   const accepted = new Set(allPieces.map((p: any) => String(p.ideaId)));
   const ideas = (await getIdeas()).filter((i: any) => !accepted.has(i.id));
-  const cards = [...allPieces.filter((p: any) => p.builtAt).map(toCard), ...ideas.map(toIdeaCard)];
+  const cards = [...allPieces.map(toCard), ...ideas.map(toIdeaCard)];
+  const notes = await getCalNotes();
 
   return (
     <>
       <h1>Content calendar</h1>
-      <p className="lead">Scheduled and posted pieces by date — plus planned ideas. Click a day's + (or drag from a tray below) to place an idea; drag any card between days to reschedule.</p>
-      <Calendar month={month} cards={cards} />
+      <p className="lead">Everything in the pipeline by date. Click a day's + to place any idea or piece, file a new idea, or jot a note; drag cards between days to reschedule.</p>
+      <Calendar month={month} cards={cards} notes={notes} />
     </>
   );
 }
