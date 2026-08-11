@@ -17,15 +17,35 @@ export function mdToHtml(md) {
   let para = [];   // consecutive plain lines -> one <p>
   let quote = [];  // consecutive > lines -> one <blockquote>
   let list = null; // { type: 'ul'|'ol', items: [] }
+  let table = []; // consecutive | lines -> one <table>
 
   const flushPara = () => { if (para.length) { out.push(`<p>${para.map(inline).join('<br/>')}</p>`); para = []; } };
   const flushQuote = () => { if (quote.length) { out.push(`<blockquote>${quote.map(inline).join('<br/>')}</blockquote>`); quote = []; } };
   const flushList = () => { if (list) { out.push(`<${list.type}>${list.items.map((i) => `<li>${inline(i)}</li>`).join('')}</${list.type}>`); list = null; } };
-  const flushAll = () => { flushPara(); flushQuote(); flushList(); };
+  const flushTable = () => {
+    if (!table.length) return;
+    const rows = table; table = [];
+    // a real table needs a |---| separator on row 2; anything else falls back to a paragraph
+    if (rows.length >= 2 && /^[|\s:-]+$/.test(rows[1]) && rows[1].includes('-')) {
+      const parse = (r) => r.replace(/^\|/, '').replace(/\|\s*$/, '').split('|').map((c) => c.trim());
+      const aligns = parse(rows[1]).map((c) => (/^:-+:$/.test(c) ? 'center' : /^-+:$/.test(c) ? 'right' : null));
+      // LLM script tables lean on <br> inside cells — un-escape just that tag
+      const cell = (c, tag, i) => `<${tag}${aligns[i] ? ` style="text-align:${aligns[i]}"` : ''}>${inline(c).replace(/&lt;br\s*\/?&gt;/gi, '<br/>')}</${tag}>`;
+      const head = parse(rows[0]).map((c, i) => cell(c, 'th', i)).join('');
+      const body = rows.slice(2).map((r) => `<tr>${parse(r).map((c, i) => cell(c, 'td', i)).join('')}</tr>`).join('');
+      out.push(`<div class="md-table"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`);
+    } else {
+      out.push(`<p>${rows.map(inline).join('<br/>')}</p>`);
+    }
+  };
+  const flushAll = () => { flushPara(); flushQuote(); flushList(); flushTable(); };
 
   for (const raw of lines) {
     const t = raw.trim();
     if (!t) { flushAll(); continue; }
+
+    if (t.startsWith('|')) { flushPara(); flushQuote(); flushList(); table.push(t); continue; }
+    flushTable();
 
     const h = t.match(/^(#{1,4})\s+(.*)/);
     if (h) { flushAll(); const d = h[1].length; out.push(`<h${d}>${inline(h[2])}</h${d}>`); continue; }
