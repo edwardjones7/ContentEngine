@@ -5,7 +5,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { developIdeaAction } from '../actions';
+import { developIdeaAction, fileIdeaAction } from '../actions';
 import { mdToHtml } from '@/lib/md.mjs';
 
 type StreamItem =
@@ -96,12 +96,12 @@ export default function Chat({ threadId, messages, ideas, acceptedIdeaIds, seed 
         {messages.length === 0 && !pendingUser ? (
           <div className="empty">Ask Orbit anything — pain points, trends, competitors, angles. Try “what are contractors complaining about this month?”</div>
         ) : null}
-        {messages.map((m) => <MessageRow key={m.id} m={m} ideaByToolUse={ideaByToolUse} accepted={accepted} />)}
+        {messages.map((m) => <MessageRow key={m.id} m={m} ideaByToolUse={ideaByToolUse} accepted={accepted} threadId={threadId} />)}
         {pendingUser ? <div className="msg user"><div className="bubble">{pendingUser}</div></div> : null}
         {stream.length > 0 || busy ? (
           <div className="msg assistant">
             <div className="who">orbit</div>
-            {stream.map((it, i) => <StreamPart key={i} it={it} accepted={accepted} />)}
+            {stream.map((it, i) => <StreamPart key={i} it={it} accepted={accepted} threadId={threadId} />)}
             {busy ? <div className="thinking">●●●</div> : null}
           </div>
         ) : null}
@@ -125,7 +125,7 @@ export default function Chat({ threadId, messages, ideas, acceptedIdeaIds, seed 
 
 // --- persisted history -------------------------------------------------------
 
-function MessageRow({ m, ideaByToolUse, accepted }: { m: any; ideaByToolUse: Map<string, any>; accepted: Set<string> }) {
+function MessageRow({ m, ideaByToolUse, accepted, threadId }: { m: any; ideaByToolUse: Map<string, any>; accepted: Set<string>; threadId: string }) {
   const blocks = Array.isArray(m.content) ? m.content : [{ type: 'text', text: String(m.content) }];
   if (m.role === 'user') {
     const texts = blocks.filter((b: any) => b.type === 'text');
@@ -154,8 +154,8 @@ function MessageRow({ m, ideaByToolUse, accepted }: { m: any; ideaByToolUse: Map
         if (b.type === 'server_tool_use') return b.name === 'web_search' ? <div key={i} className="activity">🔎 searched: {b.input?.query}</div> : null;
         if (b.type === 'web_search_tool_result') return <Sources key={i} results={(Array.isArray(b.content) ? b.content : []).filter((r: any) => r?.url)} />;
         if (b.type === 'tool_use' && b.name === 'propose_idea') {
-          const idea = ideaByToolUse.get(b.id) || { id: null, ...b.input };
-          return <IdeaCard key={i} idea={idea} accepted={accepted} />;
+          const idea = ideaByToolUse.get(b.id) || { id: null, ...b.input, toolUseId: b.id, messageId: m.id };
+          return <IdeaCard key={i} idea={idea} accepted={accepted} threadId={threadId} />;
         }
         return null;
       })}
@@ -189,30 +189,57 @@ function Sources({ results }: { results: any[] }) {
   );
 }
 
-function IdeaCard({ idea, accepted }: { idea: any; accepted: Set<string> }) {
-  const inPipeline = idea.id && accepted.has(idea.id);
+function IdeaCard({ idea, accepted, threadId }: { idea: any; accepted: Set<string>; threadId: string }) {
+  const router = useRouter();
+  const [filing, setFiling] = useState(false);
+  // a proposal filed this session renders from local state until the server
+  // render catches up with the db row
+  const [filedId, setFiledId] = useState<string | null>(null);
+  const id = idea.id || filedId;
+  const inPipeline = id && accepted.has(id);
+
+  async function file() {
+    if (filing || id) return;
+    setFiling(true);
+    try {
+      const res = await fileIdeaAction({ ...idea, threadId });
+      if (res.ok && res.ideaId) setFiledId(res.ideaId);
+      router.refresh();
+    } finally {
+      setFiling(false);
+    }
+  }
+
   return (
     <div className="card idea-card">
-      <div className="row"><span className="label">idea filed</span><span className="sp" />{idea.source ? <span className="src">{idea.source}</span> : null}</div>
+      <div className="row"><span className="label">{id ? 'idea filed' : 'idea proposed'}</span><span className="sp" />{idea.source ? <span className="src">{idea.source}</span> : null}</div>
       <h3>{idea.title}</h3>
       <div className="meta">{idea.angle}</div>
       <div className="meta" style={{ color: '#cfc7e6' }}>“{idea.hook}”</div>
+      {idea.script ? (
+        <div className="idea-script">
+          <div className="md" dangerouslySetInnerHTML={{ __html: mdToHtml(idea.script) }} />
+        </div>
+      ) : null}
       {inPipeline ? (
         <Link className="btn" href="/content">In pipeline →</Link>
-      ) : idea.id ? (
-        <form action={developIdeaAction}><input type="hidden" name="ideaId" value={idea.id} /><button className="primary" type="submit">Develop this idea →</button></form>
+      ) : id ? (
+        <div className="row" style={{ gap: 8 }}>
+          <span className="src">in Research column</span>
+          <form action={developIdeaAction}><input type="hidden" name="ideaId" value={id} /><button className="primary" type="submit">Develop this idea →</button></form>
+        </div>
       ) : (
-        <span className="src">saved to Research column</span>
+        <button className="primary" onClick={file} disabled={filing}>{filing ? <span className="busy">filing…</span> : 'File idea →'}</button>
       )}
     </div>
   );
 }
 
-function StreamPart({ it, accepted }: { it: StreamItem; accepted: Set<string> }) {
+function StreamPart({ it, accepted, threadId }: { it: StreamItem; accepted: Set<string>; threadId: string }) {
   if (it.kind === 'text') return <AssistantText text={it.text} citations={it.citations} />;
   if (it.kind === 'search') return <div className="activity">🔎 searching: {it.query}</div>;
   if (it.kind === 'sources') return <Sources results={it.results} />;
-  if (it.kind === 'idea') return <IdeaCard idea={it.idea} accepted={accepted} />;
+  if (it.kind === 'idea') return <IdeaCard idea={it.idea} accepted={accepted} threadId={threadId} />;
   return <div className="activity error">⚠ {it.message}</div>;
 }
 

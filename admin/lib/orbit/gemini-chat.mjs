@@ -8,11 +8,10 @@
 //   raw     — Gemini's native parts verbatim (incl. thoughtSignature, which
 //             Gemini 3 requires echoed back on function-calling turns) so
 //             replay to Gemini is lossless.
-import { id, addMessage, getMessages, getIdea, addIdea } from '../db.mjs';
+import { id, addMessage, getMessages } from '../db.mjs';
 import { geminiKey } from '../settings.mjs';
 import { BASE, GEMINI_CHAIN, isRetryable, friendlyGeminiError, searchGrounded } from '../content/gemini.mjs';
 import { orbitSystem, PROPOSE_IDEA_TOOL } from './persona.mjs';
-import { normalizeGoal, normalizeFunnel } from '../content/stages.mjs';
 
 // The persona tells Orbit to "use web_search" (a real server tool on the
 // Claude path), so Gemini regularly calls it as a function even though its
@@ -32,13 +31,6 @@ const now = () => new Date().toISOString();
 
 async function persist(threadId, role, content, raw) {
   return await addMessage({ id: id('msg'), threadId, role, content, raw, provider: 'gemini', createdAt: now() });
-}
-
-async function slugifyIdeaId(title) {
-  const base = 'idea-' + String(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 48);
-  let iid = base, n = 2;
-  while (await getIdea(iid)) iid = `${base}-${n++}`;
-  return iid;
 }
 
 // Rebuild Gemini `contents` from stored rows. Gemini-native rows replay their
@@ -251,23 +243,14 @@ export async function* geminiChatTurn(threadId) {
       } else if (call.name !== 'propose_idea') {
         result = `Unknown tool: ${call.name}`;
       } else {
-        const { title, angle, hook, source, evidence, goal, funnel } = call.args || {};
+        const { title, angle, hook } = call.args || {};
         if (!title || !angle || !hook) {
           result = 'Rejected: title, angle, and hook are all required.';
         } else {
-          const idea = await addIdea({
-            id: await slugifyIdeaId(title),
-            title, angle, hook,
-            goal: normalizeGoal(goal),
-            funnel: normalizeFunnel(funnel),
-            brand: 'elenos', // Orbit researches for Elenos; retag on the board if it's an edjonesai post
-            source: source || 'thread',
-            threadId,
-            toolUseId: toolUse.id,
-            citations: (evidence || []).map((e) => ({ url: e.url, title: e.note || e.url })),
-          });
-          yield { type: 'idea', idea };
-          result = `Saved as ${idea.id}. It now appears in the Research column and as a card in this thread.`;
+          // nothing is saved here — the card renders in-chat with a "File idea"
+          // button and only enters the pipeline when the user clicks it
+          yield { type: 'idea', idea: { id: null, ...call.args, threadId, toolUseId: toolUse.id } };
+          result = 'Proposed to the user as a card in this thread. They decide whether to file it to the board — do not restate the card or propose the same idea again.';
         }
       }
       resultBlocks.push({ type: 'tool_result', tool_use_id: toolUse.id, content: result });

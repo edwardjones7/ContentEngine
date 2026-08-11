@@ -55,6 +55,34 @@ async function slugifyIdeaId(title) {
   return iid;
 }
 
+// File an idea Orbit proposed in a research thread. Nothing is saved at
+// proposal time — this runs when the user clicks "File idea" on the chat card,
+// and it keeps the full development (hook, angle, script, evidence) intact.
+export async function fileThreadIdea(input) {
+  const { title, angle, hook, script, source, evidence, goal, funnel, threadId, toolUseId, messageId } = input || {};
+  if (!title || !angle || !hook) return null;
+  if (toolUseId) {
+    const existing = (await getIdeas()).find((i) => i.toolUseId === toolUseId);
+    if (existing) return existing; // double-click / already filed
+  }
+  const idea = {
+    id: await slugifyIdeaId(title),
+    title, angle, hook,
+    script: String(script || '').trim() || null,
+    goal: normalizeGoal(goal),
+    funnel: normalizeFunnel(funnel),
+    brand: 'elenos', // Orbit researches for Elenos; retag on the board if it's an edjonesai post
+    source: source || 'thread',
+    threadId: threadId || null,
+    messageId: messageId || null,
+    toolUseId: toolUseId || null,
+    citations: (Array.isArray(evidence) ? evidence : []).map((e) => ({ url: e.url, title: e.note || e.url })),
+    createdAt: new Date().toISOString(),
+  };
+  await addIdea(idea);
+  return idea;
+}
+
 // Orbit pitches a few starter ideas unprompted. Live providers are told which
 // ideas already exist so pitches stay fresh; offline falls back to unused
 // seed ideas. Pitches land in db.ideas tagged `suggested` so they render on

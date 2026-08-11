@@ -23,7 +23,7 @@ export default async function ThreadPage({ params, searchParams }: {
   const { ideate } = await searchParams;
   const ideaToIdeate: any = ideate && messages.length === 0 ? await getIdea(ideate) : null;
   const seed = ideaToIdeate
-    ? `Let's ideate on this idea you pitched: “${ideaToIdeate.title}” — angle: ${ideaToIdeate.angle}. Current hook: “${ideaToIdeate.hook}”. Pressure-test the angle, suggest sharper hooks, and sketch 2–3 directions this could go. If we land somewhere stronger, file the refined idea.`
+    ? `Let's ideate on this idea you pitched: “${ideaToIdeate.title}” — angle: ${ideaToIdeate.angle}. Current hook: “${ideaToIdeate.hook}”.${ideaToIdeate.script ? `\n\nExisting development notes:\n${ideaToIdeate.script}` : ''}\n\nPressure-test the angle, suggest sharper hooks, and sketch 2–3 directions this could go. When we land somewhere stronger, file the refined idea with the complete development in its script.`
     : null;
   const threadIdeas = (await getIdeas()).filter((i: any) => i.threadId === threadId);
   const accepted = new Set<string>((await getPieces()).map((p: any) => String(p.ideaId)));
@@ -39,7 +39,7 @@ export default async function ThreadPage({ params, searchParams }: {
         </form>
         <span className="mode">{provider().label}</span>
       </div>
-      <p className="lead">Research with Orbit. When an idea crystallizes, Orbit files it — it shows up here and in the Research column.</p>
+      <p className="lead">Research with Orbit. When an idea crystallizes, Orbit proposes it as a card — hit “File idea” on the ones you want and they land in the Research column with the full development.</p>
 
       <Chat threadId={thread.id} messages={messages} ideas={threadIdeas} acceptedIdeaIds={[...accepted]} seed={seed} />
     </>

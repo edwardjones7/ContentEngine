@@ -326,6 +326,10 @@ input[type="date"]{
 .sources summary{ cursor:pointer; font-family:ui-monospace,monospace; }
 .sources a{ display:block; margin-top:6px; color:var(--accent2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .idea-card{ border-color:#3a2a5e; max-width:440px; }
+/* a card carrying the full development gets room to breathe */
+.idea-card:has(.idea-script){ max-width:640px; }
+.idea-script{ margin-top:12px; padding-top:12px; border-top:1px dashed var(--line2); font-size:13px; }
+.idea-script .md h1,.idea-script .md h2,.idea-script .md h3{ font-size:13px; margin:12px 0 4px; }
 .composer{
   display:flex; gap:10px; align-items:flex-end; position:sticky; bottom:0; padding:14px 0 20px;
   background:linear-gradient(180deg,transparent,var(--bg) 30%);

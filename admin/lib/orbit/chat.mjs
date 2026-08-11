@@ -5,12 +5,11 @@
 // chatTurn() is an async generator of simplified UI events the route re-emits
 // as NDJSON: {type:'text',delta} {type:'search',query} {type:'sources',results}
 // {type:'citation',citation} {type:'idea',idea} {type:'error',message} {type:'done'}
-import { id, addMessage, getMessages, getIdea, addIdea } from '../db.mjs';
+import { id, addMessage, getMessages } from '../db.mjs';
 import { activeProvider } from '../settings.mjs';
 import { streamMessages, createAccumulator } from './anthropic-stream.mjs';
 import { geminiChatTurn } from './gemini-chat.mjs';
 import { orbitSystem, PROPOSE_IDEA_TOOL } from './persona.mjs';
-import { normalizeGoal, normalizeFunnel } from '../content/stages.mjs';
 
 const CHAT_MODEL = 'claude-sonnet-4-6'; // paid research chat — swap to claude-opus-4-8 if depth disappoints
 const WEB_SEARCH_TOOL = { type: 'web_search_20260209', name: 'web_search', max_uses: 5 };
@@ -20,13 +19,6 @@ const now = () => new Date().toISOString();
 
 async function persist(threadId, role, content) {
   return await addMessage({ id: id('msg'), threadId, role, content, createdAt: now() });
-}
-
-async function slugifyIdeaId(title) {
-  const base = 'idea-' + String(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 48);
-  let iid = base, n = 2;
-  while (await getIdea(iid)) iid = `${base}-${n++}`;
-  return iid;
 }
 
 // Rows written by the Gemini provider carry blocks Anthropic would reject
@@ -93,25 +85,15 @@ export async function* chatTurn(threadId, userText) {
       const results = [];
       for (const b of blocks) {
         if (b.type !== 'tool_use' || b.name !== 'propose_idea') continue;
-        const { title, angle, hook, source, evidence, goal, funnel } = b.input || {};
+        const { title, angle, hook } = b.input || {};
         if (!title || !angle || !hook) {
           results.push({ type: 'tool_result', tool_use_id: b.id, is_error: true, content: 'Rejected: title, angle, and hook are all required.' });
           continue;
         }
-        const idea = await addIdea({
-          id: await slugifyIdeaId(title),
-          title, angle, hook,
-          goal: normalizeGoal(goal),
-          funnel: normalizeFunnel(funnel),
-          brand: 'elenos', // Orbit researches for Elenos; retag on the board if it's an edjonesai post
-          source: source || 'thread',
-          threadId,
-          messageId: assistantRow.id,
-          toolUseId: b.id,
-          citations: (evidence || []).map((e) => ({ url: e.url, title: e.note || e.url })),
-        });
-        yield { type: 'idea', idea };
-        results.push({ type: 'tool_result', tool_use_id: b.id, content: `Saved as ${idea.id}. It now appears in the Research column and as a card in this thread.` });
+        // nothing is saved here — the card renders in-chat with a "File idea"
+        // button and only enters the pipeline when the user clicks it
+        yield { type: 'idea', idea: { id: null, ...b.input, threadId, messageId: assistantRow.id, toolUseId: b.id } };
+        results.push({ type: 'tool_result', tool_use_id: b.id, content: 'Proposed to the user as a card in this thread. They decide whether to file it to the board — do not restate the card or propose the same idea again.' });
       }
       const userRow = { role: 'user', content: results };
       await persist(threadId, 'user', results);

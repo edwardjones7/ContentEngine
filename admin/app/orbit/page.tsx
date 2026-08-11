@@ -19,7 +19,7 @@ export default async function OrbitPage() {
   return (
     <>
       <h1>Orbit</h1>
-      <p className="lead">Research threads for deep dives — or let Orbit pitch you starting points. When an idea crystallizes it lands on the board.</p>
+      <p className="lead">Research threads for deep dives — or let Orbit pitch you starting points. Ideas Orbit proposes only land on the board when you file them.</p>
       <div className="row">
         <form action={createThreadAction} className="row" style={{ flex: 1 }}>
           <input className="title" style={{ flex: 1, margin: 0, fontSize: 15 }} name="title" placeholder="What do you want to research?" />
