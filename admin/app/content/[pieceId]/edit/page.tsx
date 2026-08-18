@@ -7,6 +7,12 @@ import { updateConceptAction, buildAction } from '../../actions';
 import { canRenderSlides } from '@/lib/render.mjs';
 
 export const dynamic = 'force-dynamic';
+// Builds run brief → blog → mediums (several sequential LLM calls) inside a
+// server action, which inherits this page's route config. Without an explicit
+// value the platform default is far too short for that. 300 is the Hobby
+// ceiling; raise to 800 on Pro if a full multi-medium build still gets cut off.
+export const maxDuration = 300;
+
 
 const MEDIUM_OPTIONS: [string, string, string][] = [
   ['carousel', 'Instagram carousel', 'post-ready PNGs'],
@@ -23,7 +29,7 @@ export default async function EditConceptPage({ params }: { params: Promise<{ pi
   const p: any = await getPiece(pieceId);
   if (!p) notFound();
   if (p.status !== 'production') redirect(`/content/${pieceId}`);
-  const canBuild = canRenderSlides();
+  const canRender = canRenderSlides();
 
   return (
     <>
@@ -69,15 +75,18 @@ export default async function EditConceptPage({ params }: { params: Promise<{ pi
                 ))}
               </div>
               <div style={{ marginTop: 14 }}>
-                {canBuild ? (
-                  <SubmitButton className="primary" busy="⚙ building — brief → slides → renders → mediums…">{p.builtAt ? 'Rebuild piece →' : 'Build piece →'}</SubmitButton>
-                ) : (
-                  <>
-                    <span className="btn disabled">⚡ Build on your Mac</span>
-                    <div className="meta" style={{ marginTop: 10, marginBottom: 0, color: 'var(--amber)' }}>
-                      Rendering needs a real browser and outruns the serverless time limit. Open this piece at localhost:4050 and build there — it lands back here automatically.
-                    </div>
-                  </>
+                <SubmitButton
+                  className="primary"
+                  busy={canRender ? '⚙ building — brief → slides → renders → mediums…' : '⚙ building — brief → blog → mediums…'}
+                >
+                  {p.builtAt ? 'Rebuild piece →' : 'Build piece →'}
+                </SubmitButton>
+                {canRender ? null : (
+                  <div className="meta" style={{ marginTop: 10, marginBottom: 0, color: 'var(--amber)' }}>
+                    Everything but the slide PNGs builds here. Screenshotting needs a real browser, so if you tick
+                    Instagram carousel the copy and layout are written now and the render stays pending — open the
+                    piece at localhost:4050 and hit “Render slides” to finish it.
+                  </div>
                 )}
               </div>
             </form>

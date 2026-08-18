@@ -59,7 +59,7 @@ const TAG_DIMS: { field: string; values: string[]; labels: Record<string, string
   { field: 'brand', values: BRANDS, labels: BRAND_LABEL, hint: 'site' },
   { field: 'funnel', values: FUNNELS, labels: FUNNEL_LABEL, hint: 'funnel' },
 ];
-const BUILD_LOCAL_HINT = 'Slide rendering needs a real browser, and a full build runs past the serverless time limit. Open the app on your Mac, hit Build there, and the finished piece appears here.';
+const BUILD_NO_SLIDES_HINT = 'Builds the brief, blog and text mediums here. Slide PNGs need a real browser, so they stay pending — open the piece at localhost:4050 and hit "Render slides" to fill them in.';
 const MEDIUM_BADGE: Record<string, string> = { carousel: 'IG', blog: 'Blog', caption: 'Cap', xthread: 'X', linkedin: 'LI', video: '🎬', youtube: 'YT' };
 
 function canDrop(card: CardDTO | null, stage: string): boolean {
@@ -70,7 +70,7 @@ function canDrop(card: CardDTO | null, stage: string): boolean {
   return true;
 }
 
-export function Board({ columns, canBuild }: { columns: Columns; canBuild: boolean }) {
+export function Board({ columns, canRender }: { columns: Columns; canRender: boolean }) {
   const router = useRouter();
   const [cols, setCols] = useState<Columns>(columns);
   const [drag, setDrag] = useState<CardDTO | null>(null);
@@ -140,7 +140,7 @@ export function Board({ columns, canBuild }: { columns: Columns; canBuild: boole
               {cards.map((card) =>
                 card.kind === 'idea'
                   ? <IdeaCardC key={card.id} card={card} setDrag={setDrag} />
-                  : <PieceCardC key={card.id} card={card} setDrag={setDrag} canBuild={canBuild} />
+                  : <PieceCardC key={card.id} card={card} setDrag={setDrag} canRender={canRender} />
               )}
               {cards.length === 0 ? <div className="empty">{STAGE_EMPTY[stage]}</div> : null}
               {stage === 'idea' ? <NewIdeaCard /> : null}
@@ -318,7 +318,7 @@ function IdeaCardC({ card, setDrag }: { card: CardDTO; setDrag: (c: CardDTO | nu
   );
 }
 
-function PieceCardC({ card, setDrag, canBuild }: { card: CardDTO; setDrag: (c: CardDTO | null) => void; canBuild: boolean }) {
+function PieceCardC({ card, setDrag, canRender }: { card: CardDTO; setDrag: (c: CardDTO | null) => void; canRender: boolean }) {
   if (card.accepting) {
     return <div className="card"><h3>{card.title}</h3><div className="meta"><span className="busy">accepting…</span></div></div>;
   }
@@ -336,12 +336,12 @@ function PieceCardC({ card, setDrag, canBuild }: { card: CardDTO; setDrag: (c: C
         <TagRow kind="piece" card={card} />
         {card.formats.map((m) => <span key={m} className="badge medium">{MEDIUM_BADGE[m] || m}</span>)}
       </div>
-      <StageActions card={card} href={href} canBuild={canBuild} />
+      <StageActions card={card} href={href} canRender={canRender} />
     </div>
   );
 }
 
-function StageActions({ card, href, canBuild }: { card: CardDTO; href: string; canBuild: boolean }) {
+function StageActions({ card, href, canRender }: { card: CardDTO; href: string; canRender: boolean }) {
   if (card.stage === 'production') {
     return (
       <div className="row" style={{ gap: 8 }}>
@@ -349,13 +349,17 @@ function StageActions({ card, href, canBuild }: { card: CardDTO; href: string; c
         <span className="sp" />
         {card.built
           ? <Link className="btn" href={href}>Review →</Link>
-          : canBuild ? (
+          : (
             <form action={buildCardAction}>
               <input type="hidden" name="pieceId" value={card.id} />
-              <SubmitButton className="primary" busy="building…" title="Brief → slides → renders → mediums">⚡ Build</SubmitButton>
+              <SubmitButton
+                className="primary"
+                busy="building…"
+                title={canRender ? 'Brief → slides → renders → mediums' : BUILD_NO_SLIDES_HINT}
+              >
+                {canRender ? '⚡ Build' : '⚡ Build (no slides)'}
+              </SubmitButton>
             </form>
-          ) : (
-            <span className="btn disabled" title={BUILD_LOCAL_HINT}>⚡ Build on your Mac</span>
           )}
       </div>
     );

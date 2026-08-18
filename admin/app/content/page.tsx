@@ -7,6 +7,12 @@ import { SubmitButton } from './pending';
 import { researchAction } from './actions';
 
 export const dynamic = 'force-dynamic';
+// Builds run brief → blog → mediums (several sequential LLM calls) inside a
+// server action, which inherits this page's route config. Without an explicit
+// value the platform default is far too short for that. 300 is the Hobby
+// ceiling; raise to 800 on Pro if a full multi-medium build still gets cut off.
+export const maxDuration = 300;
+
 
 // Card DTOs pick fields explicitly — heavy piece payloads (spec, blog
 // markdown, render QA) must not cross the client boundary.
@@ -61,7 +67,7 @@ export default async function ContentPage() {
         <span className="src">{provider().kind === 'offline' ? 'offline: seeded ideas (add an API key in Settings to go live)' : `live research via ${provider().kind === 'free' ? 'Gemini + Google Search' : 'Claude + web search'}`}</span>
       </div>
 
-      <Board columns={columns} canBuild={canRenderSlides()} />
+      <Board columns={columns} canRender={canRenderSlides()} />
     </>
   );
 }

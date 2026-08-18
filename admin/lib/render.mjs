@@ -22,9 +22,10 @@ import { activeProvider } from './settings.mjs';
 import { putRenders } from './blob.mjs';
 
 // Slide rendering screenshots real Chromium, which isn't installed on the
-// serverless host (playwright is a devDependency and a build would blow the
-// function timeout anyway). Callers use this to offer the action only where it
-// can actually succeed, instead of failing at request time.
+// serverless host (playwright is a devDependency, and the best-of-N QA pass
+// would blow the function timeout anyway). This gates the SLIDE steps only —
+// brief, blog, and the text mediums are plain API calls and build fine on the
+// deployment, so buildPiece degrades to a pending render instead of refusing.
 export const canRenderSlides = () => !process.env.VERCEL;
 export const RENDER_UNAVAILABLE =
   'Slide rendering needs a local browser — run this from the app on your Mac and it will show up here.';

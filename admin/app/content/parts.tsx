@@ -41,7 +41,9 @@ export function PieceRow({ p }: { p: any }) {
           ? (p.concept?.angle || 'concept — not built yet')
           : p.render
             ? `${slides} slides · ${p.render.theme}/${p.render.bg} · /${p.slug}`
-            : `no carousel · /${p.slug}`}
+            : p.renderPending
+              ? `slides pending — render locally · /${p.slug}`
+              : `no carousel · /${p.slug}`}
       </div>
       {built.length ? (
         <div className="row" style={{ gap: 6, marginBottom: 10 }}>

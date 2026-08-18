@@ -303,7 +303,7 @@
     {
       "id": "pc_msi62ebm4",
       "ideaId": "idea-scarlett",
-      "status": "production",
+      "status": "review",
       "goal": "leads",
       "brand": "elenos",
       "funnel": "bof",
@@ -317,7 +317,371 @@
         "carouselFile": null
       },
       "title": "Scarlett",
-      "createdAt": "2026-08-06T23:48:16.258Z"
+      "createdAt": "2026-08-06T23:48:16.258Z",
+      "spec": {
+        "slug": "scarlett-receptionist-who-never-sleeps",
+        "title": "Meet Scarlett: The Receptionist Who Never Sleeps",
+        "theme": "violet",
+        "bg": "aurora",
+        "slides": [
+          {
+            "type": "cover",
+            "index": 1,
+            "label": "Agentic Operations",
+            "headline": [
+              {
+                "t": "Every missed call costs "
+              },
+              {
+                "t": "more than a conversation.",
+                "em": true
+              }
+            ],
+            "illustration": {
+              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><g fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"180\" cy=\"190\" r=\"110\" stroke-dasharray=\"4 8\" opacity=\"0.4\"/><path d=\"M120 150 L140 130 A 20 20 0 0 1 170 130 L190 150 A 20 20 0 0 1 190 180 L150 220 A 40 40 0 0 0 210 280 L230 260 A 20 20 0 0 1 260 260 L280 280 A 20 20 0 0 1 280 310\" opacity=\"0.25\"/><circle cx=\"100\" cy=\"140\" r=\"8\"/><line x1=\"100\" y1=\"148\" x2=\"100\" y2=\"242\"/><circle cx=\"100\" cy=\"250\" r=\"8\"/><line x1=\"108\" y1=\"250\" x2=\"252\" y2=\"250\"/><circle cx=\"260\" cy=\"250\" r=\"8\"/><line x1=\"260\" y1=\"242\" x2=\"260\" y2=\"148\"/><circle cx=\"260\" cy=\"140\" r=\"8\"/><path d=\"M 108 140 A 80 80 0 0 1 252 140\" stroke-dasharray=\"4 4\"/><circle cx=\"180\" cy=\"90\" r=\"12\"/><line x1=\"180\" y1=\"102\" x2=\"180\" y2=\"120\"/><circle cx=\"180\" cy=\"124\" r=\"2\" fill=\"var(--accent-bright)\"/></g></svg>"
+            }
+          },
+          {
+            "type": "body",
+            "index": 2,
+            "label": "The Silent Leak",
+            "headline": [
+              {
+                "t": "Business never stops. "
+              },
+              {
+                "t": "Neither should your reception.",
+                "em": true
+              }
+            ],
+            "blocks": [
+              {
+                "body": [
+                  {
+                    "t": "Sometimes you are on a roof, under a sink, or simply closed for the day. "
+                  },
+                  {
+                    "t": "Missed calls are missed revenue.",
+                    "em": true
+                  },
+                  {
+                    "t": " Scarlett closes the leak."
+                  }
+                ]
+              }
+            ],
+            "illustration": {
+              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><g fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"180\" cy=\"190\" r=\"100\"/><circle cx=\"180\" cy=\"190\" r=\"120\" stroke-dasharray=\"6 6\" opacity=\"0.3\"/><line x1=\"180\" y1=\"100\" x2=\"180\" y2=\"115\"/><line x1=\"180\" y1=\"280\" x2=\"180\" y2=\"265\"/><line x1=\"90\" y1=\"190\" x2=\"105\" y2=\"190\"/><line x1=\"270\" y1=\"190\" x2=\"255\" y2=\"190\"/><line x1=\"180\" y1=\"190\" x2=\"180\" y2=\"130\"/><line x1=\"180\" y1=\"190\" x2=\"230\" y2=\"190\"/><path d=\"M 260 110 A 110 110 0 0 1 280 190\" stroke-width=\"3\"/><polygon points=\"280,195 273,185 287,185\" fill=\"var(--accent-bright)\"/><path d=\"M 100 270 A 110 110 0 0 1 80 190\" stroke-width=\"3\"/><polygon points=\"80,185 73,195 87,195\" fill=\"var(--accent-bright)\"/></g></svg>"
+            }
+          },
+          {
+            "type": "stat",
+            "index": 3,
+            "label": "Operational Capacity",
+            "stat": "24/7",
+            "caption": [
+              {
+                "t": "Availability with zero hold music, zero voicemail, and zero latency."
+              }
+            ]
+          },
+          {
+            "type": "body",
+            "index": 4,
+            "label": "The Workflow",
+            "headline": [
+              {
+                "t": "Conversations that "
+              },
+              {
+                "t": "convert into customers.",
+                "em": true
+              }
+            ],
+            "blocks": [
+              {
+                "body": [
+                  {
+                    "t": "Scarlett doesn't just talk. She "
+                  },
+                  {
+                    "t": "books appointments, qualifies leads, and updates your CRM",
+                    "em": true
+                  },
+                  {
+                    "t": " in real time. Total synchronization."
+                  }
+                ]
+              }
+            ],
+            "illustration": {
+              "svg": "<svg viewBox=\"0 0 360 380\" style=\"width:100%;height:100%;filter:drop-shadow(0 0 10px var(--accent-glow));\" fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\"><g fill=\"none\" stroke=\"var(--accent-bright)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"50\" y=\"150\" width=\"80\" height=\"60\" rx=\"8\"/><path d=\"M 80 210 L 70 230 L 95 210\"/><circle cx=\"90\" cy=\"180\" r=\"4\" fill=\"var(--accent-bright)\"/><circle cx=\"105\" cy=\"180\" r=\"4\" fill=\"var(--accent-bright)\"/><path d=\"M 130 180 L 170 180\" stroke-dasharray=\"4 4\"/><polygon points=\"175,180 167,175 167,185\" fill=\"var(--accent-bright)\"/><rect x=\"180\" y=\"140\" width=\"40\" height=\"80\" rx=\"4\" opacity=\"0.5\"/><line x1=\"200\" y1=\"150\" x2=\"200\" y2=\"210\" opacity=\"0.5\"/><path d=\"M 220 180 L 250 180\"/><polygon points=\"255,180 247,175 247,185\" fill=\"var(--accent-bright)\"/><circle cx=\"290\" cy=\"170\" r=\"20\"/><path d=\"M 265 215 A 30 30 0 0 1 315 215\"/><circle cx=\"290\" cy=\"190\" r=\"110\" stroke-dasharray=\"2 6\" opacity=\"0.3\"/></g></svg>"
+            }
+          },
+          {
+            "type": "compare",
+            "index": 5,
+            "label": "Trajectory Shift",
+            "headline": [
+              {
+                "t": "From manual handoffs to "
+              },
+              {
+                "t": "autonomous growth.",
+                "em": true
+              }
+            ],
+            "left": {
+              "tag": "Legacy",
+              "body": [
+                {
+                  "t": "Fragmented notifications. Buried data. "
+                },
+                {
+                  "t": "The recurring manual task",
+                  "em": true
+                },
+                {
+                  "t": " of playing phone tag."
+                }
+              ]
+            },
+            "right": {
+              "tag": "With Scarlett",
+              "body": [
+                {
+                  "t": "A calendar that fills itself. "
+                },
+                {
+                  "t": "Systems that compound",
+                  "em": true
+                },
+                {
+                  "t": " while you sleep. Revenue on autopilot."
+                }
+              ]
+            }
+          },
+          {
+            "type": "cta",
+            "index": 6,
+            "label": "Partnership",
+            "headline": [
+              {
+                "t": "Build once. "
+              },
+              {
+                "t": "Compound forever.",
+                "em": true
+              }
+            ],
+            "sub": "Diagnose your intake before you build your next campaign.",
+            "ctaBody": [
+              {
+                "t": "Let Elenos engineer the "
+              },
+              {
+                "t": "front-end of your business.",
+                "em": true
+              }
+            ],
+            "footer": "The portal is where the partnership lives.",
+            "arrow": true
+          }
+        ]
+      },
+      "blog": {
+        "title": "The receptionist who never sleeps",
+        "slug": "scarlett",
+        "dek": "",
+        "markdown": "# The receptionist who never sleeps\n\n*Why service businesses lose their best margins to the silence between rings — and how agentic systems secure them.*\n\nA ringing phone in an empty office is an operational leak. \n\nFor service businesses, this silence is expensive. A contractor on a wet roof. A plumber beneath a rusted sink. A lawyer sitting across from a client. \n\nThey cannot answer the phone. \n\nThe call goes to voicemail. The potential customer hangs up and dials the next name on the list. \n\nThis is the silent leak. It drains margin before the work even begins.\n\n## The silent leak\n\nMost operators try to patch this leak with manual layers. \n\nThey hire answering services. They build complex dispatch schedules. They stack spreadsheets to track who called who, and when.\n\nBut manual handoffs fail at 2 AM. \n\nYour business does not stop when the office lights turn off. Leads do not wait for business hours. Traditional systems force a compromise — pay for idle human hours, or accept the missed revenue. \n\nWe engineered a different trajectory. \n\n> \"Every missed call costs more than a conversation. It costs the trajectory of a customer.\"\n\n## Agentic operations\n\nWe built Scarlett. \n\nShe is not a chatbot. She is an agentic operator engineered for the phone lines — built to handle the transmission from first ring to final booking. \n\nScarlett answers instantly. \n\nNo hold music. No voicemail. No delayed responses. \n\nThe conversation flows naturally. Scarlett speaks with a professional, quiet confidence. She qualifies the prospect, answers custom service questions, and routes urgent issues based on your exact guardrails. \n\nShe works twenty-four hours a day. Seven days a week.\n\n## The workflow\n\nThe magic is not just in the voice. It is in the system integration. \n\nDuring the call, Scarlett does not just listen — she executes. \n\nShe checks your calendar. She schedules the estimate. She writes the data directly to your CRM, tags the lead, and sends the confirmation. \n\nEverything happens in real time — from first paint to final database write. \n\nManual handoffs. Buried data. Tools that do not talk. \n\nScarlett replaces the entire spreadsheet stack. \n\n## Trajectory shift\n\nThis is how systems compound. \n\nWhen you close the intake leak, the business shifts into its next trajectory. \n\nYou spend fewer hours chasing missed calls and more hours delivering your actual service. The operational surface becomes clean. You get out of your own way. \n\nYou build the system once. It compounds forever.\n\n## The partnership\n\nElenos builds the software that closes the leaks. \n\nWe act as the technical department you cannot afford to hire. We do not sell software off the shelf — we design systems that match your operational reality. \n\nThe portal is where the partnership lives. \n\nDeploy Scarlett. Retire the silent leaks. \n\nBegin at [elenos.ai](https://elenos.ai).",
+        "meta": {
+          "description": "",
+          "source": "manual"
+        }
+      },
+      "slug": "scarlett",
+      "renderPending": false,
+      "render": {
+        "theme": "violet",
+        "bg": "aurora",
+        "slides": [
+          {
+            "index": 1,
+            "label": "Agentic Operations",
+            "type": "cover",
+            "layout": "centered",
+            "file": "01-agentic-operations.png",
+            "url": "/renders/pc_msi62ebm4/01-agentic-operations.png"
+          },
+          {
+            "index": 2,
+            "label": "The Silent Leak",
+            "type": "body",
+            "layout": "right-text-left-art",
+            "file": "02-the-silent-leak.png",
+            "url": "/renders/pc_msi62ebm4/02-the-silent-leak.png"
+          },
+          {
+            "index": 3,
+            "label": "Operational Capacity",
+            "type": "stat",
+            "layout": "stat-center",
+            "file": "03-operational-capacity.png",
+            "url": "/renders/pc_msi62ebm4/03-operational-capacity.png"
+          },
+          {
+            "index": 4,
+            "label": "The Workflow",
+            "type": "body",
+            "layout": "art-watermark",
+            "file": "04-the-workflow.png",
+            "url": "/renders/pc_msi62ebm4/04-the-workflow.png"
+          },
+          {
+            "index": 5,
+            "label": "Trajectory Shift",
+            "type": "compare",
+            "layout": "compare-cols",
+            "file": "05-trajectory-shift.png",
+            "url": "/renders/pc_msi62ebm4/05-trajectory-shift.png"
+          },
+          {
+            "index": 6,
+            "label": "Partnership",
+            "type": "cta",
+            "layout": "cta-centered",
+            "file": "06-partnership.png",
+            "url": "/renders/pc_msi62ebm4/06-partnership.png"
+          }
+        ],
+        "qa": {
+          "overall": 7,
+          "candidates": [
+            {
+              "seed": 0,
+              "score": 7
+            },
+            {
+              "seed": 3,
+              "score": 6.3
+            }
+          ],
+          "issues": [],
+          "fixes": [],
+          "rounds": 0
+        }
+      },
+      "mediums": {
+        "caption": {
+          "status": "ready",
+          "text": "The receptionist who never sleeps.\n\nEvery missed call is a quiet leak. A prospect moves to the next search result. A customer waits. The spreadsheet stack grows.\n\nWe built Scarlett — an agentic operator designed for the front line of your business.\n\nNot a chatbot. An operator that listens, schedules, and writes back to your database in real time. \n\nNo manual handoffs. No buried data. Just systems that compound.\n\nScarlett handles the volume so your team can focus on the craft — not the queue.\n\nThe portal is where the partnership lives. Let us map your workflow.",
+          "hashtags": [
+            "systemsdesign",
+            "operations",
+            "automation",
+            "workflow",
+            "agenticops",
+            "scalability"
+          ]
+        },
+        "xthread": {
+          "status": "ready",
+          "tweets": [
+            {
+              "text": "Missed calls at midnight. Unstructured follow-ups. Lost data.\n\nScarlett is the receptionist who never sleeps — an agentic system designed to close the operational leaks."
+            },
+            {
+              "text": "Human operators should not function as routing engines. When a high-value lead hits the surface, the clock starts. \n\nScarlett triages, tags, and schedules in seconds. Operational capacity, unlocked."
+            },
+            {
+              "text": "Manual handoffs. Buried data. Tools that do not talk.\n\nScarlett integrates directly into your core stack — replacing the spreadsheet stack with a single, clean pipeline."
+            },
+            {
+              "text": "Build once. Compound forever.\n\nWhen recurring manual tasks disappear, your business moves to its next trajectory. The system scales while the headcount stays flat."
+            },
+            {
+              "text": "We do not sell chatbots. We engineer the systems that compound.\n\nThe portal is where the partnership lives.\n\nExplore Scarlett: elenos.ai"
+            }
+          ]
+        },
+        "linkedin": {
+          "status": "ready",
+          "text": "The receptionist who never sleeps.\n\nMost systems lose their grip when the office closes. Inquiries arrive. Lead data drifts into the spreadsheet stack. \n\nA quiet leak. \n\nScarlett is the system we built to stop it — an agentic operator designed for continuous intake. Not a chatbot. An active engine.\n\n→ Agentic Operations\nScarlett monitors the entry points. Reads incoming payloads. Understands intent.\n\n→ The Silent Leak\nNo more dropped handoffs at midnight. Scarlett captures, qualifies, and routes the signal before it cools.\n\n→ Operational Capacity\nYour team starts their day with structured data. Not clean-up work. Capacity doubles when the routine is automated.\n\n→ The Workflow\nEngineered end-to-end — from initial contact to final scheduling. It replaces the recurring manual task. Not the human.\n\n→ Trajectory Shift\nWhen you stop chasing missed signals, your trajectory changes. You scale the intake. You stabilize the baseline.\n\n→ Partnership\nElenos builds the systems that run when you do not. The portal is where the partnership lives.\n\nBuild once. Compound forever."
+        },
+        "video": {
+          "status": "ready",
+          "hook": "Your business leaks money every time a call goes to voicemail after 5 PM.",
+          "beats": [
+            {
+              "beat": "We built Scarlett to close that leak. An agentic receptionist who never sleeps.",
+              "onScreenText": "Meet Scarlett. The 24/7 receptionist."
+            },
+            {
+              "beat": "Not a chatbot. An operator. She schedules, qualifies, and updates your CRM in real time.",
+              "onScreenText": "Operators, not chatbots."
+            },
+            {
+              "beat": "No manual handoffs. No buried data. Just clean, automated workflow coordination while you sleep.",
+              "onScreenText": "Zero manual handoffs."
+            },
+            {
+              "beat": "Shift your operational capacity. Let your team focus on high-value work, not the switchboard.",
+              "onScreenText": "Shift your operational capacity."
+            }
+          ],
+          "cta": "Build once. Compound forever. Let's talk about your workflow."
+        },
+        "youtube": {
+          "status": "ready",
+          "title": "Scarlett: Inside Our 24/7 Agentic Receptionist System",
+          "description": "Every business has a quiet drain. Inbound signals that go unanswered after hours. We call this the silent leak.\n\nIn this video, we break down Scarlett — an agentic receptionist system designed to capture every lead, schedule every booking, and update your CRM in real time. Not a chatbot. A fully integrated operational system.\n\nLearn how to close your operational leaks at elenos.ai",
+          "tags": [
+            "agentic operations",
+            "ai receptionist",
+            "workflow automation",
+            "crm integration",
+            "operational efficiency",
+            "elenos",
+            "business systems",
+            "automation systems",
+            "lead capture",
+            "operations scaling"
+          ],
+          "script": {
+            "hook": "Your business leaks money at two in the morning.\n\nA missed call. A half-filled form. A lead that went cold before your team even opened their laptops.\n\nThis is Scarlett.\n\nNot a chatbot — an agentic operational system built to close the leaks. Permanently.",
+            "sections": [
+              {
+                "heading": "The Silent Leak",
+                "talking": "Every business has a quiet drain. It is the inbound communication that goes unanswered during off-hours. \n\nStandard receptionists work eight hours. The other sixteen are left to voicemail.\n\nVoicemail is where high-intent buyers go to die. They do not leave messages — they call your competitor.\n\nTo fix this, you do not need more shift-work headcount. You need a system that does not sleep."
+              },
+              {
+                "heading": "Inside the Agentic Workflow",
+                "talking": "We engineered Scarlett to replace the manual handoff.\n\nWhen a transmission comes in, the voice is analyzed in real time. Scarlett does not just transcribe.\n\nShe diagnoses intent. She schedules the booking directly into your calendar. She updates your CRM — moving data across your entire stack without a human touching a keyboard.\n\nIt is one continuous motion. From first ring to final booking."
+              },
+              {
+                "heading": "Unlocking Operational Capacity",
+                "talking": "Human operators belong in high-leverage roles. Not copying data into spreadsheets.\n\nWhen you deploy Scarlett, your team gets out of their own way. Operational capacity doubles overnight.\n\nThe trajectory of your business shifts from reactive firefighting to active execution. This is how systems compound."
+              },
+              {
+                "heading": "Build Once. Compound Forever.",
+                "talking": "We do not sell pre-packaged SaaS.\n\nWe build bespoke operational infrastructure. Scarlett integrates directly into your existing tools.\n\nNo friction. No learning curve for your team.\n\nThe portal is where the partnership lives — we monitor, refine, and scale the system as your operations grow."
+              }
+            ],
+            "outro": "Stop losing leads to the night.\n\nBuild once. Compound forever.\n\nLet us diagnose your operational leaks.\n\nVisit elenos.ai"
+          }
+        }
+      },
+      "mediumsRequested": [
+        "carousel",
+        "blog",
+        "caption",
+        "xthread",
+        "linkedin",
+        "video",
+        "youtube"
+      ],
+      "builtAt": "2026-08-18T19:54:21.147Z"
     },
     {
       "id": "pc_msi2221f3",
@@ -1052,5 +1416,6 @@
       "builtAt": "2026-08-06T21:27:38.766Z"
     }
   ],
-  "published": []
+  "published": [],
+  "calNotes": {}
 }

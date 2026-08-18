@@ -5,7 +5,8 @@ import { acceptIdea, updateConcept, buildPiece, regeneratePiece, rebuildCarousel
 import { canRenderSlides, RENDER_UNAVAILABLE } from '@/lib/render.mjs';
 import { setCalNote } from '@/lib/db.mjs';
 
-// Actions that screenshot slides only work where Chromium exists.
+// Actions that are PURELY a re-render only work where Chromium exists. A full
+// build is not one of them — it degrades to a pending render (see buildPiece).
 function requireRenderer() {
   if (!canRenderSlides()) throw new Error(RENDER_UNAVAILABLE);
 }
@@ -107,7 +108,6 @@ export async function setCalNoteAction(date: string, text: string): Promise<{ ok
 
 // Build button on a Production card: full build, stay on the board.
 export async function buildCardAction(formData: FormData) {
-  requireRenderer();
   await buildPiece(String(formData.get('pieceId')), { mediums: ALL_MEDIUMS });
   revalidatePath('/content');
   revalidatePath('/content/queue');
@@ -128,7 +128,6 @@ export async function updateConceptAction(formData: FormData) {
 
 // Stage 2 → 3: run brief + the selected mediums, then land on Review.
 export async function buildAction(formData: FormData) {
-  requireRenderer();
   const pid = String(formData.get('pieceId'));
   const picked = formData.getAll('mediums').map(String);
   await buildPiece(pid, { mediums: picked.length ? picked : ALL_MEDIUMS });

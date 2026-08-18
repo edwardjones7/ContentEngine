@@ -9,6 +9,12 @@ import { TAG_FIELDS } from '@/lib/content/stages.mjs';
 import { canRenderSlides } from '@/lib/render.mjs';
 
 export const dynamic = 'force-dynamic';
+// Builds run brief → blog → mediums (several sequential LLM calls) inside a
+// server action, which inherits this page's route config. Without an explicit
+// value the platform default is far too short for that. 300 is the Hobby
+// ceiling; raise to 800 on Pro if a full multi-medium build still gets cut off.
+export const maxDuration = 300;
+
 
 export default async function ReviewPage({ params }: { params: Promise<{ pieceId: string }> }) {
   const { pieceId } = await params;
@@ -103,6 +109,27 @@ export default async function ReviewPage({ params }: { params: Promise<{ pieceId
                 <span className="src">{p.blog.meta?.words || ''} words · markdown</span>
               </div>
             </form>
+          </div>
+        ) : null}
+        {p.renderPending ? (
+          <div>
+            <h2 className="sec">Carousel — slides pending</h2>
+            <div className="card">
+              <div className="meta">
+                Copy and layout for {p.spec?.slides?.length || 0} slides are written and saved. Screenshotting needs a
+                real browser, so the PNGs weren&rsquo;t produced on the deployment — the spec is waiting, not lost.
+              </div>
+              {canRender ? (
+                <form action={regenerateAction}>
+                  <input type="hidden" name="pieceId" value={p.id} />
+                  <SubmitButton className="primary" busy="⚙ rendering…" title="Render the saved spec to PNGs (runs the AI QA pass)">⚡ Render slides</SubmitButton>
+                </form>
+              ) : (
+                <div className="meta" style={{ marginBottom: 0, color: 'var(--amber)' }}>
+                  Open this piece at localhost:4050 and hit &ldquo;Render slides&rdquo; — the PNGs upload to Blob and show up here.
+                </div>
+              )}
+            </div>
           </div>
         ) : null}
         {p.render ? (

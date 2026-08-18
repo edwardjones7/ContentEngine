@@ -3,7 +3,7 @@ import { ideate, brief, blog, mediums as mediumsGen, illustrate, editSlide as ed
 import { validateCarousel } from './slides/api.mjs';
 import { SEED_IDEAS } from './content/context.mjs';
 import { ALL_MEDIUMS, EXTRA_MEDIUMS } from './content/mediums.mjs';
-import { renderPieceSlides } from './render.mjs';
+import { renderPieceSlides, canRenderSlides } from './render.mjs';
 import { rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { id, getIdeas, setIdeas, addIdea, getPiece, savePiece, removePiece, addPublished, RENDER_DIR } from './db.mjs';
@@ -229,7 +229,15 @@ export async function buildPiece(pid, { mediums = ALL_MEDIUMS } = {}) {
     p.blog = null;
     p.slug = p.slug || (p.ideaId || '').replace(/^idea-/, '') || p.id;
   }
-  p.render = mediums.includes('carousel') ? await renderPieceSlides(p, { seed: p.seed || 0 }) : null;
+  // Screenshotting is the ONLY step in a build that needs Chromium, so it's the
+  // only step the serverless host has to skip. Everything above (brief, blog,
+  // illustrations) and below (mediums) is plain API calls and runs anywhere —
+  // gating the whole build on the renderer would strand the other six mediums.
+  // `renderPending` marks the gap so the review page can say so and a later
+  // local `regeneratePiece` can fill in the PNGs from this very spec.
+  const wantsCarousel = mediums.includes('carousel');
+  p.renderPending = wantsCarousel && !canRenderSlides();
+  p.render = wantsCarousel && !p.renderPending ? await renderPieceSlides(p, { seed: p.seed || 0 }) : null;
   p.mediums = await mediumsGen(idea, spec, mediums.filter((m) => EXTRA_MEDIUMS.includes(m)));
   p.mediumsRequested = mediums;
   p.status = 'review';
@@ -303,6 +311,7 @@ export async function editPieceSlide(pid, index, instruction) {
   const prevQa = p.render?.qa || null;
   p.render = await renderPieceSlides(p, { seed: p.seed || 0, qa: false });
   p.render.qa = prevQa;
+  p.renderPending = false;
   await savePiece(p);
   return p;
 }
@@ -317,15 +326,20 @@ export async function rebuildCarousel(pid) {
   p.spec = await enrichIllustrations(await brief(idea));
   p.seed = Math.floor(Math.random() * 1e6);
   p.render = await renderPieceSlides(p, { seed: p.seed });
+  p.renderPending = false;
   await savePiece(p);
   return p;
 }
 
+// Reshuffle composition from the existing copy. Doubles as the catch-up step
+// for a piece whose build ran on the serverless host: the spec is already
+// there, this is the local run that turns it into PNGs.
 export async function regeneratePiece(pid) {
   const p = await getPiece(pid);
-  if (!p) return null;
-  p.seed = Math.floor(Math.random() * 1e6);
+  if (!p || !p.spec) return null;
+  p.seed = p.renderPending ? (p.seed || 0) : Math.floor(Math.random() * 1e6);
   p.render = await renderPieceSlides(p, { seed: p.seed });
+  p.renderPending = false;
   await savePiece(p);
   return p;
 }
