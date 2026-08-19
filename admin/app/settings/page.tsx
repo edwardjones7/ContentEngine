@@ -1,4 +1,5 @@
 import { getSettings, activeProvider, settingsWritable } from '@/lib/settings.mjs';
+import { searchBackends } from '@/lib/content/search.mjs';
 import { saveSettingsAction, testProviderAction } from './actions';
 import { SubmitButton } from '../content/pending';
 
@@ -9,6 +10,8 @@ const mask = (k: string) => (k ? `saved · ends in …${k.slice(-4)}` : 'not set
 export default async function SettingsPage() {
   const s: any = getSettings();
   const active = activeProvider();
+  const backends = searchBackends();
+  const liveSearch = backends.filter((b: any) => b.ready).map((b: any) => b.name);
 
   return (
     <>
@@ -39,7 +42,7 @@ export default async function SettingsPage() {
             <label className="pick">
               <input type="radio" name="provider" value="free" defaultChecked={s.provider === 'free'} />
               <span>Free — Google Gemini</span>
-              <span className="src">gemini-3.5-flash · free tokens · 5k grounded searches/mo</span>
+              <span className="src">gemini-3.5-flash · free tokens · search grounding often unavailable on free keys</span>
             </label>
             <label className="pick">
               <input type="radio" name="provider" value="paid" defaultChecked={s.provider === 'paid'} />
@@ -79,6 +82,22 @@ export default async function SettingsPage() {
           <div className="meta">From platform.claude.com → API keys. Pay-as-you-go.</div>
           <input className="title" style={{ fontSize: 13, marginBottom: 6 }} name="anthropicKey" type="password" placeholder={s.anthropicKey ? 'leave blank to keep current key' : 'sk-ant-…'} autoComplete="off" />
           {s.anthropicKey ? <label className="src" style={{ display: 'block' }}><input type="checkbox" name="clearAnthropic" /> clear saved key</label> : null}
+        </div>
+
+        <div className="card">
+          <div className="row"><span className="label">Tavily API key — live web search</span><span className="sp" /><span className="src">{mask(s.tavilyKey)}</span></div>
+          <div className="meta">
+            Free-tier Gemini keys are usually given no Google Search grounding quota, so Orbit ends up ideating from model
+            knowledge with no sources. Tavily is a separate search backend — 1,000 searches/month free, no credit card.
+            Get one at tavily.com. Independent of the engine above: it works on Free, Paid, or Local.
+          </div>
+          <input className="title" style={{ fontSize: 13, marginBottom: 6 }} name="tavilyKey" type="password" placeholder={s.tavilyKey ? 'leave blank to keep current key' : 'tvly-…'} autoComplete="off" />
+          {s.tavilyKey ? <label className="src" style={{ display: 'block' }}><input type="checkbox" name="clearTavily" /> clear saved key</label> : null}
+          <div className="meta" style={{ marginTop: 8, marginBottom: 0, color: liveSearch.length ? 'var(--green)' : 'var(--amber)' }}>
+            {liveSearch.length
+              ? `Live search ready via ${liveSearch.join(' → ')}`
+              : 'No live search backend — Orbit answers from model knowledge only'}
+          </div>
         </div>
 
         <div className="row">

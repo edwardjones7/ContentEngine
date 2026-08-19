@@ -10,7 +10,8 @@
 //             replay to Gemini is lossless.
 import { id, addMessage, getMessages } from '../db.mjs';
 import { geminiKey } from '../settings.mjs';
-import { BASE, GEMINI_CHAIN, isRetryable, friendlyGeminiError, searchGrounded } from '../content/gemini.mjs';
+import { BASE, GEMINI_CHAIN, isRetryable, friendlyGeminiError } from '../content/gemini.mjs';
+import { search, searchAvailable, blockGrounding as blockSharedGrounding } from '../content/search.mjs';
 import { orbitSystem, PROPOSE_IDEA_TOOL } from './persona.mjs';
 
 // The persona tells Orbit to "use web_search" (a real server tool on the
@@ -155,7 +156,14 @@ export async function* geminiChatTurn(threadId) {
     }
     const { res, searchActive } = opened;
     if (turn === 0 && !searchActive) {
-      yield { type: 'error', message: 'Live web search is unavailable on this key’s free quota right now — answering from model knowledge instead.' };
+      // Native grounding is off, but the web_search tool still routes through
+      // the backend chain — only say "no live search" when nothing can serve it.
+      yield {
+        type: 'error',
+        message: searchAvailable()
+          ? 'Google Search grounding is unavailable on this key’s free quota — using the web_search tool instead, so ask Orbit to search explicitly.'
+          : 'No live web search backend is configured — answering from model knowledge. Add a Tavily key in Settings for 1,000 free searches/month.',
+      };
     }
     for await (const chunk of readStream(res)) {
       const cand = chunk.candidates?.[0];
@@ -229,14 +237,16 @@ export async function* geminiChatTurn(threadId) {
             resultBlocks.push({ type: 'server_tool_use', id: id('gs'), name: 'web_search', input: { query: q } });
           }
           try {
-            const { summary, sources } = await searchGrounded(queries);
+            const { summary, sources } = await search(queries);
             if (sources.length) {
               resultBlocks.push({ type: 'web_search_tool_result', tool_use_id: toolUse.id, content: sources });
               yield { type: 'sources', results: sources };
             }
             result = `${summary || 'No findings.'}${sources.length ? `\n\nSources:\n${sources.map((s) => `- ${s.title}: ${s.url}`).join('\n')}` : ''}`;
           } catch (e) {
-            if (e.rateLimited) groundingBlockedUntil = Date.now() + 15 * 60 * 1000;
+            // Gemini grounding is the first backend; if IT was what 429'd,
+            // stop asking for native grounding on later turns too.
+            if (e.rateLimited) { groundingBlockedUntil = Date.now() + 15 * 60 * 1000; blockSharedGrounding(); }
             result = `web_search unavailable right now (${e.message}). Answer from what you know and say so.`;
           }
         }

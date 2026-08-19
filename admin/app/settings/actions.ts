@@ -7,10 +7,13 @@ export async function saveSettingsAction(formData: FormData) {
   // blank input = keep the stored key; "clear" checkbox wipes it
   const gemini = String(formData.get('geminiKey') || '').trim();
   const anthropic = String(formData.get('anthropicKey') || '').trim();
+  const tavily = String(formData.get('tavilyKey') || '').trim();
   if (gemini) patch.geminiKey = gemini;
   if (anthropic) patch.anthropicKey = anthropic;
+  if (tavily) patch.tavilyKey = tavily;
   if (formData.get('clearGemini')) patch.geminiKey = '';
   if (formData.get('clearAnthropic')) patch.anthropicKey = '';
+  if (formData.get('clearTavily')) patch.tavilyKey = '';
   saveSettings(patch);
   revalidatePath('/', 'layout');
   revalidatePath('/settings');

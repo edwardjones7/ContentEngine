@@ -12,6 +12,7 @@ const DEFAULTS = {
   provider: 'free', // 'free' (Gemini) | 'paid' (Claude) | 'local' (Ollama) | 'offline'
   geminiKey: '',
   anthropicKey: '',
+  tavilyKey: '', // live web search — free-tier Gemini keys get no search grounding
 };
 
 // Serverless deploys (Vercel) mount a read-only filesystem, so settings can't
@@ -43,6 +44,10 @@ export function saveSettings(patch) {
 
 export const geminiKey = () => getSettings().geminiKey || process.env.GEMINI_API_KEY || '';
 export const anthropicKey = () => getSettings().anthropicKey || process.env.ANTHROPIC_API_KEY || '';
+// Web-search backend, deliberately independent of the LLM provider: the free
+// Gemini tier answers fine but is given no Google Search grounding quota, so
+// live sources have to come from somewhere else. See lib/content/search.mjs.
+export const tavilyKey = () => getSettings().tavilyKey || process.env.TAVILY_API_KEY || '';
 
 // The single source of truth for which engine is live. A chosen provider
 // without its key resolves to offline (deterministic templates + canned chat).
